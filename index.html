@@ -200,31 +200,62 @@
     .reveal-delay-4 { transition-delay:.4s; }
     .reveal-delay-5 { transition-delay:.5s; }
 
-    /* SERVICES */
+    /* SERVICES — dynamic scroll-reveal layout */
     .services { background:var(--navy); padding-top:2rem; }
     .services-inner { max-width:1200px; margin:0 auto; }
     .services-header { margin-bottom:4rem; }
+
+    /* Row-based stagger: alternating left/right pairs + one centred trio */
     .services-grid {
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      display:flex;
+      flex-direction:column;
+      gap:0;
+    }
+
+    /* Each "row" holds 1–3 cards and slides in from alternate sides */
+    .services-row {
+      display:flex;
       gap:1px;
       background:rgba(123,179,216,.08);
       border:1px solid rgba(123,179,216,.08);
+      border-bottom:none;
+      opacity:0;
+      will-change:transform,opacity;
+      transition:opacity .75s ease, transform .75s ease;
     }
+    .services-row:last-child { border-bottom:1px solid rgba(123,179,216,.08); }
+
+    /* Slide directions */
+    .services-row.from-left  { transform:translateX(-60px); }
+    .services-row.from-right { transform:translateX(60px); }
+    .services-row.from-bottom{ transform:translateY(50px); }
+
+    /* Triggered state */
+    .services-row.row-visible {
+      opacity:1;
+      transform:translate(0,0);
+    }
+
+    /* Card proportions per row variant */
+    .services-row--two   .service-item { flex:1; }
+    .services-row--three .service-item { flex:1; }
+    .services-row--one   .service-item { flex:1; }
+
     .service-item {
       padding:2.5rem 2rem;
       background:rgba(13,26,58,.9);
       position:relative; overflow:hidden;
       transition:background .5s, transform .3s;
       cursor:default;
+      min-width:0;
     }
     /* Unique accent colour per card via nth-child */
     .service-item:nth-child(1) { --accent: rgba(232,116,122,.12); --glow: rgba(232,116,122,.35); }
     .service-item:nth-child(2) { --accent: rgba(123,179,216,.12); --glow: rgba(123,179,216,.35); }
     .service-item:nth-child(3) { --accent: rgba(160,130,210,.12); --glow: rgba(160,130,210,.35); }
-    .service-item:nth-child(4) { --accent: rgba(232,116,122,.10); --glow: rgba(232,116,122,.3); }
-    .service-item:nth-child(5) { --accent: rgba(123,179,216,.10); --glow: rgba(100,200,170,.3); }
-    .service-item:nth-child(6) { --accent: rgba(220,180,80,.10);  --glow: rgba(220,180,80,.3);  }
+    .service-item:nth-child(1) { --accent: rgba(232,116,122,.10); --glow: rgba(232,116,122,.3); }
+    .service-item:nth-child(2) { --accent: rgba(123,179,216,.10); --glow: rgba(100,200,170,.3); }
+    .service-item:nth-child(3) { --accent: rgba(220,180,80,.10);  --glow: rgba(220,180,80,.3);  }
     /* Sweep gradient that animates in on hover */
     .service-item::before {
       content:''; position:absolute; inset:0;
@@ -288,6 +319,14 @@
 
     .service-name { font-size:18px; font-weight:700; letter-spacing:.03em; margin-bottom:.5rem; }
     .service-desc { font-size:13px; font-weight:300; color:var(--soft); line-height:1.65; }
+
+    /* Row 1 (3 cards) — spotlight card is wider */
+    .services-row--three-spotlight .service-item:first-child { flex:1.55; }
+    .services-row--three-spotlight .service-item:not(:first-child) { flex:1; }
+
+    /* Row 2 (3 cards) — spotlight on last */
+    .services-row--three-spotlight-r .service-item:last-child { flex:1.55; }
+    .services-row--three-spotlight-r .service-item:not(:last-child) { flex:1; }
 
     /* PAST PROJECTS */
     .work-preview { background:#0a1428; }
@@ -511,6 +550,10 @@
       .cta-strip { padding:4rem 1.5rem; }
       .brands-strip { gap:2rem; }
       .hero-tagline { font-size:clamp(28px,10vw,52px); }
+      /* Stack service rows vertically on mobile */
+      .services-row { flex-direction:column; }
+      .services-row--three-spotlight .service-item:first-child,
+      .services-row--three-spotlight-r .service-item:last-child { flex:1; }
     }
   </style>
 </head>
@@ -522,8 +565,8 @@
 <!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
   <a href="index.html" onclick="closeMobile()">Home</a>
-  <a href="past-projects.html" onclick="closeMobile()">Past Projects</a>
   <a href="about.html" onclick="closeMobile()">About</a>
+  <a href="past-projects.html" onclick="closeMobile()">Past Projects</a>
   <a href="contact.html" onclick="closeMobile()">Contact Us</a>
 </div>
 
@@ -536,8 +579,8 @@
   </a>
   <ul class="nav-links">
     <li><a href="index.html">Home</a></li>
-    <li><a href="past-projects.html">Past Projects</a></li>
     <li><a href="about.html">About</a></li>
+    <li><a href="past-projects.html">Past Projects</a></li>
     <li><a href="contact.html">Contact Us</a></li>
   </ul>
   <button class="hamburger" id="hamburger" aria-label="Menu">
@@ -565,7 +608,7 @@
   <div class="hero-content">
     <h1 class="hero-tagline">
       Reliable, Effective
-      <span class="line2">and Engineered</span>
+      <span class="line2"><span style="color:var(--white)">and</span> Engineered</span>
       <span class="line3">AV Solutions.</span>
     </h1>
     <p class="hero-sub">Professional audio visual services for events and productions across Malta, planned with precision and powered by industry-leading equipment.</p>
@@ -596,8 +639,11 @@
     </div>
     <div class="services-grid">
 
+      <!-- Row 1: Audio + Lighting + DJ — slides in from left -->
+      <div class="services-row services-row--three-spotlight from-left" id="svcRow1">
+
       <!-- Audio -->
-      <div class="service-item reveal" data-category="audio">
+      <div class="service-item" data-category="audio">
         <div class="service-photos">
           <img src="images/equipment-categories/Audio 1.jpg" class="active" alt="">
           <img src="images/equipment-categories/Audio 2.jpg" alt="">
@@ -617,7 +663,7 @@
       </div>
 
       <!-- Lighting -->
-      <div class="service-item reveal reveal-delay-1" data-category="lighting">
+      <div class="service-item" data-category="lighting">
         <div class="service-photos">
           <img src="images/equipment-categories/Lighting 1.jpg" class="active" alt="">
           <img src="images/equipment-categories/Lighting 2.jpg" alt="">
@@ -640,7 +686,7 @@
       </div>
 
       <!-- DJ Equipment -->
-      <div class="service-item reveal reveal-delay-2" data-category="dj">
+      <div class="service-item" data-category="dj">
         <div class="service-photos">
           <img src="images/equipment-categories/DJ Equipment 1.jpg" class="active" alt="">
           <img src="images/equipment-categories/DJ Equipment 2.jpg" alt="">
@@ -659,8 +705,12 @@
         <div class="service-desc">Industry-standard DJ setups featuring Pioneer DJ, fully configured and ready for any performance.</div>
       </div>
 
+      </div><!-- /row1 -->
+
+      <!-- Row 2: Staging + Effects + Power — slides in from right -->
+      <div class="services-row services-row--three-spotlight-r from-right" id="svcRow2">
       <!-- Staging -->
-      <div class="service-item reveal reveal-delay-3" data-category="staging">
+      <div class="service-item" data-category="staging">
         <div class="service-photos">
           <img src="images/equipment-categories/Staging 1.jpg" class="active" alt="">
           <img src="images/equipment-categories/Staging 2.jpg" alt="">
@@ -686,7 +736,7 @@
       </div>
 
       <!-- Effects -->
-      <div class="service-item reveal reveal-delay-4" data-category="effects">
+      <div class="service-item" data-category="effects">
         <div class="service-photos">
           <img src="images/equipment-categories/Effects 1.jpg" class="active" alt="">
           <img src="images/equipment-categories/Effects 2.jpg" alt="">
@@ -707,7 +757,7 @@
       </div>
 
       <!-- Power -->
-      <div class="service-item reveal reveal-delay-5" data-category="power">
+      <div class="service-item" data-category="power">
         <div class="service-photos">
           <img src="images/equipment-categories/Power 1.jpg" class="active" alt="">
           <img src="images/equipment-categories/Power 2.jpg" alt="">
@@ -724,7 +774,9 @@
         <div class="service-desc">Industrial-grade power infrastructure providing clean, safe and reliable distribution for any event complexity.</div>
       </div>
 
-    </div>
+      </div><!-- /row2 -->
+
+    </div><!-- /services-grid -->
   </div>
 </section>
 
@@ -1001,7 +1053,24 @@
     });
   });
 
-  // HERO WAVEFORMS
+  // SERVICE ROWS SCROLL-REVEAL
+  (function() {
+    const rows = document.querySelectorAll('.services-row');
+    const rowObs = new IntersectionObserver(entries => {
+      entries.forEach((e, i) => {
+        if (e.isIntersecting) {
+          // slight stagger between rows
+          setTimeout(() => {
+            e.target.classList.add('row-visible');
+          }, 80);
+          rowObs.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    rows.forEach(r => rowObs.observe(r));
+  })();
+
+
   (function() {
     // Heights pattern mimicking an audio spectrum — varied but symmetrical feel
     const pattern = [0.18,0.32,0.55,0.7,0.9,1.0,0.85,0.6,0.75,0.95,0.8,0.55,0.65,0.88,0.72,0.45,0.6,0.78,0.5,0.3,0.42,0.6,0.38,0.22,0.15,0.28,0.45,0.35,0.2,0.12];
