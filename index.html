@@ -154,31 +154,61 @@
     .hero-cta:hover { background:var(--coral); }
     .hero-cta svg { width:16px; height:16px; transition:transform .3s; }
     .hero-cta:hover svg { transform:translateX(4px); }
-    .hero-scroll {
-      display:flex; flex-direction:column; align-items:center; gap:6px;
-      padding:2rem 0 0;
-      z-index:2;
+    /* SIDE SCROLL INDICATORS */
+    .side-scroll {
+      position:fixed;
+      bottom:2.5rem;
+      z-index:50;
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap:8px;
+      opacity:1;
+      transition:opacity .6s ease;
+      pointer-events:none;
     }
-    .hero-scroll span { font-size:9px; letter-spacing:.3em; text-transform:uppercase; color:var(--muted); }
-    .scroll-mouse {
-      width:22px; height:34px;
-      border:1px solid rgba(255,255,255,.2); border-radius:12px;
-      position:relative; display:flex; justify-content:center;
+    .side-scroll.hidden { opacity:0; }
+    .side-scroll-left  { left:2.5rem; }
+    .side-scroll-right { right:2.5rem; }
+    .side-scroll-label {
+      font-size:8px; letter-spacing:.35em; text-transform:uppercase;
+      color:var(--muted); writing-mode:vertical-rl;
+      text-orientation:mixed;
     }
-    .scroll-mouse::before {
-      content:'';
-      width:3px; height:7px;
-      background:var(--coral); border-radius:2px;
-      position:absolute; top:5px;
-      animation:scrollPulse 1.8s ease infinite;
+    .side-scroll-left  .side-scroll-label { transform:rotate(180deg); }
+    .side-scroll-track {
+      width:1px; height:60px;
+      background:rgba(255,255,255,.12);
+      position:relative; overflow:hidden;
+      border-radius:1px;
+    }
+    .side-scroll-bar {
+      position:absolute; top:-100%; left:0;
+      width:100%; height:100%;
+      background:linear-gradient(to bottom, transparent, var(--coral));
+      border-radius:1px;
+      animation:scrollBar 2s ease-in-out infinite;
+    }
+    @keyframes scrollBar {
+      0%   { top:-100%; opacity:0; }
+      20%  { opacity:1; }
+      80%  { opacity:1; }
+      100% { top:100%; opacity:0; }
+    }
+    .side-scroll-dot {
+      width:4px; height:4px;
+      background:var(--coral);
+      border-radius:50%;
+      opacity:.6;
+      animation:dotPulse 2s ease-in-out infinite;
+    }
+    @keyframes dotPulse {
+      0%,100% { transform:scale(1); opacity:.6; }
+      50%      { transform:scale(1.6); opacity:1; }
     }
 
     /* SCROLL BRIDGE */
-    .scroll-bridge {
-      background:var(--navy);
-      display:flex; justify-content:center;
-      padding:2rem 0 3rem;
-    }
+    .scroll-bridge { display:none; }
 
     /* SHARED SECTION */
     section { padding:7rem 4rem; }
@@ -206,7 +236,7 @@
     .services-header { margin-bottom:4rem; }
     .services-grid {
       display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+      grid-template-columns:repeat(3,1fr);
       gap:1px;
       background:rgba(123,179,216,.08);
       border:1px solid rgba(123,179,216,.08);
@@ -367,7 +397,7 @@
     }
     .brand-logo:hover { opacity:.9; }
     .brand-logo img {
-      height:38px; width:auto; max-width:130px;
+      width:110px; height:44px;
       object-fit:contain;
       filter:brightness(0) invert(1);
       display:block;
@@ -394,8 +424,8 @@
       text-align:center; padding:6rem 4rem;
     }
     .cta-strip-inner { max-width:700px; margin:0 auto; }
-    .cta-title { font-size:clamp(28px,5vw,52px); font-weight:700; margin-bottom:1rem; line-height:1.1; }
-    .cta-sub { font-size:15px; font-weight:300; color:var(--soft); margin-bottom:2.5rem; line-height:1.7; }
+    .cta-title { font-size:clamp(32px,5.5vw,58px); font-weight:700; margin-bottom:1rem; line-height:1.1; }
+    .cta-sub { font-size:17px; font-weight:300; color:var(--soft); margin-bottom:2.5rem; line-height:1.7; }
     .cta-btn {
       display:inline-flex; align-items:center; gap:10px;
       padding:16px 44px; background:var(--coral); color:var(--white);
@@ -414,13 +444,13 @@
       border-top:1px solid rgba(123,179,216,.07);
     }
     .footer-logo { display:flex; align-items:center; text-decoration:none; }
-    .footer-logo img { height:56px; width:auto; }
+    .footer-logo img { height:28px; width:auto; }
     .footer-logo-text {
       font-size:18px; font-weight:700; letter-spacing:.12em;
       text-transform:uppercase; color:var(--white);
     }
     .footer-logo-text span { color:var(--coral); }
-    .footer-copy { font-size:11px; font-weight:300; letter-spacing:.1em; color:var(--muted); }
+    .footer-copy { font-size:12px; font-weight:300; letter-spacing:.1em; color:var(--muted); }
     .footer-links { display:flex; gap:1.5rem; }
     .footer-links a {
       font-size:11px; letter-spacing:.15em; text-transform:uppercase;
@@ -449,10 +479,12 @@
       .hamburger { display:flex; }
       section { padding:5rem 1.5rem; }
       .work-grid { grid-template-columns:1fr; }
+      .services-grid { grid-template-columns:1fr; }
       footer { padding:2rem 1.5rem; flex-direction:column; align-items:flex-start; }
       .cta-strip { padding:4rem 1.5rem; }
       .brands-strip { gap:2rem; }
       .hero-tagline { font-size:clamp(28px,10vw,52px); }
+      .side-scroll { display:none; }
     }
   </style>
 </head>
@@ -514,19 +546,29 @@
     </a>
   </div>
 
-  <div class="hero-scroll" style="position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);padding:0;">
-    <div class="scroll-mouse"></div>
-    <span>Scroll</span>
-  </div>
-
 </section>
+
+<!-- Side scroll indicators -->
+<div class="side-scroll side-scroll-left" id="sideScrollLeft">
+  <div class="side-scroll-dot"></div>
+  <div class="side-scroll-track"><div class="side-scroll-bar"></div></div>
+  <span class="side-scroll-label">Scroll</span>
+</div>
+<div class="side-scroll side-scroll-right" id="sideScrollRight">
+  <div class="side-scroll-dot"></div>
+  <div class="side-scroll-track"><div class="side-scroll-bar"></div></div>
+  <span class="side-scroll-label">Scroll</span>
+</div>
+
+<!-- Scroll prompt bridge -->
+<div class="scroll-bridge"></div>
 
 <!-- Services -->
 <section class="services">
   <div class="services-inner">
     <div class="services-header">
       <p class="section-label reveal">What we do</p>
-      <h2 class="section-title reveal reveal-delay-1">Every element of your event, <em>planned and executed.</em></h2>
+      <h2 class="section-title reveal reveal-delay-1">Every element of your event, <em>engineered.</em></h2>
       <div class="divider-line reveal reveal-delay-2"></div>
       <p class="reveal reveal-delay-2" style="color:var(--soft);font-size:15px;font-weight:300;max-width:560px;line-height:1.7;">From intimate gatherings to professional productions, we design and deliver complete AV solutions built with precision and powered by industry-leading equipment.</p>
     </div>
@@ -622,7 +664,7 @@
     <div class="work-header">
       <div>
         <p class="section-label reveal">Recent work</p>
-        <h2 class="section-title reveal reveal-delay-1">Built for <em>impact.</em><br>Tailored to every client's <em>vision.</em></h2>
+        <h2 class="section-title reveal reveal-delay-1">Built for <em>impact.</em><br>Tailored to every client's vision.</h2>
       </div>
       <a href="past-projects.html" class="work-link-all reveal">View all projects &nbsp;&#8594;</a>
     </div>
@@ -641,7 +683,7 @@
         </div>
         <div class="work-card-info">
           <div class="work-card-tag">Boiler Room Edition · March 2026</div>
-          <div class="work-card-title">Rakii — Maewest</div>
+          <div class="work-card-title">Rakii — Valletta</div>
           <div class="work-card-sub">Maewest · Immersive red environment with surround audio</div>
         </div>
       </a>
@@ -768,9 +810,17 @@
     el.addEventListener('mouseleave',()=>{cursor.style.width='10px';cursor.style.height='10px';ring.style.width='36px';ring.style.height='36px';});
   });
 
-  // NAV SCROLL
+  // NAV SCROLL + SIDE SCROLL HIDE
   const nav=document.getElementById('nav');
-  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',window.scrollY>60));
+  const sideL=document.getElementById('sideScrollLeft');
+  const sideR=document.getElementById('sideScrollRight');
+  window.addEventListener('scroll',()=>{
+    nav.classList.toggle('scrolled',window.scrollY>60);
+    const heroH = document.querySelector('.hero').offsetHeight;
+    const hide = window.scrollY > heroH * 0.6;
+    sideL.classList.toggle('hidden', hide);
+    sideR.classList.toggle('hidden', hide);
+  });
 
   // HAMBURGER
   const hamburger=document.getElementById('hamburger');
