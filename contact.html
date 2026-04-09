@@ -153,29 +153,13 @@
       position:relative; z-index:2;
       padding:5rem 4rem 3rem;
       max-width:1200px; margin:0 auto;
-      display:grid;
-      grid-template-columns:1fr 1fr;
-      align-items:center;
-      gap:3rem;
     }
-    .contact-hero-text { /* left column */ }
-
-    /* ── AV INTERACTIVE OBJECT ── */
-    .av-scene {
-      position:relative;
-      width:100%; aspect-ratio:1;
-      max-width:480px;
-      justify-self:center;
-      opacity:0; animation:slideUp .9s ease .5s both;
-    }
-    #av-canvas {
-      width:100%; height:100%;
-      display:block;
-    }
+    /* CHANGE 1: "Get in touch" made much larger */
     .contact-label {
-      font-size:clamp(22px,3.5vw,42px); font-weight:700; letter-spacing:.08em;
+      font-size:clamp(28px,4vw,52px);
+      font-weight:900; letter-spacing:.02em;
       text-transform:uppercase; color:var(--coral);
-      margin-bottom:1.2rem;
+      margin-bottom:1.2rem; line-height:1;
       opacity:0; animation:slideUp .7s ease .1s both;
     }
     .contact-title {
@@ -293,6 +277,24 @@
       margin:.25rem 0;
       opacity:0; animation:fadeIn .6s ease .65s both;
     }
+
+    /* ── EMAIL STATIC CARD (desktop) — not a link, just display ── */
+    .email-static {
+      display:flex; align-items:center; gap:1.25rem;
+      padding:1.4rem 1.75rem;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      opacity:0; animation:slideUp .7s ease .7s both;
+    }
+    .email-static .channel-icon {
+      color:var(--coral);
+    }
+    .email-static .channel-handle {
+      color:var(--soft);
+    }
+
+    /* On mobile, hide static card and show the link button instead */
+    .email-mobile-btn { display:none; }
 
     /* ── EMAIL FORM (right column) ── */
     .contact-form-wrap {
@@ -431,6 +433,7 @@
       border-top:1px solid rgba(123,179,216,.07);
     }
     .footer-logo { display:flex; align-items:center; text-decoration:none; }
+    /* CHANGE 2: footer logo height matches index.html (66px) */
     .footer-logo img { height:66px; width:auto; }
     .footer-logo-text {
       font-size:18px; font-weight:700; letter-spacing:.12em;
@@ -463,8 +466,6 @@
 
     /* RESPONSIVE */
     @media (max-width:900px) {
-      .contact-hero { grid-template-columns:1fr; }
-      .av-scene { max-width:320px; }
       .contact-grid { grid-template-columns:1fr; }
       .contact-channels { border-right:none; border-bottom:1px solid rgba(123,179,216,.08); }
       .contact-info-strip { grid-template-columns:1fr; }
@@ -479,6 +480,32 @@
       .contact-channels, .contact-form-wrap { padding:2rem 1.5rem; }
       .contact-info-strip { padding:0 1.5rem 3rem; }
       footer { padding:2rem 1.5rem; flex-direction:column; align-items:flex-start; }
+
+      /* On mobile: hide static email card, show tappable link button instead */
+      .email-static { display:none; }
+      .email-mobile-btn {
+        display:flex; align-items:center; gap:1.25rem;
+        padding:1.4rem 1.75rem;
+        border:1px solid rgba(255,255,255,.08);
+        background:rgba(255,255,255,.03);
+        text-decoration:none; color:var(--white);
+        position:relative; overflow:hidden;
+        transition:border-color .4s, background .4s;
+        opacity:0; animation:slideUp .7s ease .7s both;
+      }
+      .email-mobile-btn::before {
+        content:''; position:absolute; inset:0;
+        background:linear-gradient(135deg, #ea4335, #fbbc05);
+        transform:translateX(-101%);
+        transition:transform .45s cubic-bezier(.4,0,.2,1);
+      }
+      .email-mobile-btn:hover::before,
+      .email-mobile-btn:active::before { transform:translateX(0); }
+      .email-mobile-btn:hover,
+      .email-mobile-btn:active { border-color:transparent; color:#fff; }
+      .email-mobile-btn .channel-icon { position:relative; z-index:1; }
+      .email-mobile-btn .channel-text { position:relative; z-index:1; }
+      .email-mobile-btn .channel-arrow { position:relative; z-index:1; }
     }
   </style>
 </head>
@@ -525,19 +552,13 @@
 
   <!-- Hero -->
   <div class="contact-hero">
-    <div class="contact-hero-text">
-      <p class="contact-label">Get in touch</p>
-      <h1 class="contact-title">
-        Let's build<br>
-        <span class="line2">something</span>
-        <em> together.</em>
-      </h1>
-      <p class="contact-sub">Tell us about your event — the venue, the vibe, the scale. We'll come back with the right AV setup for it.</p>
-    </div>
-    <!-- Interactive AV visualiser -->
-    <div class="av-scene">
-      <canvas id="av-canvas"></canvas>
-    </div>
+    <p class="contact-label">Get in touch</p>
+    <h1 class="contact-title">
+      Let's build<br>
+      <span class="line2">something</span>
+      <em> together.</em>
+    </h1>
+    <p class="contact-sub">Tell us about your event — the venue, the vibe, the scale. We'll come back with the right AV setup for it.</p>
   </div>
 
   <!-- Main grid: channels + form -->
@@ -585,8 +606,9 @@
 
       <div class="channel-divider"></div>
 
-      <!-- Email -->
-      <a href="/cdn-cgi/l/email-protection#6c090a0a09181805010d00180d2c0b010d0500420f0301" class="channel-btn channel-btn--gmail">
+      <!-- Email — static on desktop, tappable link on mobile -->
+      <!-- Desktop: plain display, no link -->
+      <div class="email-static">
         <div class="channel-icon">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
             <rect x="2" y="4" width="20" height="16" rx="2"/>
@@ -595,7 +617,21 @@
         </div>
         <div class="channel-text">
           <span class="channel-name">Email Us</span>
-          <span class="channel-handle"><span class="__cf_email__" data-cfemail="a1c4c7c7c4d5d5c8ccc0cdd5c0e1c6ccc0c8cd8fc2cecc">[email&#160;protected]</span></span>
+          <span class="channel-handle">effettimalta@gmail.com</span>
+        </div>
+      </div>
+
+      <!-- Mobile: tappable mailto link -->
+      <a href="mailto:effettimalta@gmail.com" class="email-mobile-btn">
+        <div class="channel-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <rect x="2" y="4" width="20" height="16" rx="2"/>
+            <path d="M2 7l10 7 10-7"/>
+          </svg>
+        </div>
+        <div class="channel-text">
+          <span class="channel-name">Email Us</span>
+          <span class="channel-handle">effettimalta@gmail.com</span>
         </div>
         <div class="channel-arrow">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
@@ -662,7 +698,6 @@
           <div class="form-line"></div>
         </div>
 
-        <!-- Hidden field for Formspree email subject -->
         <input type="hidden" name="_subject" value="Event Enquiry — Effetti Malta">
 
         <button type="submit" class="form-submit" id="submitBtn">
@@ -710,7 +745,7 @@
         </svg>
       </div>
       <div class="info-label">Enquiries</div>
-      <div class="info-value"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="50353636352424393d313c243110373d31393c7e333f3d">[email&#160;protected]</a></div>
+      <div class="info-value">effettimalta@gmail.com</div>
     </div>
   </div>
 
@@ -734,7 +769,7 @@
   </div>
 </footer>
 
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+<script>
   // CURSOR
   const cursor = document.getElementById('cursor');
   const ring   = document.getElementById('cursorRing');
@@ -761,9 +796,9 @@
   document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
 
-    const fname     = document.getElementById('fname').value.trim();
-    const email     = document.getElementById('email').value.trim();
-    const message   = document.getElementById('message').value.trim();
+    const fname   = document.getElementById('fname').value.trim();
+    const email   = document.getElementById('email').value.trim();
+    const message = document.getElementById('message').value.trim();
 
     if (!fname || !email || !message) return;
 
@@ -795,211 +830,18 @@
     });
   });
 
-  // ── INTERACTIVE AV VISUALISER ────────────────────────────────────────────
-  (function() {
-    const canvas = document.getElementById('av-canvas');
-    if (!canvas) return;
-    const ctx = canvas.getContext('2d');
-
-    // Colours matching the site palette
-    const NAVY   = '#0D1A3A';
-    const CORAL  = '#E8747A';
-    const BLUE   = '#7BB3D8';
-    const WHITE  = 'rgba(255,255,255,0.85)';
-
-    // State
-    let W, H, cx, cy;
-    let mouse = { x: -9999, y: -9999 };
-    let hovering = false;
-    let time = 0;
-
-    // Speaker cone parameters
-    const BARS   = 32;   // spectrum bars around the ring
-    const R_MID  = 0.30; // ring radius as fraction of min(W,H)/2
-
-    // Per-bar audio heights (animated)
-    const barHeights = new Float32Array(BARS);
-    const barTargets = new Float32Array(BARS);
-    const barPhases  = new Float32Array(BARS).map((_,i) => i * (Math.PI*2/BARS) + Math.random()*0.5);
-
-    function resize() {
-      const rect = canvas.getBoundingClientRect();
-      W = canvas.width  = rect.width  * devicePixelRatio;
-      H = canvas.height = rect.height * devicePixelRatio;
-      cx = W / 2; cy = H / 2;
-    }
-
-    // Mouse tracking relative to canvas
-    canvas.addEventListener('mousemove', e => {
-      const r = canvas.getBoundingClientRect();
-      mouse.x = (e.clientX - r.left) * devicePixelRatio;
-      mouse.y = (e.clientY - r.top)  * devicePixelRatio;
-      hovering = true;
-    });
-    canvas.addEventListener('mouseleave', () => { hovering = false; });
-
-    // Touch support
-    canvas.addEventListener('touchmove', e => {
-      e.preventDefault();
-      const r = canvas.getBoundingClientRect();
-      mouse.x = (e.touches[0].clientX - r.left) * devicePixelRatio;
-      mouse.y = (e.touches[0].clientY - r.top)  * devicePixelRatio;
-      hovering = true;
-    }, { passive: false });
-    canvas.addEventListener('touchend', () => { hovering = false; });
-
-    function lerp(a, b, t) { return a + (b - a) * t; }
-
-    function draw() {
-      time += 0.018;
-      ctx.clearRect(0, 0, W, H);
-
-      const unit  = Math.min(W, H) * 0.5;
-      const rMid  = unit * R_MID;
-
-      // Mouse influence
-      const dx = mouse.x - cx;
-      const dy = mouse.y - cy;
-      const mouseDist  = Math.sqrt(dx*dx + dy*dy);
-      const mouseAngle = Math.atan2(dy, dx);
-      const mouseStr   = hovering ? Math.max(0, 1 - mouseDist / (unit * 0.9)) : 0;
-
-      // ── Update bar targets ──
-      for (let i = 0; i < BARS; i++) {
-        const angle = (i / BARS) * Math.PI * 2 - Math.PI / 2;
-        // Base wave
-        const wave = 0.35 + 0.35 * Math.sin(barPhases[i] + time * 1.4)
-                   + 0.15 * Math.sin(barPhases[i] * 2 + time * 2.1);
-
-        // Mouse proximity boost: bars nearest mouse cursor get taller
-        let angDiff = angle - mouseAngle;
-        while (angDiff >  Math.PI) angDiff -= Math.PI * 2;
-        while (angDiff < -Math.PI) angDiff += Math.PI * 2;
-        const angProx = Math.max(0, 1 - Math.abs(angDiff) / (Math.PI * 0.4));
-        const boost   = mouseStr * angProx * 1.2;
-
-        barTargets[i] = Math.min(1.0, wave + boost);
-        barHeights[i] = lerp(barHeights[i], barTargets[i], 0.12);
-      }
-
-      // ── Draw outer glow ring ──
-      const grad = ctx.createRadialGradient(cx, cy, rMid * 0.6, cx, cy, rMid * 2.2);
-      grad.addColorStop(0, 'rgba(232,116,122,0.06)');
-      grad.addColorStop(0.5, 'rgba(123,179,216,0.04)');
-      grad.addColorStop(1, 'transparent');
-      ctx.fillStyle = grad;
-      ctx.fillRect(0, 0, W, H);
-
-      // ── Draw spectrum bars (around the ring) ──
-      for (let i = 0; i < BARS; i++) {
-        const angle   = (i / BARS) * Math.PI * 2 - Math.PI / 2;
-        const barLen  = unit * 0.12 * (0.3 + barHeights[i] * 0.7);
-        const r0      = rMid + unit * 0.04;
-        const r1      = r0 + barLen;
-
-        const x0 = cx + Math.cos(angle) * r0;
-        const y0 = cy + Math.sin(angle) * r0;
-        const x1 = cx + Math.cos(angle) * r1;
-        const y1 = cy + Math.sin(angle) * r1;
-
-        const t  = barHeights[i];
-        // Interpolate coral → blue based on height
-        const r_ = Math.round(lerp(123, 232, t));
-        const g_ = Math.round(lerp(179, 116, t));
-        const b_ = Math.round(lerp(216, 122, t));
-        ctx.strokeStyle = `rgba(${r_},${g_},${b_},${0.5 + t * 0.5})`;
-        ctx.lineWidth   = Math.max(1.5, unit * 0.008);
-        ctx.lineCap     = 'round';
-
-        ctx.beginPath();
-        ctx.moveTo(x0, y0);
-        ctx.lineTo(x1, y1);
-        ctx.stroke();
-      }
-
-      // ── Draw concentric rings (speaker membrane) ──
-      const rings = [0.18, 0.23, 0.28];
-      rings.forEach((rf, ri) => {
-        const pulse = 0.008 * Math.sin(time * 2.5 + ri * 1.2) * (1 + mouseStr * 0.5);
-        const r = unit * (rf + pulse);
-        ctx.beginPath();
-        ctx.arc(cx, cy, r, 0, Math.PI * 2);
-        ctx.strokeStyle = ri === 0 ? `rgba(232,116,122,${0.25 + mouseStr*0.25})`
-                        : ri === 1 ? `rgba(123,179,216,${0.18 + mouseStr*0.18})`
-                        :            `rgba(255,255,255,${0.08 + mouseStr*0.12})`;
-        ctx.lineWidth   = ri === 0 ? 1.5 : 1;
-        ctx.stroke();
-      });
-
-      // ── Central woofer cone ──
-      const coneR = unit * 0.16;
-      const coneGrad = ctx.createRadialGradient(cx - coneR*0.2, cy - coneR*0.2, 0, cx, cy, coneR);
-      coneGrad.addColorStop(0, 'rgba(26,43,94,0.95)');
-      coneGrad.addColorStop(0.6, 'rgba(13,26,58,0.98)');
-      coneGrad.addColorStop(1, 'rgba(232,116,122,0.25)');
-      ctx.beginPath();
-      ctx.arc(cx, cy, coneR, 0, Math.PI * 2);
-      ctx.fillStyle = coneGrad;
-      ctx.fill();
-      // Cone outline
-      ctx.strokeStyle = `rgba(232,116,122,${0.35 + mouseStr * 0.4})`;
-      ctx.lineWidth   = 1.5;
-      ctx.stroke();
-
-      // ── Central dust cap ──
-      const capR = unit * 0.055;
-      const capGrad = ctx.createRadialGradient(cx - capR*0.3, cy - capR*0.3, 0, cx, cy, capR);
-      capGrad.addColorStop(0, `rgba(232,116,122,${0.5 + mouseStr * 0.5})`);
-      capGrad.addColorStop(1, `rgba(232,116,122,${0.15 + mouseStr * 0.3})`);
-      ctx.beginPath();
-      ctx.arc(cx, cy, capR, 0, Math.PI * 2);
-      ctx.fillStyle = capGrad;
-      ctx.fill();
-
-      // ── Floating particles (signal) ──
-      const nParticles = 6;
-      for (let p = 0; p < nParticles; p++) {
-        const pAngle = (p / nParticles) * Math.PI * 2 + time * 0.6 + p;
-        const pR     = unit * (0.42 + 0.06 * Math.sin(time * 1.8 + p * 1.1));
-        const px     = cx + Math.cos(pAngle) * pR;
-        const py     = cy + Math.sin(pAngle) * pR;
-        const pAlpha = 0.3 + 0.3 * Math.sin(time * 2 + p);
-        ctx.beginPath();
-        ctx.arc(px, py, unit * 0.012, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(123,179,216,${pAlpha})`;
-        ctx.fill();
-      }
-
-      // ── Mouse ripple when hovering ──
-      if (hovering && mouseStr > 0.05) {
-        const rippleR = unit * 0.08 * (0.5 + 0.5 * Math.sin(time * 3));
-        ctx.beginPath();
-        ctx.arc(mouse.x, mouse.y, rippleR, 0, Math.PI * 2);
-        ctx.strokeStyle = `rgba(232,116,122,${mouseStr * 0.4})`;
-        ctx.lineWidth   = 1;
-        ctx.stroke();
-      }
-
-      // ── Tooltip label ──
-      if (!hovering) {
-        ctx.font = `${Math.round(unit * 0.055)}px 'Korbin','Cormorant Garamond',serif`;
-        ctx.fillStyle = 'rgba(255,255,255,0.18)';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillText('move your cursor', cx, cy + unit * 0.58);
-      }
-
-      requestAnimationFrame(draw);
-    }
-
-    resize();
-    window.addEventListener('resize', resize);
-    draw();
-  })();
-
-
+  // Orb parallax on mouse move — subtle depth effect
   const orb1 = document.querySelector('.orb-1');
   const orb2 = document.querySelector('.orb-2');
   const orb3 = document.querySelector('.orb-3');
   document.addEventListener('mousemove', e => {
-    const x = (e.clientX / window.innerW
+    const x = (e.clientX / window.innerWidth  - 0.5) * 30;
+    const y = (e.clientY / window.innerHeight - 0.5) * 30;
+    if (orb1) orb1.style.transform = `translate(${x * 0.6}px, ${y * 0.6}px) scale(1)`;
+    if (orb2) orb2.style.transform = `translate(${-x * 0.4}px, ${-y * 0.4}px) scale(1)`;
+    if (orb3) orb3.style.transform = `translate(${x * 0.8}px, ${y * 0.8}px) scale(1)`;
+  });
+</script>
+
+</body>
+</html>
