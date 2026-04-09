@@ -632,7 +632,7 @@ const events = [
     displayDate: "March 2026",
     location: "Mawest, Valletta",
     client: "Rakii",
-    tags: ["Lighting", "Audio", "Custom DMX", "Smoke Machine"],
+    tags: ["Lighting", "Audio", "Effects"],
     description: "Red-themed underground atmosphere for Rakii's Boiler Room edition at Mawest in Valletta. The DJ was positioned centrally, with full lighting and audio provision built around that focal point. Custom red DMX programming and smoke effects created an intense, intimate club environment.",
     highlight: "Intimate, club-like energy created through precise lighting angles and a centrally positioned DJ setup.",
     photos: [
@@ -646,7 +646,7 @@ const events = [
     displayDate: "28th March 2026",
     location: "The Point Malta",
     client: "Levi's Malta",
-    tags: ["Lighting", "Audio", "DJ Equipment", "CDJ 3000s"],
+    tags: ["Lighting", "Audio", "DJ Equipment"],
     description: "Exclusive social event for the Levi's store reopening at The Point. We provided professional lighting, audio, and a premium DJ setup featuring brand new CDJ 3000s. The lighting was designed to complement the retail environment and match Levi's visual identity.",
     highlight: "A sleek, on-brand aesthetic that elevated the store relaunch — lighting designed to complement the retail environment.",
     photos: []
@@ -658,7 +658,7 @@ const events = [
     displayDate: "7th March 2026",
     location: "Outdoor Venue (Generator-Powered)",
     client: "Raided",
-    tags: ["Power Distribution", "Custom DMX", "Audio", "Staging", "Trussing", "CDJ 3000s", "Smoke Machines"],
+    tags: ["Audio", "Lighting", "DJ Equipment", "Staging & Trussing", "Effects"],
     description: "A full outdoor production running entirely on generator power. We handled everything from power distribution upwards — staging, trussing, a complete PA system, CDJ 3000s, and custom-programmed Wild West lighting. Every element of the show, from power to programming, was Effetti.",
     highlight: "End-to-end generator-powered production — every element of the show, from power to programming, was handled by Effetti.",
     photos: [
@@ -673,7 +673,7 @@ const events = [
     displayDate: "6th March 2026",
     location: "Malta",
     client: "SACES",
-    tags: ["Lighting", "Audio", "Livestreaming"],
+    tags: ["Lighting", "Audio", "Live Streaming"],
     description: "AV support and livestreaming for a live debate event. We handled full lighting and audio setup alongside a professional livestream broadcast — delivering broadcast-quality production for a high-stakes academic environment.",
     highlight: "First production to include our live streaming service — broadcast quality for a high-stakes debate environment.",
     photos: []
@@ -685,7 +685,7 @@ const events = [
     displayDate: "1st March 2026",
     location: "Design Cluster, Valletta",
     client: "SDG Champions",
-    tags: ["Vinyl Setup", "DJ Equipment", "Audio", "DJ Stands"],
+    tags: ["Audio", "DJ Equipment"],
     description: "A subtle, refined setup for a sustainability-themed event at the Design Cluster in Valletta. DJ and audio equipment was integrated to blend seamlessly with the surrounding artwork and creative space — minimal footprint, maximum impact.",
     highlight: "Minimal footprint, maximum impact — the setup disappeared into the art while the sound filled the room.",
     photos: []
@@ -697,7 +697,7 @@ const events = [
     displayDate: "18th December 2025",
     location: "Eden Lodge, Malta",
     client: "ASCS × GHSL",
-    tags: ["Multiple DJs", "Live Band Setup", "Staging", "Trussing", "Lighting", "Audio", "Custom DMX", "Smoke Machines"],
+    tags: ["Audio", "Lighting", "DJ Equipment", "Staging & Trussing", "Effects", "Live Bands"],
     description: "An elegant Christmas ball requiring a sophisticated multi-discipline AV setup — staging, trussing, live band configuration, multiple DJ slots, and custom-programmed DMX lighting tailored to a formal setting. A full-scale production for a prestigious annual event.",
     highlight: "\"The lighting transformed the venue — it felt truly special.\" — Client feedback.",
     photos: []
@@ -709,7 +709,7 @@ const events = [
     displayDate: "31st October 2025",
     location: "Malta",
     client: "Raided",
-    tags: ["Lighting", "Audio", "Trussing", "DJ Equipment", "Smoke Machines", "Custom DMX"],
+    tags: ["Lighting", "Audio", "DJ Equipment", "Staging & Trussing", "Effects"],
     description: "Full production for a Halloween-themed club night — red atmospheric lighting, custom DMX smoke integration, trussing, and a powerful sound system designed for the occasion. Every element was calibrated to the theme.",
     highlight: "Custom-programmed red DMX scenes synced with smoke machines created an intense, immersive Halloween atmosphere.",
     photos: []
@@ -721,7 +721,7 @@ const events = [
     displayDate: "29th August 2025",
     location: "At Sea, Malta",
     client: "ASCS Malta",
-    tags: ["Lighting", "Speakers", "DJ Equipment"],
+    tags: ["Lighting", "Audio", "DJ Equipment"],
     description: "Full AV provision for a university organisation's boat party — speakers, DJ equipment, and lighting all configured for an open-air marine environment. A unique challenge requiring compact, reliable equipment that worked flawlessly on the water.",
     highlight: "A great night with the ASCS Malta university community — AV that worked flawlessly on the water.",
     photos: []
@@ -745,7 +745,7 @@ const events = [
     displayDate: "29th April 2025",
     location: "Ta' Qali National Park, Malta",
     client: "Confidential",
-    tags: ["Audio", "Microphones"],
+    tags: ["Audio"],
     description: "Discreet audio setup for an art exhibition opening and panel discussion at Ta' Qali National Park. Microphones and a clear PA system configured for a cultured, quiet audience — sensitive acoustic design that served the art.",
     highlight: "Sensitive acoustic design that served the art — clear speech reinforcement without intruding on the exhibition atmosphere.",
     photos: []
@@ -760,13 +760,19 @@ let currentFilter = 'All';
 let visibleCount  = EVENTS_PER_PAGE;
 let slideshowTimers = {};
 
-/* Derive all unique tags for the filter bar */
+/* Fixed ordered service categories — edit here to add/remove filters */
+const SERVICE_CATEGORIES = [
+  "Audio",
+  "Lighting",
+  "DJ Equipment",
+  "Staging & Trussing",
+  "Effects",
+  "Live Streaming",
+  "Live Bands"
+];
+
 function getAllTags() {
-  const all = events.flatMap(e => e.tags);
-  const counts = {};
-  all.forEach(t => counts[t] = (counts[t]||0)+1);
-  const unique = [...new Set(all)].sort((a,b) => counts[b]-counts[a]);
-  return unique.slice(0,8); // show top 8 most common
+  return SERVICE_CATEGORIES;
 }
 
 /* Filtered events based on current filter */
