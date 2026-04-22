@@ -446,7 +446,27 @@
       font-size:2rem; line-height:1; opacity:.6;
       transition:opacity .2s; z-index:10001;
     }
-    .lightbox-close:hover { opacity:1; cursor:none; }
+    .lightbox-close:hover { opacity:1; }
+    .lightbox-overlay, .lightbox-overlay * { cursor:auto !important; }
+    .lightbox-arrow { cursor:pointer !important; }
+    .lightbox-arrow {
+      position:fixed; top:50%; transform:translateY(-50%);
+      background:rgba(13,26,58,.7); border:1px solid rgba(201,168,76,.3);
+      color:var(--white); width:48px; height:48px;
+      display:flex; align-items:center; justify-content:center;
+      border-radius:50%; opacity:.7; transition:opacity .2s, background .2s;
+      z-index:10001;
+    }
+    .lightbox-arrow:hover { opacity:1; background:rgba(201,168,76,.2); }
+    .lightbox-arrow svg { width:22px; height:22px; }
+    .lightbox-prev { left:1.5rem; }
+    .lightbox-next { right:1.5rem; }
+    .lightbox-arrow.hidden { display:none; }
+    .lightbox-counter {
+      position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%);
+      font-size:11px; letter-spacing:.2em; color:rgba(255,255,255,.5);
+      z-index:10001;
+    }
     .pkg-photo img { cursor:zoom-in !important; }
   
     @keyframes fadeUp { from{opacity:0;transform:translateY(24px)} to{opacity:1;transform:translateY(0)} }
@@ -599,7 +619,7 @@
           <p class="pkg-num">Package 01</p>
           <h3 class="pkg-name">4× RGB Uplighters</h3>
           <p class="pkg-desc">
-            Four wireless RGB uplighters to wash your walls in any colour. Perfect for intimate venues or as a starter lighting accent to set the mood throughout the evening.
+            Four RGB uplighters to wash your walls in any colour. Perfect for intimate venues or as a starter lighting accent to set the mood throughout the evening.
           </p>
           <div class="pkg-price-row">
             <span class="pkg-price">€48</span>
@@ -644,7 +664,7 @@
             Sleek 1-metre LED bars that create vibrant linear washes of colour — great behind top tables, along aisles, or as stage accents. Choose 2 bars or upgrade to 4 for full coverage.
           </p>
           <div class="pkg-price-row">
-            <span class="pkg-price">€40 – €80</span>
+            <span class="pkg-price">€40 – €70</span>
             <span class="pkg-price-note">2 or 4 bars</span>
           </div>
         </div>
@@ -815,7 +835,14 @@
 <!-- LIGHTBOX -->
 <div class="lightbox-overlay" id="lightbox">
   <button class="lightbox-close" id="lightboxClose" aria-label="Close">&#x2715;</button>
+  <button class="lightbox-arrow lightbox-prev" id="lightboxPrev" aria-label="Previous">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+  </button>
   <img class="lightbox-img" id="lightboxImg" src="" alt="">
+  <button class="lightbox-arrow lightbox-next" id="lightboxNext" aria-label="Next">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>
+  </button>
+  <div class="lightbox-counter" id="lightboxCounter"></div>
 </div>
 
 <script>
@@ -949,13 +976,11 @@
       container.appendChild(dotsEl);
     }
 
-    // Lightbox click on each slide's img
-    slides.forEach(slide => {
+    // Lightbox click on each slide's img — passes full list + clicked index
+    const imageList = srcs.map((src, i) => ({ src, alt: altText + (i > 0 ? ` (${i + 1})` : '') }));
+    slides.forEach((slide, i) => {
       slide.querySelector('img').addEventListener('click', () => {
-        lightboxImg.src = slide.querySelector('img').src;
-        lightboxImg.alt = slide.querySelector('img').alt;
-        lightbox.classList.add('open');
-        document.body.style.overflow = 'hidden';
+        openLightbox(imageList, i);
       });
     });
 
@@ -988,16 +1013,64 @@
   });
 
   // LIGHTBOX
-  const lightbox = document.getElementById('lightbox');
+  const lightbox    = document.getElementById('lightbox');
   const lightboxImg = document.getElementById('lightboxImg');
+  const lbPrev      = document.getElementById('lightboxPrev');
+  const lbNext      = document.getElementById('lightboxNext');
+  const lbCounter   = document.getElementById('lightboxCounter');
+
+  let lbImages = [];   // array of {src, alt}
+  let lbIndex  = 0;
+
+  function openLightbox(images, startIndex) {
+    lbImages = images;
+    lbIndex  = startIndex;
+    renderLightbox();
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function renderLightbox() {
+    const item = lbImages[lbIndex];
+    lightboxImg.src = item.src;
+    lightboxImg.alt = item.alt;
+    // arrows
+    lbPrev.classList.toggle('hidden', lbImages.length < 2);
+    lbNext.classList.toggle('hidden', lbImages.length < 2);
+    // counter
+    if (lbImages.length > 1) {
+      lbCounter.textContent = (lbIndex + 1) + ' / ' + lbImages.length;
+      lbCounter.style.display = 'block';
+    } else {
+      lbCounter.style.display = 'none';
+    }
+  }
+
   function closeLightbox() {
     lightbox.classList.remove('open');
     document.body.style.overflow = '';
     lightboxImg.src = '';
+    lbImages = [];
   }
+
+  lbPrev.addEventListener('click', e => {
+    e.stopPropagation();
+    lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length;
+    renderLightbox();
+  });
+  lbNext.addEventListener('click', e => {
+    e.stopPropagation();
+    lbIndex = (lbIndex + 1) % lbImages.length;
+    renderLightbox();
+  });
   document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-  lightbox.addEventListener('click', e => { if(e.target === lightbox) closeLightbox(); });
-  document.addEventListener('keydown', e => { if(e.key === 'Escape') closeLightbox(); });
+  lightbox.addEventListener('click', e => { if(e.target === lightbox || e.target === lightboxImg) closeLightbox(); });
+  document.addEventListener('keydown', e => {
+    if (!lightbox.classList.contains('open')) return;
+    if (e.key === 'Escape')      closeLightbox();
+    if (e.key === 'ArrowLeft')  { lbIndex = (lbIndex - 1 + lbImages.length) % lbImages.length; renderLightbox(); }
+    if (e.key === 'ArrowRight') { lbIndex = (lbIndex + 1) % lbImages.length; renderLightbox(); }
+  });
 </script>
 </body>
 </html>
