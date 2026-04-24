@@ -147,7 +147,7 @@
 
     /* ── HERO ── */
     .about-hero {
-      position:relative; z-index:2;
+      position:relative; z-index:3;
       padding:4rem 4rem 3rem;
       max-width:1200px; margin:0 auto;
       display:grid;
@@ -721,8 +721,8 @@
       </p>
     </div>
     <div class="hero-right">
+      <!-- Moving head fixture — sits in the right column as before -->
       <div class="mh-widget" id="mhWidget">
-        <!-- The moving head fixture at top -->
         <div class="mh-fixture" id="mhFixture">
           <div class="mh-yoke-h"></div>
           <div class="mh-body">
@@ -732,272 +732,251 @@
           </div>
           <div class="mh-label">MH · 01</div>
         </div>
-
-        <!-- Beam canvas — rotates with the head -->
-        <div class="mh-beam-wrap" id="mhBeamWrap">
-          <svg class="mh-beam-svg" viewBox="0 0 400 520" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-            <defs>
-              <radialGradient id="beamGrad" cx="50%" cy="0%" r="100%" fx="50%" fy="0%">
-                <stop offset="0%"   stop-color="rgba(232,116,122,1)"/>
-                <stop offset="30%"  stop-color="rgba(232,116,122,.45)"/>
-                <stop offset="100%" stop-color="rgba(232,116,122,0)"/>
-              </radialGradient>
-              <filter id="beamBlur">
-                <feGaussianBlur stdDeviation="8"/>
-              </filter>
-            </defs>
-            <!-- Soft glow beam (blurred behind) -->
-            <polygon points="200,0 80,520 320,520" fill="url(#beamGrad)" filter="url(#beamBlur)" opacity=".6"/>
-            <!-- Sharp beam edge -->
-            <polygon points="200,0 110,520 290,520" fill="url(#beamGrad)" opacity=".35"/>
-            <!-- Centre hot-line -->
-            <line x1="200" y1="0" x2="200" y2="520" stroke="rgba(255,200,200,.5)" stroke-width="1.5"/>
-          </svg>
-        </div>
-
-        <!-- Prompt hint -->
         <div class="mh-hint" id="mhHint">
           <span class="mh-hint-dot"></span>
-          <span class="mh-hint-text">point the light</span>
+          <span class="mh-hint-text">move to aim the light</span>
         </div>
-
-        <!-- Floor gobo circle where beam lands -->
-        <div class="mh-gobo" id="mhGobo"></div>
       </div>
-
-      <style>
-        .mh-widget {
-          position: relative;
-          width: 100%;
-          min-height: 420px;
-          border: 1px solid rgba(123,179,216,.12);
-          background: rgba(8,16,36,.95);
-          overflow: hidden;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-        }
-
-        /* ── FIXTURE ── */
-        .mh-fixture {
-          position: relative;
-          z-index: 10;
-          display: flex;
-          flex-direction: column;
-          align-items: center;
-          padding-top: 1.2rem;
-          gap: 0;
-        }
-        .mh-yoke-h {
-          width: 60px; height: 14px;
-          border: 1.5px solid rgba(123,179,216,.5);
-          border-bottom: none;
-          border-radius: 4px 4px 0 0;
-          position: relative;
-        }
-        .mh-yoke-h::before, .mh-yoke-h::after {
-          content: '';
-          position: absolute;
-          bottom: 0;
-          width: 3px; height: 18px;
-          background: rgba(123,179,216,.4);
-        }
-        .mh-yoke-h::before { left: 8px; }
-        .mh-yoke-h::after  { right: 8px; }
-        .mh-body {
-          width: 48px; height: 48px;
-          border-radius: 50%;
-          background: rgba(20,35,70,.9);
-          border: 2px solid rgba(232,116,122,.6);
-          display: flex; align-items: center; justify-content: center;
-          box-shadow: 0 0 18px rgba(232,116,122,.25), inset 0 0 12px rgba(0,0,0,.5);
-          transition: box-shadow .3s;
-          position: relative; z-index:2;
-        }
-        .mh-widget:hover .mh-body,
-        .mh-widget.lit .mh-body {
-          box-shadow: 0 0 28px rgba(232,116,122,.6), 0 0 6px rgba(232,116,122,.9), inset 0 0 12px rgba(0,0,0,.5);
-        }
-        .mh-lens-ring {
-          width: 30px; height: 30px;
-          border-radius: 50%;
-          border: 1.5px solid rgba(232,116,122,.5);
-          display: flex; align-items: center; justify-content: center;
-        }
-        .mh-lens-inner {
-          width: 14px; height: 14px;
-          border-radius: 50%;
-          background: rgba(232,116,122,.15);
-          transition: background .3s, box-shadow .3s;
-        }
-        .mh-widget.lit .mh-lens-inner {
-          background: rgba(255,220,210,1);
-          box-shadow: 0 0 12px rgba(232,116,122,1), 0 0 4px rgba(255,255,255,.8);
-        }
-        .mh-label {
-          font-size: 8px; letter-spacing: .3em;
-          color: rgba(123,179,216,.4); margin-top: .4rem;
-          font-family: monospace;
-        }
-
-        /* ── BEAM ── */
-        .mh-beam-wrap {
-          position: absolute;
-          top: 74px;
-          left: 50%;
-          transform-origin: top center;
-          transform: translateX(-50%) rotate(0deg);
-          width: 400px;
-          height: 520px;
-          opacity: 0;
-          transition: opacity .4s ease, transform .25s cubic-bezier(.2,.8,.3,1);
-          pointer-events: none;
-          z-index: 5;
-        }
-        .mh-widget.lit .mh-beam-wrap { opacity: 1; }
-        .mh-beam-svg { width: 100%; height: 100%; }
-
-        /* ── GOBO (floor circle) ── */
-        .mh-gobo {
-          position: absolute;
-          bottom: 14px;
-          left: 50%;
-          transform: translateX(-50%);
-          width: 80px; height: 20px;
-          border-radius: 50%;
-          background: radial-gradient(ellipse, rgba(232,116,122,.45) 0%, rgba(232,116,122,0) 70%);
-          opacity: 0;
-          transition: opacity .4s, left .25s cubic-bezier(.2,.8,.3,1), width .25s;
-          pointer-events: none;
-          z-index: 4;
-        }
-        .mh-widget.lit .mh-gobo { opacity: 1; }
-
-        /* ── HINT ── */
-        .mh-hint {
-          position: absolute;
-          bottom: 18px; left: 50%;
-          transform: translateX(-50%);
-          display: flex; align-items: center; gap: .5rem;
-          opacity: 1; transition: opacity .5s;
-          z-index: 20;
-          pointer-events: none;
-        }
-        .mh-widget.lit .mh-hint { opacity: 0; }
-        .mh-hint-dot {
-          width: 6px; height: 6px; border-radius: 50%;
-          background: var(--coral);
-          animation: hintPulse 1.8s ease-in-out infinite;
-        }
-        @keyframes hintPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.5)} }
-        .mh-hint-text {
-          font-size: 9px; letter-spacing: .3em;
-          text-transform: uppercase;
-          color: rgba(255,255,255,.35);
-          font-family: 'Korbin', serif;
-        }
-
-        /* ── SCANLINE OVERLAY ── */
-        .mh-widget::after {
-          content: '';
-          position: absolute; inset: 0;
-          background: repeating-linear-gradient(
-            0deg,
-            transparent,
-            transparent 3px,
-            rgba(0,0,0,.07) 3px,
-            rgba(0,0,0,.07) 4px
-          );
-          pointer-events: none; z-index: 30;
-        }
-
-        /* ── CORNER ACCENTS ── */
-        .mh-widget::before {
-          content: '';
-          position: absolute;
-          top: 0; left: 0;
-          width: 28px; height: 28px;
-          border-top: 1.5px solid rgba(232,116,122,.5);
-          border-left: 1.5px solid rgba(232,116,122,.5);
-          pointer-events: none; z-index: 31;
-        }
-      </style>
-
-      <script>
-      (function(){
-        const widget   = document.getElementById('mhWidget');
-        const beamWrap = document.getElementById('mhBeamWrap');
-        const gobo     = document.getElementById('mhGobo');
-
-        // Get the hero title element so beam can point at it
-        const heroTitle = document.querySelector('.about-title');
-
-        function getCenter(el) {
-          const r = el.getBoundingClientRect();
-          return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
-        }
-
-        function pointAt(clientX, clientY) {
-          const wr = widget.getBoundingClientRect();
-          // Beam origin = centre-top of widget (where fixture is)
-          const originX = wr.left + wr.width / 2;
-          const originY = wr.top + 74;
-          const dx = clientX - originX;
-          const dy = clientY - originY;
-          const angle = Math.atan2(dx, dy) * (180 / Math.PI);
-          const clampedAngle = Math.max(-55, Math.min(55, angle));
-
-          beamWrap.style.transform = `translateX(-50%) rotate(${clampedAngle}deg)`;
-
-          // Move gobo based on angle
-          const goboOffset = clampedAngle * 2.2;
-          gobo.style.left = `calc(50% + ${goboOffset}px)`;
-          gobo.style.width = (70 + Math.abs(clampedAngle) * .4) + 'px';
-
-          widget.classList.add('lit');
-        }
-
-        // Mouse move on widget
-        widget.addEventListener('mousemove', e => {
-          pointAt(e.clientX, e.clientY);
-        });
-
-        // Touch
-        widget.addEventListener('touchmove', e => {
-          e.preventDefault();
-          pointAt(e.touches[0].clientX, e.touches[0].clientY);
-        }, { passive: false });
-
-        // Mouse leave — swing beam toward the hero title text
-        widget.addEventListener('mouseleave', () => {
-          if (heroTitle) {
-            const c = getCenter(heroTitle);
-            pointAt(c.x, c.y);
-            // Keep lit, just pointing at title
-          } else {
-            widget.classList.remove('lit');
-            beamWrap.style.transform = 'translateX(-50%) rotate(0deg)';
-          }
-        });
-
-        // On load, after a short delay auto-point at hero title as a teaser
-        setTimeout(() => {
-          if (heroTitle) {
-            const c = getCenter(heroTitle);
-            pointAt(c.x, c.y);
-            // Then after 2s return to idle
-            setTimeout(() => {
-              widget.classList.remove('lit');
-              beamWrap.style.transform = 'translateX(-50%) rotate(0deg)';
-            }, 2200);
-          }
-        }, 1800);
-      })();
-      </script>
-    </div>
-
     </div>
   </section>
+
+  <!-- ── BEAM OVERLAY — sits outside hero, covers full hero area ── -->
+  <div class="mh-beam-overlay" id="mhBeamOverlay" aria-hidden="true">
+    <svg id="mhBeamSvg" class="mh-beam-svg-full" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <radialGradient id="beamGradFull" cx="50%" cy="0%" r="100%" fx="50%" fy="0%">
+          <stop offset="0%"   stop-color="rgba(232,116,122,.9)"/>
+          <stop offset="25%"  stop-color="rgba(232,116,122,.4)"/>
+          <stop offset="100%" stop-color="rgba(232,116,122,0)"/>
+        </radialGradient>
+        <filter id="beamBlurFull" x="-50%" y="-10%" width="200%" height="130%">
+          <feGaussianBlur stdDeviation="14"/>
+        </filter>
+      </defs>
+      <!-- Blurred glow -->
+      <polygon id="beamGlow" points="0,0 0,0 0,0" fill="url(#beamGradFull)" filter="url(#beamBlurFull)" opacity=".55"/>
+      <!-- Sharp cone -->
+      <polygon id="beamCone" points="0,0 0,0 0,0" fill="url(#beamGradFull)" opacity=".3"/>
+      <!-- Centre ray -->
+      <line id="beamRay" x1="0" y1="0" x2="0" y2="0" stroke="rgba(255,210,200,.45)" stroke-width="1.2"/>
+    </svg>
+  </div>
+
+  <style>
+    /* ── FIXTURE BOX ── */
+    .mh-widget {
+      position: relative;
+      width: 100%;
+      min-height: 200px;
+      border: 1px solid rgba(123,179,216,.12);
+      background: rgba(8,16,36,.92);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      overflow: visible; /* beam escapes */
+    }
+    .mh-widget::before {
+      content: '';
+      position: absolute; top:0; left:0;
+      width:28px; height:28px;
+      border-top: 1.5px solid rgba(232,116,122,.5);
+      border-left: 1.5px solid rgba(232,116,122,.5);
+      pointer-events:none;
+    }
+    .mh-widget::after {
+      content:'';
+      position:absolute; inset:0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.06) 3px, rgba(0,0,0,.06) 4px);
+      pointer-events:none;
+    }
+
+    /* Fixture parts */
+    .mh-fixture {
+      position: relative; z-index: 10;
+      display: flex; flex-direction: column; align-items: center;
+      padding-top: 1.4rem; gap: 0;
+    }
+    .mh-yoke-h {
+      width:60px; height:14px;
+      border:1.5px solid rgba(123,179,216,.5);
+      border-bottom:none; border-radius:4px 4px 0 0; position:relative;
+    }
+    .mh-yoke-h::before,.mh-yoke-h::after {
+      content:''; position:absolute; bottom:0;
+      width:3px; height:18px; background:rgba(123,179,216,.4);
+    }
+    .mh-yoke-h::before { left:8px; } .mh-yoke-h::after { right:8px; }
+    .mh-body {
+      width:48px; height:48px; border-radius:50%;
+      background:rgba(20,35,70,.9);
+      border:2px solid rgba(232,116,122,.6);
+      display:flex; align-items:center; justify-content:center;
+      box-shadow:0 0 18px rgba(232,116,122,.25), inset 0 0 12px rgba(0,0,0,.5);
+      transition:box-shadow .3s; position:relative; z-index:2;
+    }
+    .mh-lit .mh-body {
+      box-shadow:0 0 32px rgba(232,116,122,.7), 0 0 8px rgba(232,116,122,1), inset 0 0 12px rgba(0,0,0,.5);
+    }
+    .mh-lens-ring {
+      width:30px; height:30px; border-radius:50%;
+      border:1.5px solid rgba(232,116,122,.5);
+      display:flex; align-items:center; justify-content:center;
+    }
+    .mh-lens-inner {
+      width:14px; height:14px; border-radius:50%;
+      background:rgba(232,116,122,.15);
+      transition:background .25s, box-shadow .25s;
+    }
+    .mh-lit .mh-lens-inner {
+      background:rgba(255,225,215,1);
+      box-shadow:0 0 14px rgba(232,116,122,1), 0 0 5px rgba(255,255,255,.9);
+    }
+    .mh-label {
+      font-size:8px; letter-spacing:.3em; color:rgba(123,179,216,.4);
+      margin-top:.5rem; font-family:monospace;
+    }
+
+    /* Hint */
+    .mh-hint {
+      position:absolute; bottom:14px; left:50%; transform:translateX(-50%);
+      display:flex; align-items:center; gap:.5rem;
+      opacity:1; transition:opacity .5s; pointer-events:none; z-index:20;
+    }
+    .mh-lit .mh-hint { opacity:0; }
+    .mh-hint-dot {
+      width:6px; height:6px; border-radius:50%; background:var(--coral);
+      animation:hintPulse 1.8s ease-in-out infinite;
+    }
+    @keyframes hintPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.5)} }
+    .mh-hint-text {
+      font-size:9px; letter-spacing:.25em; text-transform:uppercase;
+      color:rgba(255,255,255,.3); font-family:'Korbin',serif;
+    }
+
+    /* ── BEAM OVERLAY ── */
+    .mh-beam-overlay {
+      position: absolute;        /* relative to .about-page */
+      top: 96px;                 /* same as about-page padding-top */
+      left: 0; right: 0;
+      height: 600px;             /* covers the full hero */
+      pointer-events: none;
+      z-index: 1;                /* behind text (z-index:2) */
+      opacity: 0;
+      transition: opacity .35s ease;
+    }
+    .mh-beam-overlay.on { opacity: 1; }
+    .mh-beam-svg-full { width:100%; height:100%; overflow:visible; }
+  </style>
+
+  <script>
+  (function(){
+    const widget  = document.getElementById('mhWidget');
+    const overlay = document.getElementById('mhBeamOverlay');
+    const glow    = document.getElementById('beamGlow');
+    const cone    = document.getElementById('beamCone');
+    const ray     = document.getElementById('beamRay');
+    const heroSection = document.querySelector('.about-hero');
+
+    let isLit = false;
+
+    function setLit(on) {
+      isLit = on;
+      widget.classList.toggle('mh-lit', on);
+      overlay.classList.toggle('on', on);
+    }
+
+    function getFixtureOrigin() {
+      // Centre of the lens body in page coords
+      const body = widget.querySelector('.mh-body');
+      const r = body.getBoundingClientRect();
+      const scrollY = window.scrollY || window.pageYOffset;
+      const scrollX = window.scrollX || window.pageXOffset;
+      return {
+        x: r.left + r.width / 2 + scrollX,
+        y: r.top  + r.height / 2 + scrollY
+      };
+    }
+
+    function drawBeam(targetX, targetY) {
+      // targetX/Y are in page coords
+      const o = getFixtureOrigin();
+      const dx = targetX - o.x;
+      const dy = targetY - o.y;
+      const len = Math.sqrt(dx*dx + dy*dy);
+      if (len < 1) return;
+
+      // Perpendicular unit vector for cone width
+      const nx = -dy / len;
+      const ny =  dx / len;
+
+      // Cone spreads wider the further it goes
+      const spread = Math.min(len * 0.22, 180);
+      const spreadNear = 6;
+
+      // Glow polygon (wider)
+      const gs = spread * 1.5;
+      glow.setAttribute('points',
+        `${o.x},${o.y} ` +
+        `${targetX + nx*gs},${targetY + ny*gs} ` +
+        `${targetX - nx*gs},${targetY - ny*gs}`
+      );
+
+      // Sharp cone
+      cone.setAttribute('points',
+        `${o.x + nx*spreadNear},${o.y + ny*spreadNear} ` +
+        `${o.x - nx*spreadNear},${o.y - ny*spreadNear} ` +
+        `${targetX - nx*spread},${targetY - ny*spread} ` +
+        `${targetX + nx*spread},${targetY + ny*spread}`
+      );
+
+      // Centre ray
+      ray.setAttribute('x1', o.x); ray.setAttribute('y1', o.y);
+      ray.setAttribute('x2', targetX); ray.setAttribute('y2', targetY);
+
+      setLit(true);
+    }
+
+    // Listen on the whole hero section for mouse movement
+    heroSection.addEventListener('mousemove', e => {
+      const scrollY = window.scrollY || window.pageYOffset;
+      const scrollX = window.scrollX || window.pageXOffset;
+      drawBeam(e.clientX + scrollX, e.clientY + scrollY);
+    });
+
+    heroSection.addEventListener('mouseleave', () => {
+      // Point at the title when mouse leaves
+      const title = document.querySelector('.about-title');
+      if (title) {
+        const r = title.getBoundingClientRect();
+        const scrollY = window.scrollY || window.pageYOffset;
+        const scrollX = window.scrollX || window.pageXOffset;
+        drawBeam(r.left + r.width/2 + scrollX, r.top + r.height/2 + scrollY);
+      } else {
+        setLit(false);
+      }
+    });
+
+    // Touch support
+    heroSection.addEventListener('touchmove', e => {
+      const t = e.touches[0];
+      const scrollY = window.scrollY || window.pageYOffset;
+      const scrollX = window.scrollX || window.pageXOffset;
+      drawBeam(t.clientX + scrollX, t.clientY + scrollY);
+    }, { passive: true });
+
+    // Auto-teaser on load — point at title
+    setTimeout(() => {
+      const title = document.querySelector('.about-title');
+      if (title) {
+        const r = title.getBoundingClientRect();
+        const scrollY = window.scrollY || window.pageYOffset;
+        const scrollX = window.scrollX || window.pageXOffset;
+        drawBeam(r.left + r.width/2 + scrollX, r.top + r.height/2 + scrollY);
+        setTimeout(() => setLit(false), 2500);
+      }
+    }, 1600);
+  })();
+  </script>
 
   <!-- Divider -->
   <div class="section-divider" style="margin-top:3rem;">
