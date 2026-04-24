@@ -721,267 +721,281 @@
       </p>
     </div>
     <div class="hero-right">
-      <!-- Moving head fixture — sits in the right column as before -->
-      <div class="mh-widget" id="mhWidget">
-        <div class="mh-fixture" id="mhFixture">
-          <div class="mh-yoke-h"></div>
-          <div class="mh-body">
-            <div class="mh-lens-ring">
-              <div class="mh-lens-inner" id="mhLensInner"></div>
-            </div>
+      <div class="wf-widget" id="wfWidget">
+
+        <!-- Top bar -->
+        <div class="wf-topbar">
+          <span class="wf-label">EFFETTI · AUDIO</span>
+          <span class="wf-status" id="wfStatus">
+            <span class="wf-dot" id="wfDot"></span>
+            <span id="wfStatusText">IDLE</span>
+          </span>
+        </div>
+
+        <!-- Waveform canvas area -->
+        <div class="wf-stage">
+          <canvas id="wfCanvas" class="wf-canvas"></canvas>
+          <!-- Play button overlay -->
+          <div class="wf-play-wrap" id="wfPlayWrap">
+            <button class="wf-play-btn" id="wfPlayBtn" aria-label="Play waveform">
+              <div class="wf-play-ring wf-ring-1"></div>
+              <div class="wf-play-ring wf-ring-2"></div>
+              <div class="wf-play-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor" width="22" height="22">
+                  <polygon points="6,3 20,12 6,21"/>
+                </svg>
+              </div>
+            </button>
+            <div class="wf-play-hint">press to activate</div>
           </div>
-          <div class="mh-label">MH · 01</div>
         </div>
-        <div class="mh-hint" id="mhHint">
-          <span class="mh-hint-dot"></span>
-          <span class="mh-hint-text">move to aim the light</span>
+
+        <!-- Bottom bar -->
+        <div class="wf-bottombar">
+          <span class="wf-freq">48kHz · 24bit · STEREO</span>
+          <span class="wf-time" id="wfTime">00:00</span>
         </div>
+
       </div>
     </div>
   </section>
-
-  <!-- ── BEAM OVERLAY — sits outside hero, covers full hero area ── -->
-  <div class="mh-beam-overlay" id="mhBeamOverlay" aria-hidden="true">
-    <svg id="mhBeamSvg" class="mh-beam-svg-full" xmlns="http://www.w3.org/2000/svg">
-      <defs>
-        <radialGradient id="beamGradFull" cx="50%" cy="0%" r="100%" fx="50%" fy="0%">
-          <stop offset="0%"   stop-color="rgba(232,116,122,.9)"/>
-          <stop offset="25%"  stop-color="rgba(232,116,122,.4)"/>
-          <stop offset="100%" stop-color="rgba(232,116,122,0)"/>
-        </radialGradient>
-        <filter id="beamBlurFull" x="-50%" y="-10%" width="200%" height="130%">
-          <feGaussianBlur stdDeviation="14"/>
-        </filter>
-      </defs>
-      <!-- Blurred glow -->
-      <polygon id="beamGlow" points="0,0 0,0 0,0" fill="url(#beamGradFull)" filter="url(#beamBlurFull)" opacity=".55"/>
-      <!-- Sharp cone -->
-      <polygon id="beamCone" points="0,0 0,0 0,0" fill="url(#beamGradFull)" opacity=".3"/>
-      <!-- Centre ray -->
-      <line id="beamRay" x1="0" y1="0" x2="0" y2="0" stroke="rgba(255,210,200,.45)" stroke-width="1.2"/>
-    </svg>
-  </div>
-
-  <style>
-    /* ── FIXTURE BOX ── */
-    .mh-widget {
-      position: relative;
-      width: 100%;
-      min-height: 200px;
-      border: 1px solid rgba(123,179,216,.12);
-      background: rgba(8,16,36,.92);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      overflow: visible; /* beam escapes */
-    }
-    .mh-widget::before {
-      content: '';
-      position: absolute; top:0; left:0;
-      width:28px; height:28px;
-      border-top: 1.5px solid rgba(232,116,122,.5);
-      border-left: 1.5px solid rgba(232,116,122,.5);
-      pointer-events:none;
-    }
-    .mh-widget::after {
-      content:'';
-      position:absolute; inset:0;
-      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,.06) 3px, rgba(0,0,0,.06) 4px);
-      pointer-events:none;
-    }
-
-    /* Fixture parts */
-    .mh-fixture {
-      position: relative; z-index: 10;
-      display: flex; flex-direction: column; align-items: center;
-      padding-top: 1.4rem; gap: 0;
-    }
-    .mh-yoke-h {
-      width:60px; height:14px;
-      border:1.5px solid rgba(123,179,216,.5);
-      border-bottom:none; border-radius:4px 4px 0 0; position:relative;
-    }
-    .mh-yoke-h::before,.mh-yoke-h::after {
-      content:''; position:absolute; bottom:0;
-      width:3px; height:18px; background:rgba(123,179,216,.4);
-    }
-    .mh-yoke-h::before { left:8px; } .mh-yoke-h::after { right:8px; }
-    .mh-body {
-      width:48px; height:48px; border-radius:50%;
-      background:rgba(20,35,70,.9);
-      border:2px solid rgba(232,116,122,.6);
-      display:flex; align-items:center; justify-content:center;
-      box-shadow:0 0 18px rgba(232,116,122,.25), inset 0 0 12px rgba(0,0,0,.5);
-      transition:box-shadow .3s; position:relative; z-index:2;
-    }
-    .mh-lit .mh-body {
-      box-shadow:0 0 32px rgba(232,116,122,.7), 0 0 8px rgba(232,116,122,1), inset 0 0 12px rgba(0,0,0,.5);
-    }
-    .mh-lens-ring {
-      width:30px; height:30px; border-radius:50%;
-      border:1.5px solid rgba(232,116,122,.5);
-      display:flex; align-items:center; justify-content:center;
-    }
-    .mh-lens-inner {
-      width:14px; height:14px; border-radius:50%;
-      background:rgba(232,116,122,.15);
-      transition:background .25s, box-shadow .25s;
-    }
-    .mh-lit .mh-lens-inner {
-      background:rgba(255,225,215,1);
-      box-shadow:0 0 14px rgba(232,116,122,1), 0 0 5px rgba(255,255,255,.9);
-    }
-    .mh-label {
-      font-size:8px; letter-spacing:.3em; color:rgba(123,179,216,.4);
-      margin-top:.5rem; font-family:monospace;
-    }
-
-    /* Hint */
-    .mh-hint {
-      position:absolute; bottom:14px; left:50%; transform:translateX(-50%);
-      display:flex; align-items:center; gap:.5rem;
-      opacity:1; transition:opacity .5s; pointer-events:none; z-index:20;
-    }
-    .mh-lit .mh-hint { opacity:0; }
-    .mh-hint-dot {
-      width:6px; height:6px; border-radius:50%; background:var(--coral);
-      animation:hintPulse 1.8s ease-in-out infinite;
-    }
-    @keyframes hintPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.5)} }
-    .mh-hint-text {
-      font-size:9px; letter-spacing:.25em; text-transform:uppercase;
-      color:rgba(255,255,255,.3); font-family:'Korbin',serif;
-    }
-
-    /* ── BEAM OVERLAY ── */
-    .mh-beam-overlay {
-      position: absolute;        /* relative to .about-page */
-      top: 96px;                 /* same as about-page padding-top */
-      left: 0; right: 0;
-      height: 600px;             /* covers the full hero */
-      pointer-events: none;
-      z-index: 1;                /* behind text (z-index:2) */
-      opacity: 0;
-      transition: opacity .35s ease;
-    }
-    .mh-beam-overlay.on { opacity: 1; }
-    .mh-beam-svg-full { width:100%; height:100%; overflow:visible; }
-  </style>
-
-  <script>
-  (function(){
-    const widget  = document.getElementById('mhWidget');
-    const overlay = document.getElementById('mhBeamOverlay');
-    const glow    = document.getElementById('beamGlow');
-    const cone    = document.getElementById('beamCone');
-    const ray     = document.getElementById('beamRay');
-    const heroSection = document.querySelector('.about-hero');
-
-    let isLit = false;
-
-    function setLit(on) {
-      isLit = on;
-      widget.classList.toggle('mh-lit', on);
-      overlay.classList.toggle('on', on);
-    }
-
-    function getFixtureOrigin() {
-      // Centre of the lens body in page coords
-      const body = widget.querySelector('.mh-body');
-      const r = body.getBoundingClientRect();
-      const scrollY = window.scrollY || window.pageYOffset;
-      const scrollX = window.scrollX || window.pageXOffset;
-      return {
-        x: r.left + r.width / 2 + scrollX,
-        y: r.top  + r.height / 2 + scrollY
-      };
-    }
-
-    function drawBeam(targetX, targetY) {
-      // targetX/Y are in page coords
-      const o = getFixtureOrigin();
-      const dx = targetX - o.x;
-      const dy = targetY - o.y;
-      const len = Math.sqrt(dx*dx + dy*dy);
-      if (len < 1) return;
-
-      // Perpendicular unit vector for cone width
-      const nx = -dy / len;
-      const ny =  dx / len;
-
-      // Cone spreads wider the further it goes
-      const spread = Math.min(len * 0.22, 180);
-      const spreadNear = 6;
-
-      // Glow polygon (wider)
-      const gs = spread * 1.5;
-      glow.setAttribute('points',
-        `${o.x},${o.y} ` +
-        `${targetX + nx*gs},${targetY + ny*gs} ` +
-        `${targetX - nx*gs},${targetY - ny*gs}`
-      );
-
-      // Sharp cone
-      cone.setAttribute('points',
-        `${o.x + nx*spreadNear},${o.y + ny*spreadNear} ` +
-        `${o.x - nx*spreadNear},${o.y - ny*spreadNear} ` +
-        `${targetX - nx*spread},${targetY - ny*spread} ` +
-        `${targetX + nx*spread},${targetY + ny*spread}`
-      );
-
-      // Centre ray
-      ray.setAttribute('x1', o.x); ray.setAttribute('y1', o.y);
-      ray.setAttribute('x2', targetX); ray.setAttribute('y2', targetY);
-
-      setLit(true);
-    }
-
-    // Listen on the whole hero section for mouse movement
-    heroSection.addEventListener('mousemove', e => {
-      const scrollY = window.scrollY || window.pageYOffset;
-      const scrollX = window.scrollX || window.pageXOffset;
-      drawBeam(e.clientX + scrollX, e.clientY + scrollY);
-    });
-
-    heroSection.addEventListener('mouseleave', () => {
-      // Point at the title when mouse leaves
-      const title = document.querySelector('.about-title');
-      if (title) {
-        const r = title.getBoundingClientRect();
-        const scrollY = window.scrollY || window.pageYOffset;
-        const scrollX = window.scrollX || window.pageXOffset;
-        drawBeam(r.left + r.width/2 + scrollX, r.top + r.height/2 + scrollY);
-      } else {
-        setLit(false);
-      }
-    });
-
-    // Touch support
-    heroSection.addEventListener('touchmove', e => {
-      const t = e.touches[0];
-      const scrollY = window.scrollY || window.pageYOffset;
-      const scrollX = window.scrollX || window.pageXOffset;
-      drawBeam(t.clientX + scrollX, t.clientY + scrollY);
-    }, { passive: true });
-
-    // Auto-teaser on load — point at title
-    setTimeout(() => {
-      const title = document.querySelector('.about-title');
-      if (title) {
-        const r = title.getBoundingClientRect();
-        const scrollY = window.scrollY || window.pageYOffset;
-        const scrollX = window.scrollX || window.pageXOffset;
-        drawBeam(r.left + r.width/2 + scrollX, r.top + r.height/2 + scrollY);
-        setTimeout(() => setLit(false), 2500);
-      }
-    }, 1600);
-  })();
-  </script>
 
   <!-- Divider -->
   <div class="section-divider" style="margin-top:3rem;">
     <div class="section-divider-line"></div>
   </div>
+
+  <style>
+    /* ── WAVEFORM WIDGET ── */
+    .wf-widget {
+      width: 100%;
+      border: 1px solid rgba(123,179,216,.15);
+      background: rgba(6,12,32,.95);
+      position: relative;
+      overflow: hidden;
+    }
+    .wf-widget::before {
+      content: '';
+      position: absolute; top:0; left:0;
+      width:24px; height:24px;
+      border-top: 1.5px solid var(--coral);
+      border-left: 1.5px solid var(--coral);
+      pointer-events:none; z-index:5;
+    }
+    .wf-widget::after {
+      content: '';
+      position: absolute; bottom:0; right:0;
+      width:24px; height:24px;
+      border-bottom: 1.5px solid rgba(123,179,216,.5);
+      border-right: 1.5px solid rgba(123,179,216,.5);
+      pointer-events:none; z-index:5;
+    }
+    /* scanlines */
+    .wf-widget .wf-scan {
+      position:absolute; inset:0; pointer-events:none; z-index:4;
+      background: repeating-linear-gradient(0deg,
+        transparent, transparent 3px,
+        rgba(0,0,0,.06) 3px, rgba(0,0,0,.06) 4px);
+    }
+
+    .wf-topbar, .wf-bottombar {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: .6rem 1rem;
+      border-bottom: 1px solid rgba(123,179,216,.08);
+    }
+    .wf-bottombar { border-bottom: none; border-top: 1px solid rgba(123,179,216,.08); }
+    .wf-label, .wf-freq {
+      font-size: 8px; letter-spacing: .35em; text-transform: uppercase;
+      color: rgba(123,179,216,.4); font-family: monospace;
+    }
+    .wf-status {
+      display: flex; align-items: center; gap: .4rem;
+      font-size: 8px; letter-spacing: .3em; text-transform: uppercase;
+      color: rgba(255,255,255,.3); font-family: monospace;
+      transition: color .4s;
+    }
+    .wf-widget.playing .wf-status { color: var(--coral); }
+    .wf-dot {
+      width: 5px; height: 5px; border-radius: 50%;
+      background: rgba(255,255,255,.2);
+      transition: background .4s;
+    }
+    .wf-widget.playing .wf-dot {
+      background: var(--coral);
+      animation: dotBlink 1s ease-in-out infinite;
+    }
+    @keyframes dotBlink { 0%,100%{opacity:1} 50%{opacity:.2} }
+    .wf-time {
+      font-size: 8px; letter-spacing: .2em; font-family: monospace;
+      color: rgba(255,255,255,.25);
+    }
+
+    /* Stage */
+    .wf-stage {
+      position: relative; width: 100%; height: 180px;
+    }
+    .wf-canvas {
+      width: 100%; height: 100%; display: block;
+    }
+
+    /* Play button */
+    .wf-play-wrap {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center; gap: .8rem;
+      transition: opacity .5s;
+      z-index: 10;
+    }
+    .wf-widget.playing .wf-play-wrap { opacity: 0; pointer-events: none; }
+
+    .wf-play-btn {
+      position: relative; width: 64px; height: 64px;
+      background: none; border: none; cursor: none;
+      display: flex; align-items: center; justify-content: center;
+    }
+    .wf-play-ring {
+      position: absolute; inset: 0; border-radius: 50%;
+      border: 1.5px solid rgba(232,116,122,.5);
+      animation: ringPulse 2s ease-in-out infinite;
+    }
+    .wf-ring-2 { animation-delay: 1s; border-color: rgba(123,179,216,.3); }
+    @keyframes ringPulse {
+      0%   { transform: scale(.9); opacity: .8; }
+      50%  { transform: scale(1.35); opacity: 0; }
+      100% { transform: scale(.9); opacity: .8; }
+    }
+    .wf-play-icon {
+      width: 52px; height: 52px; border-radius: 50%;
+      background: rgba(232,116,122,.12);
+      border: 1.5px solid rgba(232,116,122,.7);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--coral);
+      transition: background .3s, border-color .3s, transform .2s;
+      position: relative; z-index: 2;
+    }
+    .wf-play-btn:hover .wf-play-icon {
+      background: rgba(232,116,122,.25);
+      border-color: var(--coral);
+      transform: scale(1.08);
+    }
+    .wf-play-icon svg { margin-left: 3px; } /* optical centre for play arrow */
+
+    .wf-play-hint {
+      font-size: 9px; letter-spacing: .3em; text-transform: uppercase;
+      color: rgba(255,255,255,.28); font-family: 'Korbin', serif;
+      animation: hintFade 2.5s ease-in-out infinite;
+    }
+    @keyframes hintFade { 0%,100%{opacity:.28} 50%{opacity:.7} }
+  </style>
+
+  <script>
+  (function(){
+    const widget    = document.getElementById('wfWidget');
+    const canvas    = document.getElementById('wfCanvas');
+    const playBtn   = document.getElementById('wfPlayBtn');
+    const statusTxt = document.getElementById('wfStatusText');
+    const timeEl    = document.getElementById('wfTime');
+    const ctx       = canvas.getContext('2d');
+
+    let playing  = false;
+    let phase    = 0;
+    let rafId    = null;
+    let seconds  = 0;
+    let clockId  = null;
+
+    // Build a pseudo-random but stable waveform profile
+    const BAR_COUNT = 60;
+    const profile = Array.from({length: BAR_COUNT}, (_, i) => {
+      const t = i / BAR_COUNT;
+      const env = Math.sin(t * Math.PI) * 0.85 + 0.15;
+      return env * (0.4 + Math.random() * 0.6);
+    });
+
+    function resize() {
+      canvas.width  = canvas.offsetWidth  * window.devicePixelRatio;
+      canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+    }
+    resize();
+    window.addEventListener('resize', resize);
+
+    function draw() {
+      const W = canvas.width, H = canvas.height;
+      const dpr = window.devicePixelRatio || 1;
+      ctx.clearRect(0, 0, W, H);
+
+      const barW   = W / BAR_COUNT;
+      const gap    = barW * 0.28;
+      const bw     = barW - gap;
+      const midY   = H / 2;
+
+      for (let i = 0; i < BAR_COUNT; i++) {
+        const base = profile[i];
+        // When playing, bars animate with a travelling wave
+        const animated = playing
+          ? base * (0.55 + 0.45 * Math.sin(phase + i * 0.38))
+          : base * 0.35; // idle — short, dim
+
+        const barH = animated * (H * 0.82);
+        const x    = i * barW + gap / 2;
+
+        // Colour: coral for high bars, blue-light for low, blend in between
+        const t = animated / base;
+        const r = Math.round(123 + (232-123) * t);
+        const g = Math.round(179 + (116-179) * t);
+        const b = Math.round(216 + (122-216) * t);
+
+        const alpha = playing ? (0.5 + 0.5 * t) : 0.22;
+
+        // Gradient per bar
+        const grad = ctx.createLinearGradient(0, midY - barH/2, 0, midY + barH/2);
+        grad.addColorStop(0,   `rgba(${r},${g},${b},${alpha * 0.4})`);
+        grad.addColorStop(0.5, `rgba(${r},${g},${b},${alpha})`);
+        grad.addColorStop(1,   `rgba(${r},${g},${b},${alpha * 0.4})`);
+
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.roundRect
+          ? ctx.roundRect(x, midY - barH/2, bw, barH, 2)
+          : ctx.rect(x, midY - barH/2, bw, barH);
+        ctx.fill();
+      }
+
+      // Centre line
+      ctx.strokeStyle = `rgba(123,179,216,${playing ? .18 : .08})`;
+      ctx.lineWidth = 1 * dpr;
+      ctx.beginPath();
+      ctx.moveTo(0, midY); ctx.lineTo(W, midY);
+      ctx.stroke();
+
+      if (playing) {
+        phase += 0.055;
+        rafId = requestAnimationFrame(draw);
+      }
+    }
+
+    // Initial idle draw
+    draw();
+
+    // Clock
+    function startClock() {
+      clockId = setInterval(() => {
+        seconds++;
+        const m = String(Math.floor(seconds/60)).padStart(2,'0');
+        const s = String(seconds % 60).padStart(2,'0');
+        timeEl.textContent = `${m}:${s}`;
+      }, 1000);
+    }
+
+    playBtn.addEventListener('click', () => {
+      playing = true;
+      widget.classList.add('playing');
+      statusTxt.textContent = 'LIVE';
+      cancelAnimationFrame(rafId);
+      draw();
+      startClock();
+    });
+  })();
+  </script>
 
   <!-- Section marker -->
   <div class="section-marker">
