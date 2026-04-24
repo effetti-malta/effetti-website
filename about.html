@@ -721,128 +721,283 @@
       </p>
     </div>
     <div class="hero-right">
-      <div class="founded-badge">
-        <!-- Self-building AV rig SVG -->
-        <svg class="av-rig" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <div class="founded-badge" style="padding:0;border:1px solid rgba(123,179,216,.15);background:rgba(13,26,58,.8);overflow:hidden;position:relative;">
 
-          <!-- Truss top bar -->
-          <line class="rig-draw rig-draw--1" x1="30" y1="30" x2="290" y2="30" stroke="rgba(123,179,216,.7)" stroke-width="3" stroke-linecap="round"/>
-          <!-- Truss bottom bar -->
-          <line class="rig-draw rig-draw--2" x1="30" y1="52" x2="290" y2="52" stroke="rgba(123,179,216,.5)" stroke-width="1.5" stroke-linecap="round"/>
-          <!-- Truss cross braces -->
-          <line class="rig-draw rig-draw--2" x1="30"  y1="30" x2="70"  y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
-          <line class="rig-draw rig-draw--2" x1="70"  y1="30" x2="110" y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
-          <line class="rig-draw rig-draw--2" x1="110" y1="30" x2="150" y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
-          <line class="rig-draw rig-draw--2" x1="150" y1="30" x2="190" y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
-          <line class="rig-draw rig-draw--2" x1="190" y1="30" x2="230" y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
-          <line class="rig-draw rig-draw--2" x1="230" y1="30" x2="270" y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
-          <line class="rig-draw rig-draw--2" x1="270" y1="30" x2="290" y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
+        <svg class="av-rig" viewBox="0 0 380 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <defs>
+            <filter id="glow-coral">
+              <feGaussianBlur stdDeviation="3" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="glow-blue">
+              <feGaussianBlur stdDeviation="2.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <!-- Beam gradients -->
+            <linearGradient id="beamL" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(232,116,122,.55)"/>
+              <stop offset="100%" stop-color="rgba(232,116,122,0)"/>
+            </linearGradient>
+            <linearGradient id="beamR" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(232,116,122,.55)"/>
+              <stop offset="100%" stop-color="rgba(232,116,122,0)"/>
+            </linearGradient>
+            <linearGradient id="beamC" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="rgba(123,179,216,.35)"/>
+              <stop offset="100%" stop-color="rgba(123,179,216,0)"/>
+            </linearGradient>
+          </defs>
 
-          <!-- Vertical rigging drops -->
-          <line class="rig-draw rig-draw--3" x1="70"  y1="52" x2="70"  y2="78" stroke="rgba(232,116,122,.5)" stroke-width="1" stroke-dasharray="3 3"/>
-          <line class="rig-draw rig-draw--3" x1="140" y1="52" x2="140" y2="68" stroke="rgba(232,116,122,.5)" stroke-width="1" stroke-dasharray="3 3"/>
-          <line class="rig-draw rig-draw--3" x1="180" y1="52" x2="180" y2="68" stroke="rgba(232,116,122,.5)" stroke-width="1" stroke-dasharray="3 3"/>
-          <line class="rig-draw rig-draw--3" x1="250" y1="52" x2="250" y2="78" stroke="rgba(232,116,122,.5)" stroke-width="1" stroke-dasharray="3 3"/>
-
-          <!-- Moving head left -->
-          <g class="rig-draw rig-draw--4">
-            <rect x="55" y="78" width="30" height="20" rx="3" fill="none" stroke="rgba(232,116,122,.8)" stroke-width="1.5"/>
-            <circle cx="70" cy="88" r="5" fill="none" stroke="rgba(232,116,122,.6)" stroke-width="1"/>
-            <circle cx="70" cy="88" r="2" fill="rgba(232,116,122,.4)"/>
-          </g>
-          <!-- Moving head right -->
-          <g class="rig-draw rig-draw--4">
-            <rect x="235" y="78" width="30" height="20" rx="3" fill="none" stroke="rgba(232,116,122,.8)" stroke-width="1.5"/>
-            <circle cx="250" cy="88" r="5" fill="none" stroke="rgba(232,116,122,.6)" stroke-width="1"/>
-            <circle cx="250" cy="88" r="2" fill="rgba(232,116,122,.4)"/>
-          </g>
-
-          <!-- PAR cans -->
-          <g class="rig-draw rig-draw--4">
-            <rect x="128" y="68" width="14" height="18" rx="2" fill="none" stroke="rgba(123,179,216,.7)" stroke-width="1.5"/>
-            <line x1="135" y1="86" x2="135" y2="90" stroke="rgba(123,179,216,.5)" stroke-width="1"/>
-          </g>
-          <g class="rig-draw rig-draw--4">
-            <rect x="168" y="68" width="14" height="18" rx="2" fill="none" stroke="rgba(123,179,216,.7)" stroke-width="1.5"/>
-            <line x1="175" y1="86" x2="175" y2="90" stroke="rgba(123,179,216,.5)" stroke-width="1"/>
+          <!-- ── BACKGROUND GRID ── -->
+          <g class="rd rd-0" opacity=".07">
+            <line x1="0" y1="50"  x2="380" y2="50"  stroke="#7BB3D8" stroke-width=".5"/>
+            <line x1="0" y1="100" x2="380" y2="100" stroke="#7BB3D8" stroke-width=".5"/>
+            <line x1="0" y1="150" x2="380" y2="150" stroke="#7BB3D8" stroke-width=".5"/>
+            <line x1="0" y1="200" x2="380" y2="200" stroke="#7BB3D8" stroke-width=".5"/>
+            <line x1="0" y1="250" x2="380" y2="250" stroke="#7BB3D8" stroke-width=".5"/>
+            <line x1="76"  y1="0" x2="76"  y2="300" stroke="#7BB3D8" stroke-width=".5"/>
+            <line x1="152" y1="0" x2="152" y2="300" stroke="#7BB3D8" stroke-width=".5"/>
+            <line x1="228" y1="0" x2="228" y2="300" stroke="#7BB3D8" stroke-width=".5"/>
+            <line x1="304" y1="0" x2="304" y2="300" stroke="#7BB3D8" stroke-width=".5"/>
           </g>
 
-          <!-- Light beams from moving heads -->
-          <line class="rig-draw rig-draw--5 beam-pulse" x1="70"  y1="98"  x2="40"  y2="185" stroke="rgba(232,116,122,.18)" stroke-width="18" stroke-linecap="round"/>
-          <line class="rig-draw rig-draw--5 beam-pulse" x1="250" y1="98"  x2="280" y2="185" stroke="rgba(232,116,122,.18)" stroke-width="18" stroke-linecap="round"/>
-          <!-- PAR beams -->
-          <line class="rig-draw rig-draw--5" x1="135" y1="90" x2="120" y2="185" stroke="rgba(123,179,216,.1)" stroke-width="14" stroke-linecap="round"/>
-          <line class="rig-draw rig-draw--5" x1="175" y1="90" x2="190" y2="185" stroke="rgba(123,179,216,.1)" stroke-width="14" stroke-linecap="round"/>
-
-          <!-- Stage floor line -->
-          <line class="rig-draw rig-draw--6" x1="20" y1="188" x2="300" y2="188" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
-
-          <!-- Speaker cab left -->
-          <g class="rig-draw rig-draw--6">
-            <rect x="20" y="155" width="28" height="33" rx="2" fill="none" stroke="rgba(123,179,216,.6)" stroke-width="1.5"/>
-            <circle cx="34" cy="165" r="5" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
-            <circle cx="34" cy="178" r="4" fill="none" stroke="rgba(123,179,216,.3)" stroke-width="1"/>
-          </g>
-          <!-- Speaker cab right -->
-          <g class="rig-draw rig-draw--6">
-            <rect x="272" y="155" width="28" height="33" rx="2" fill="none" stroke="rgba(123,179,216,.6)" stroke-width="1.5"/>
-            <circle cx="286" cy="165" r="5" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
-            <circle cx="286" cy="178" r="4" fill="none" stroke="rgba(123,179,216,.3)" stroke-width="1"/>
+          <!-- ── RIGGING CHAIN DROPS (top) ── -->
+          <g class="rd rd-1">
+            <line x1="80"  y1="0"  x2="80"  y2="48" stroke="rgba(123,179,216,.4)" stroke-width="1" stroke-dasharray="4 3"/>
+            <line x1="190" y1="0"  x2="190" y2="48" stroke="rgba(123,179,216,.4)" stroke-width="1" stroke-dasharray="4 3"/>
+            <line x1="300" y1="0"  x2="300" y2="48" stroke="rgba(123,179,216,.4)" stroke-width="1" stroke-dasharray="4 3"/>
+            <!-- Clamps -->
+            <rect x="74" y="44" width="12" height="6" rx="1" fill="none" stroke="rgba(123,179,216,.6)" stroke-width="1"/>
+            <rect x="184" y="44" width="12" height="6" rx="1" fill="none" stroke="rgba(123,179,216,.6)" stroke-width="1"/>
+            <rect x="294" y="44" width="12" height="6" rx="1" fill="none" stroke="rgba(123,179,216,.6)" stroke-width="1"/>
           </g>
 
-          <!-- Subwoofer left -->
-          <g class="rig-draw rig-draw--7">
-            <rect x="20" y="188" width="28" height="20" rx="1" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1.5"/>
-            <rect x="24" y="192" width="20" height="12" rx="8" fill="none" stroke="rgba(123,179,216,.25)" stroke-width="1"/>
+          <!-- ── MAIN TRUSS ── -->
+          <!-- Outer tubes -->
+          <line class="rd rd-2 draw-line" x1="20" y1="50" x2="360" y2="50" stroke="rgba(123,179,216,.9)" stroke-width="3.5" stroke-linecap="round" pathLength="1"/>
+          <line class="rd rd-2 draw-line" x1="20" y1="70" x2="360" y2="70" stroke="rgba(123,179,216,.6)" stroke-width="2" stroke-linecap="round" pathLength="1"/>
+          <!-- Diagonal bracing -->
+          <g class="rd rd-3" stroke="rgba(123,179,216,.25)" stroke-width="1">
+            <line x1="20"  y1="50" x2="60"  y2="70"/><line x1="60"  y1="50" x2="100" y2="70"/>
+            <line x1="100" y1="50" x2="140" y2="70"/><line x1="140" y1="50" x2="180" y2="70"/>
+            <line x1="180" y1="50" x2="220" y2="70"/><line x1="220" y1="50" x2="260" y2="70"/>
+            <line x1="260" y1="50" x2="300" y2="70"/><line x1="300" y1="50" x2="340" y2="70"/>
+            <line x1="340" y1="50" x2="360" y2="70"/>
+            <!-- Reverse bracing -->
+            <line x1="40"  y1="50" x2="20"  y2="70"/><line x1="80"  y1="50" x2="60"  y2="70"/>
+            <line x1="120" y1="50" x2="100" y2="70"/><line x1="160" y1="50" x2="140" y2="70"/>
+            <line x1="200" y1="50" x2="180" y2="70"/><line x1="240" y1="50" x2="220" y2="70"/>
+            <line x1="280" y1="50" x2="260" y2="70"/><line x1="320" y1="50" x2="300" y2="70"/>
+            <line x1="360" y1="50" x2="340" y2="70"/>
           </g>
-          <!-- Subwoofer right -->
-          <g class="rig-draw rig-draw--7">
-            <rect x="272" y="188" width="28" height="20" rx="1" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1.5"/>
-            <rect x="276" y="192" width="20" height="12" rx="8" fill="none" stroke="rgba(123,179,216,.25)" stroke-width="1"/>
+          <!-- Vertical struts -->
+          <g class="rd rd-3" stroke="rgba(123,179,216,.18)" stroke-width="1">
+            <line x1="60" y1="50" x2="60" y2="70"/><line x1="100" y1="50" x2="100" y2="70"/>
+            <line x1="140" y1="50" x2="140" y2="70"/><line x1="180" y1="50" x2="180" y2="70"/>
+            <line x1="220" y1="50" x2="220" y2="70"/><line x1="260" y1="50" x2="260" y2="70"/>
+            <line x1="300" y1="50" x2="300" y2="70"/><line x1="340" y1="50" x2="340" y2="70"/>
           </g>
 
-          <!-- Mixer desk -->
-          <g class="rig-draw rig-draw--7">
-            <rect x="120" y="193" width="80" height="14" rx="2" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
-            <line x1="130" y1="193" x2="130" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-            <line x1="140" y1="193" x2="140" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-            <line x1="150" y1="193" x2="150" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-            <line x1="160" y1="193" x2="160" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-            <line x1="170" y1="193" x2="170" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-            <line x1="180" y1="193" x2="180" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
-            <line x1="190" y1="193" x2="190" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+          <!-- ── LIGHT BEAMS (rendered before fixtures so fixtures sit on top) ── -->
+          <!-- Left moving head beam -->
+          <polygon class="rd rd-7 beam-coral" points="80,98 55,278 105,278" fill="url(#beamL)" opacity="0"/>
+          <!-- Right moving head beam -->
+          <polygon class="rd rd-7 beam-coral" points="300,98 275,278 325,278" fill="url(#beamR)" opacity="0"/>
+          <!-- Centre wash beam -->
+          <polygon class="rd rd-7 beam-blue" points="190,88 150,278 230,278" fill="url(#beamC)" opacity="0"/>
+
+          <!-- ── DROP CABLES to fixtures ── -->
+          <g class="rd rd-4" stroke="rgba(232,116,122,.45)" stroke-width="1" stroke-dasharray="3 2">
+            <line x1="80"  y1="70" x2="80"  y2="88"/>
+            <line x1="300" y1="70" x2="300" y2="88"/>
+          </g>
+          <line class="rd rd-4" x1="190" y1="70" x2="190" y2="80" stroke="rgba(123,179,216,.45)" stroke-width="1" stroke-dasharray="3 2"/>
+
+          <!-- ── MOVING HEAD LEFT ── -->
+          <g class="rd rd-5" filter="url(#glow-coral)">
+            <!-- Yoke -->
+            <line x1="72" y1="88" x2="72" y2="102" stroke="rgba(232,116,122,.7)" stroke-width="1.5"/>
+            <line x1="88" y1="88" x2="88" y2="102" stroke="rgba(232,116,122,.7)" stroke-width="1.5"/>
+            <line x1="72" y1="88" x2="88" y2="88" stroke="rgba(232,116,122,.5)" stroke-width="1"/>
+            <!-- Head body -->
+            <rect x="68" y="100" width="24" height="18" rx="3" fill="rgba(13,26,58,.9)" stroke="rgba(232,116,122,.85)" stroke-width="1.5"/>
+            <!-- Lens -->
+            <circle cx="80" cy="109" r="6" fill="rgba(232,116,122,.08)" stroke="rgba(232,116,122,.7)" stroke-width="1"/>
+            <circle cx="80" cy="109" r="3" fill="rgba(232,116,122,.3)"/>
+            <circle cx="80" cy="109" r="1.2" fill="rgba(255,200,200,.8)"/>
+            <!-- Label -->
+            <text x="80" y="126" text-anchor="middle" font-size="5" fill="rgba(232,116,122,.5)" letter-spacing="1" font-family="monospace">MH-01</text>
           </g>
 
-          <!-- Effetti label -->
-          <text class="rig-draw rig-draw--8" x="160" y="218" text-anchor="middle" font-size="8" letter-spacing="4" fill="rgba(255,255,255,.2)" font-family="'Korbin',serif" font-weight="300" text-transform="uppercase">EFFETTI · EST 2024</text>
+          <!-- ── MOVING HEAD RIGHT ── -->
+          <g class="rd rd-5" filter="url(#glow-coral)">
+            <line x1="292" y1="88" x2="292" y2="102" stroke="rgba(232,116,122,.7)" stroke-width="1.5"/>
+            <line x1="308" y1="88" x2="308" y2="102" stroke="rgba(232,116,122,.7)" stroke-width="1.5"/>
+            <line x1="292" y1="88" x2="308" y2="88" stroke="rgba(232,116,122,.5)" stroke-width="1"/>
+            <rect x="288" y="100" width="24" height="18" rx="3" fill="rgba(13,26,58,.9)" stroke="rgba(232,116,122,.85)" stroke-width="1.5"/>
+            <circle cx="300" cy="109" r="6" fill="rgba(232,116,122,.08)" stroke="rgba(232,116,122,.7)" stroke-width="1"/>
+            <circle cx="300" cy="109" r="3" fill="rgba(232,116,122,.3)"/>
+            <circle cx="300" cy="109" r="1.2" fill="rgba(255,200,200,.8)"/>
+            <text x="300" y="126" text-anchor="middle" font-size="5" fill="rgba(232,116,122,.5)" letter-spacing="1" font-family="monospace">MH-02</text>
+          </g>
+
+          <!-- ── CENTRE WASH LIGHT ── -->
+          <g class="rd rd-5" filter="url(#glow-blue)">
+            <rect x="178" y="80" width="24" height="16" rx="2" fill="rgba(13,26,58,.9)" stroke="rgba(123,179,216,.8)" stroke-width="1.5"/>
+            <circle cx="190" cy="88" r="5.5" fill="rgba(123,179,216,.1)" stroke="rgba(123,179,216,.65)" stroke-width="1"/>
+            <circle cx="190" cy="88" r="2.5" fill="rgba(123,179,216,.4)"/>
+            <text x="190" y="104" text-anchor="middle" font-size="5" fill="rgba(123,179,216,.5)" letter-spacing="1" font-family="monospace">WASH</text>
+          </g>
+
+          <!-- ── PAR CANS (x4 across truss) ── -->
+          <g class="rd rd-5">
+            <g stroke="rgba(123,179,216,.55)" fill="none">
+              <!-- Par 1 -->
+              <rect x="115" y="72" width="14" height="20" rx="2" stroke-width="1.2"/>
+              <circle cx="122" cy="84" r="4" stroke-width="1"/>
+              <line x1="122" y1="92" x2="122" y2="96" stroke-width="1"/>
+              <!-- Par 2 -->
+              <rect x="145" y="72" width="14" height="20" rx="2" stroke-width="1.2"/>
+              <circle cx="152" cy="84" r="4" stroke-width="1"/>
+              <line x1="152" y1="92" x2="152" y2="96" stroke-width="1"/>
+              <!-- Par 3 -->
+              <rect x="221" y="72" width="14" height="20" rx="2" stroke-width="1.2"/>
+              <circle cx="228" cy="84" r="4" stroke-width="1"/>
+              <line x1="228" y1="92" x2="228" y2="96" stroke-width="1"/>
+              <!-- Par 4 -->
+              <rect x="251" y="72" width="14" height="20" rx="2" stroke-width="1.2"/>
+              <circle cx="258" cy="84" r="4" stroke-width="1"/>
+              <line x1="258" y1="92" x2="258" y2="96" stroke-width="1"/>
+            </g>
+          </g>
+
+          <!-- ── STAGE FLOOR ── -->
+          <line class="rd rd-6" x1="10" y1="278" x2="370" y2="278" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
+          <!-- Stage platform -->
+          <rect class="rd rd-6" x="100" y="258" width="180" height="20" rx="1" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
+          <line class="rd rd-6" x1="140" y1="258" x2="140" y2="278" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+          <line class="rd rd-6" x1="190" y1="258" x2="190" y2="278" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+          <line class="rd rd-6" x1="240" y1="258" x2="240" y2="278" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
+
+          <!-- ── SPEAKER STACKS LEFT ── -->
+          <g class="rd rd-6">
+            <!-- Top cab -->
+            <rect x="14" y="198" width="36" height="44" rx="2" fill="rgba(13,26,58,.8)" stroke="rgba(123,179,216,.65)" stroke-width="1.5"/>
+            <circle cx="32" cy="212" r="7" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
+            <circle cx="32" cy="212" r="3.5" fill="rgba(123,179,216,.15)"/>
+            <circle cx="32" cy="230" r="5.5" fill="none" stroke="rgba(123,179,216,.3)" stroke-width="1"/>
+            <!-- Sub -->
+            <rect x="14" y="242" width="36" height="36" rx="1" fill="rgba(13,26,58,.8)" stroke="rgba(123,179,216,.4)" stroke-width="1.5"/>
+            <rect x="20" y="248" width="24" height="24" rx="10" fill="none" stroke="rgba(123,179,216,.25)" stroke-width="1"/>
+            <circle cx="32" cy="260" r="4" fill="none" stroke="rgba(123,179,216,.2)" stroke-width="1"/>
+            <text x="32" y="287" text-anchor="middle" font-size="5" fill="rgba(123,179,216,.4)" letter-spacing="1" font-family="monospace">SPK-L</text>
+          </g>
+
+          <!-- ── SPEAKER STACKS RIGHT ── -->
+          <g class="rd rd-6">
+            <rect x="330" y="198" width="36" height="44" rx="2" fill="rgba(13,26,58,.8)" stroke="rgba(123,179,216,.65)" stroke-width="1.5"/>
+            <circle cx="348" cy="212" r="7" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
+            <circle cx="348" cy="212" r="3.5" fill="rgba(123,179,216,.15)"/>
+            <circle cx="348" cy="230" r="5.5" fill="none" stroke="rgba(123,179,216,.3)" stroke-width="1"/>
+            <rect x="330" y="242" width="36" height="36" rx="1" fill="rgba(13,26,58,.8)" stroke="rgba(123,179,216,.4)" stroke-width="1.5"/>
+            <rect x="336" y="248" width="24" height="24" rx="10" fill="none" stroke="rgba(123,179,216,.25)" stroke-width="1"/>
+            <circle cx="348" cy="260" r="4" fill="none" stroke="rgba(123,179,216,.2)" stroke-width="1"/>
+            <text x="348" y="287" text-anchor="middle" font-size="5" fill="rgba(123,179,216,.4)" letter-spacing="1" font-family="monospace">SPK-R</text>
+          </g>
+
+          <!-- ── FOH MIXER DESK ── -->
+          <g class="rd rd-8">
+            <rect x="128" y="240" width="124" height="28" rx="3" fill="rgba(13,26,58,.9)" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
+            <!-- Channel faders -->
+            <g stroke="rgba(255,255,255,.12)" stroke-width="1">
+              <line x1="140" y1="240" x2="140" y2="268"/><line x1="151" y1="240" x2="151" y2="268"/>
+              <line x1="162" y1="240" x2="162" y2="268"/><line x1="173" y1="240" x2="173" y2="268"/>
+              <line x1="184" y1="240" x2="184" y2="268"/><line x1="195" y1="240" x2="195" y2="268"/>
+              <line x1="206" y1="240" x2="206" y2="268"/><line x1="217" y1="240" x2="217" y2="268"/>
+              <line x1="228" y1="240" x2="228" y2="268"/><line x1="239" y1="240" x2="239" y2="268"/>
+            </g>
+            <!-- Fader knobs (different heights = realistic) -->
+            <g fill="rgba(255,255,255,.35)">
+              <rect x="137" y="248" width="6" height="3" rx="1"/>
+              <rect x="148" y="252" width="6" height="3" rx="1"/>
+              <rect x="159" y="245" width="6" height="3" rx="1"/>
+              <rect x="170" y="255" width="6" height="3" rx="1"/>
+              <rect x="181" y="250" width="6" height="3" rx="1"/>
+              <rect x="192" y="247" width="6" height="3" rx="1"/>
+              <rect x="203" y="253" width="6" height="3" rx="1"/>
+              <rect x="214" y="249" width="6" height="3" rx="1"/>
+              <rect x="225" y="244" width="6" height="3" rx="1"/>
+              <rect x="236" y="251" width="6" height="3" rx="1"/>
+            </g>
+            <!-- Master fader -->
+            <rect x="244" y="240" width="8" height="28" rx="1" fill="none" stroke="rgba(232,116,122,.5)" stroke-width="1"/>
+            <rect x="242" y="250" width="12" height="4" rx="1" fill="rgba(232,116,122,.4)"/>
+            <text x="190" y="280" text-anchor="middle" font-size="5.5" fill="rgba(255,255,255,.25)" letter-spacing="2" font-family="monospace">FOH CONSOLE</text>
+          </g>
+
+          <!-- ── DMX LABEL + STATUS DOTS ── -->
+          <g class="rd rd-9">
+            <text x="20" y="170" font-size="6" fill="rgba(123,179,216,.35)" letter-spacing="2" font-family="monospace">DMX</text>
+            <circle cx="44" cy="167" r="2.5" fill="rgba(123,179,216,.6)" class="status-pulse"/>
+            <text x="20" y="182" font-size="6" fill="rgba(232,116,122,.35)" letter-spacing="2" font-family="monospace">PWR</text>
+            <circle cx="44" cy="179" r="2.5" fill="rgba(232,116,122,.6)" class="status-pulse-2"/>
+            <text x="20" y="194" font-size="6" fill="rgba(255,255,255,.2)" letter-spacing="2" font-family="monospace">AUD</text>
+            <circle cx="44" cy="191" r="2.5" fill="rgba(100,200,100,.5)" class="status-pulse-3"/>
+          </g>
+
+          <!-- ── EFFETTI WATERMARK ── -->
+          <text class="rd rd-9" x="190" y="298" text-anchor="middle" font-size="7" letter-spacing="5" fill="rgba(255,255,255,.12)" font-family="'Korbin',serif" font-weight="300">EFFETTI · EST 2024</text>
         </svg>
 
         <style>
-          .av-rig { width:100%; max-width:320px; display:block; }
+          .av-rig {
+            width: 100%; display: block;
+            background: transparent;
+          }
 
-          /* Each group fades+draws in sequentially */
-          .rig-draw { opacity:0; }
+          /* ── STROKE-DRAW ANIMATION ── */
+          .draw-line {
+            stroke-dasharray: 1;
+            stroke-dashoffset: 1;
+          }
+          .rd { opacity: 0; }
+          .rd-0 { animation: rigAppear .3s ease 0.1s both; }
+          .rd-1 { animation: rigAppear .4s ease 0.3s both; }
+          .rd-2 { animation: rigDraw   .7s ease 0.5s both; }
+          .rd-3 { animation: rigAppear .5s ease 1.0s both; }
+          .rd-4 { animation: rigAppear .3s ease 1.3s both; }
+          .rd-5 { animation: rigAppear .5s ease 1.5s both; }
+          .rd-6 { animation: rigAppear .5s ease 1.9s both; }
+          .rd-7 { animation: beamIn    .8s ease 2.3s both; }
+          .rd-8 { animation: rigAppear .4s ease 2.7s both; }
+          .rd-9 { animation: rigAppear .4s ease 3.0s both; }
 
-          .rig-draw--1 { animation: rigFade .4s ease .3s both; }
-          .rig-draw--2 { animation: rigFade .5s ease .6s both; }
-          .rig-draw--3 { animation: rigFade .4s ease 1.0s both; }
-          .rig-draw--4 { animation: rigFade .4s ease 1.3s both; }
-          .rig-draw--5 { animation: rigFade .6s ease 1.6s both; }
-          .rig-draw--6 { animation: rigFade .4s ease 2.0s both; }
-          .rig-draw--7 { animation: rigFade .4s ease 2.3s both; }
-          .rig-draw--8 { animation: rigFade .5s ease 2.6s both; }
-
-          @keyframes rigFade {
-            from { opacity:0; transform:translateY(4px); }
+          @keyframes rigAppear {
+            from { opacity:0; transform:translateY(3px); }
             to   { opacity:1; transform:translateY(0); }
           }
-
-          /* subtle beam pulse — CSS only, no JS */
-          .beam-pulse { animation: rigFade .6s ease 1.6s both, beamPulse 3s ease-in-out 2.2s infinite; }
-          @keyframes beamPulse {
-            0%,100% { opacity:.18; }
-            50%      { opacity:.32; }
+          @keyframes rigDraw {
+            from { opacity:0; stroke-dashoffset:1; }
+            to   { opacity:1; stroke-dashoffset:0; }
           }
+          @keyframes beamIn {
+            from { opacity:0; }
+            to   { opacity:1; }
+          }
+
+          /* beam slow pulse after appearing */
+          .beam-coral { animation: rigAppear .8s ease 2.3s both, beamPulseC 4s ease-in-out 3.1s infinite; }
+          .beam-blue  { animation: rigAppear .8s ease 2.3s both, beamPulseB 5s ease-in-out 3.3s infinite; }
+          @keyframes beamPulseC { 0%,100%{opacity:.7} 50%{opacity:1} }
+          @keyframes beamPulseB { 0%,100%{opacity:.6} 50%{opacity:.9} }
+
+          /* status dot pulses */
+          .status-pulse   { animation: rigAppear .4s ease 3.0s both, dotPulse1 2s ease-in-out 3.4s infinite; }
+          .status-pulse-2 { animation: rigAppear .4s ease 3.0s both, dotPulse2 1.6s ease-in-out 3.6s infinite; }
+          .status-pulse-3 { animation: rigAppear .4s ease 3.0s both, dotPulse3 2.4s ease-in-out 3.8s infinite; }
+          @keyframes dotPulse1 { 0%,100%{opacity:.6} 50%{opacity:1} }
+          @keyframes dotPulse2 { 0%,100%{opacity:.4} 50%{opacity:.9} }
+          @keyframes dotPulse3 { 0%,100%{opacity:.5} 50%{opacity:1} }
         </style>
       </div>
     </div>
@@ -867,34 +1022,150 @@
         Engineered from<br><span class="blue">the ground up.</span>
       </h2>
     </div>
-    <div class="story-simple reveal reveal-delay-1">
-      <p class="story-p">Effetti was founded in 2024 with a simple idea: audio visual should be done properly — with an engineering mindset that brings structure, reliability, and attention to detail to every setup. From the beginning, the focus was on delivering clean, well-executed results that clients could trust, every time.</p>
-      <p class="story-p">At the same time, Effetti set out to make high-quality and visually engaging setups more accessible. The aim was not just to provide equipment, but to help organisations and events achieve a more polished and professional result without unnecessary complexity.</p>
-      <p class="story-p">Based in Malta, Effetti has grown into a specialised service that combines technical knowledge with practical event experience. All work is carried out in-house — from sound engineering to lighting design — ensuring consistency and full control over every project. With capabilities such as DMX programming and a strong focus on customisation, each setup is tailored to the specific needs of the event.</p>
+
+    <div class="story-rich">
+      <!-- Block 1 -->
+      <div class="story-block reveal reveal-delay-1">
+        <div class="sb-num">01</div>
+        <div class="sb-content">
+          <div class="sb-tag">The Foundation · 2024</div>
+          <p class="sb-text">Effetti was founded with a simple idea: audio visual should be done <em class="sb-em">properly</em> — with an engineering mindset that brings <em class="sb-em">structure, reliability,</em> and attention to detail to every setup. From day one, the focus was on delivering clean, well-executed results that clients could trust, every time.</p>
+          <div class="sb-keywords">
+            <span>Engineering Mindset</span><span>Reliability</span><span>Attention to Detail</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Divider line -->
+      <div class="sb-divider reveal"></div>
+
+      <!-- Block 2 -->
+      <div class="story-block story-block--flip reveal reveal-delay-1">
+        <div class="sb-num sb-num--blue">02</div>
+        <div class="sb-content">
+          <div class="sb-tag sb-tag--blue">Accessibility · Malta</div>
+          <p class="sb-text">Effetti set out to make <em class="sb-em">high-quality, visually engaging setups</em> more accessible — not just providing equipment, but helping organisations and events achieve a more polished and professional result <em class="sb-em">without unnecessary complexity.</em></p>
+          <div class="sb-keywords sb-keywords--blue">
+            <span>High-Quality Setups</span><span>Accessible</span><span>No Complexity</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="sb-divider reveal"></div>
+
+      <!-- Block 3 -->
+      <div class="story-block reveal reveal-delay-1">
+        <div class="sb-num">03</div>
+        <div class="sb-content">
+          <div class="sb-tag">Specialised · In-House · Today</div>
+          <p class="sb-text">Based in Malta, Effetti has grown into a specialised service combining <em class="sb-em">technical knowledge with practical event experience.</em> All work is carried out in-house — from sound engineering to <em class="sb-em">DMX lighting programming</em> — ensuring full control and consistency over every project.</p>
+          <div class="sb-keywords">
+            <span>In-House</span><span>DMX Programming</span><span>Full Control</span>
+          </div>
+        </div>
+      </div>
     </div>
+
     <style>
-      .story-simple {
-        display: grid;
-        grid-template-columns: 1fr 1fr 1fr;
-        gap: 2px;
-        background: rgba(123,179,216,.06);
+      .story-rich {
+        margin-top: 2rem;
         border: 1px solid rgba(123,179,216,.08);
-        margin-top: 1.5rem;
+        background: rgba(123,179,216,.02);
       }
-      .story-p {
-        padding: 2.2rem 2rem;
-        background: var(--navy);
-        font-size: 13px; font-weight: 300;
-        color: var(--soft); line-height: 1.85;
-        border-left: 2px solid transparent;
-        transition: border-color .3s, background .3s;
+      .story-block {
+        display: grid;
+        grid-template-columns: 100px 1fr;
+        gap: 0;
+        position: relative;
+        transition: background .4s;
       }
-      .story-p:hover {
-        background: rgba(26,43,94,.5);
-        border-left-color: var(--coral);
+      .story-block:hover { background: rgba(26,43,94,.4); }
+
+      .sb-num {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: clamp(48px, 5vw, 72px);
+        font-weight: 900;
+        color: transparent;
+        -webkit-text-stroke: 1px rgba(232,116,122,.25);
+        letter-spacing: -.02em;
+        line-height: 1;
+        border-right: 1px solid rgba(123,179,216,.08);
+        padding: 2.5rem 1.5rem;
+        transition: -webkit-text-stroke .3s;
+        user-select: none;
       }
+      .story-block:hover .sb-num { -webkit-text-stroke: 1px rgba(232,116,122,.6); }
+      .sb-num--blue { -webkit-text-stroke: 1px rgba(123,179,216,.25); }
+      .story-block:hover .sb-num--blue { -webkit-text-stroke: 1px rgba(123,179,216,.7); }
+
+      .sb-content {
+        padding: 2.2rem 2.5rem;
+        position: relative;
+      }
+      .sb-content::before {
+        content: '';
+        position: absolute;
+        left: 0; top: 20%; bottom: 20%;
+        width: 2px;
+        background: linear-gradient(to bottom, var(--coral), transparent);
+        transform: scaleY(0); transform-origin: top;
+        transition: transform .5s ease;
+      }
+      .story-block:hover .sb-content::before { transform: scaleY(1); }
+
+      .sb-tag {
+        font-size: 9px; letter-spacing: .35em;
+        text-transform: uppercase; color: var(--coral);
+        margin-bottom: .9rem; font-weight: 300;
+      }
+      .sb-tag--blue { color: var(--blue-light); }
+
+      .sb-text {
+        font-size: 13.5px; font-weight: 300;
+        color: var(--soft); line-height: 1.9;
+        margin-bottom: 1.2rem;
+      }
+      .sb-em {
+        font-style: normal;
+        color: var(--white);
+        font-weight: 400;
+      }
+
+      .sb-keywords {
+        display: flex; flex-wrap: wrap; gap: .5rem;
+      }
+      .sb-keywords span {
+        font-size: 9px; letter-spacing: .2em;
+        text-transform: uppercase;
+        color: rgba(232,116,122,.7);
+        border: 1px solid rgba(232,116,122,.2);
+        padding: .25rem .7rem;
+        transition: border-color .3s, color .3s;
+      }
+      .story-block:hover .sb-keywords span {
+        border-color: rgba(232,116,122,.45);
+        color: rgba(232,116,122,.95);
+      }
+      .sb-keywords--blue span {
+        color: rgba(123,179,216,.7);
+        border-color: rgba(123,179,216,.2);
+      }
+      .story-block:hover .sb-keywords--blue span {
+        border-color: rgba(123,179,216,.45);
+        color: rgba(123,179,216,.95);
+      }
+
+      .sb-divider {
+        height: 1px;
+        background: linear-gradient(to right, transparent, rgba(123,179,216,.12), transparent);
+      }
+
       @media(max-width:768px){
-        .story-simple { grid-template-columns: 1fr; }
+        .story-block { grid-template-columns: 60px 1fr; }
+        .sb-num { font-size: 36px; padding: 1.5rem 1rem; }
+        .sb-content { padding: 1.5rem 1.2rem; }
       }
     </style>
   </section>
