@@ -721,285 +721,281 @@
       </p>
     </div>
     <div class="hero-right">
-      <div class="founded-badge" style="padding:0;border:1px solid rgba(123,179,216,.15);background:rgba(13,26,58,.8);overflow:hidden;position:relative;">
+      <div class="mh-widget" id="mhWidget">
+        <!-- The moving head fixture at top -->
+        <div class="mh-fixture" id="mhFixture">
+          <div class="mh-yoke-h"></div>
+          <div class="mh-body">
+            <div class="mh-lens-ring">
+              <div class="mh-lens-inner" id="mhLensInner"></div>
+            </div>
+          </div>
+          <div class="mh-label">MH · 01</div>
+        </div>
 
-        <svg class="av-rig" viewBox="0 0 380 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-          <defs>
-            <filter id="glow-coral">
-              <feGaussianBlur stdDeviation="3" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <filter id="glow-blue">
-              <feGaussianBlur stdDeviation="2.5" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-            <!-- Beam gradients -->
-            <linearGradient id="beamL" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="rgba(232,116,122,.55)"/>
-              <stop offset="100%" stop-color="rgba(232,116,122,0)"/>
-            </linearGradient>
-            <linearGradient id="beamR" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="rgba(232,116,122,.55)"/>
-              <stop offset="100%" stop-color="rgba(232,116,122,0)"/>
-            </linearGradient>
-            <linearGradient id="beamC" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="rgba(123,179,216,.35)"/>
-              <stop offset="100%" stop-color="rgba(123,179,216,0)"/>
-            </linearGradient>
-          </defs>
+        <!-- Beam canvas — rotates with the head -->
+        <div class="mh-beam-wrap" id="mhBeamWrap">
+          <svg class="mh-beam-svg" viewBox="0 0 400 520" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <radialGradient id="beamGrad" cx="50%" cy="0%" r="100%" fx="50%" fy="0%">
+                <stop offset="0%"   stop-color="rgba(232,116,122,1)"/>
+                <stop offset="30%"  stop-color="rgba(232,116,122,.45)"/>
+                <stop offset="100%" stop-color="rgba(232,116,122,0)"/>
+              </radialGradient>
+              <filter id="beamBlur">
+                <feGaussianBlur stdDeviation="8"/>
+              </filter>
+            </defs>
+            <!-- Soft glow beam (blurred behind) -->
+            <polygon points="200,0 80,520 320,520" fill="url(#beamGrad)" filter="url(#beamBlur)" opacity=".6"/>
+            <!-- Sharp beam edge -->
+            <polygon points="200,0 110,520 290,520" fill="url(#beamGrad)" opacity=".35"/>
+            <!-- Centre hot-line -->
+            <line x1="200" y1="0" x2="200" y2="520" stroke="rgba(255,200,200,.5)" stroke-width="1.5"/>
+          </svg>
+        </div>
 
-          <!-- ── BACKGROUND GRID ── -->
-          <g class="rd rd-0" opacity=".07">
-            <line x1="0" y1="50"  x2="380" y2="50"  stroke="#7BB3D8" stroke-width=".5"/>
-            <line x1="0" y1="100" x2="380" y2="100" stroke="#7BB3D8" stroke-width=".5"/>
-            <line x1="0" y1="150" x2="380" y2="150" stroke="#7BB3D8" stroke-width=".5"/>
-            <line x1="0" y1="200" x2="380" y2="200" stroke="#7BB3D8" stroke-width=".5"/>
-            <line x1="0" y1="250" x2="380" y2="250" stroke="#7BB3D8" stroke-width=".5"/>
-            <line x1="76"  y1="0" x2="76"  y2="300" stroke="#7BB3D8" stroke-width=".5"/>
-            <line x1="152" y1="0" x2="152" y2="300" stroke="#7BB3D8" stroke-width=".5"/>
-            <line x1="228" y1="0" x2="228" y2="300" stroke="#7BB3D8" stroke-width=".5"/>
-            <line x1="304" y1="0" x2="304" y2="300" stroke="#7BB3D8" stroke-width=".5"/>
-          </g>
+        <!-- Prompt hint -->
+        <div class="mh-hint" id="mhHint">
+          <span class="mh-hint-dot"></span>
+          <span class="mh-hint-text">point the light</span>
+        </div>
 
-          <!-- ── RIGGING CHAIN DROPS (top) ── -->
-          <g class="rd rd-1">
-            <line x1="80"  y1="0"  x2="80"  y2="48" stroke="rgba(123,179,216,.4)" stroke-width="1" stroke-dasharray="4 3"/>
-            <line x1="190" y1="0"  x2="190" y2="48" stroke="rgba(123,179,216,.4)" stroke-width="1" stroke-dasharray="4 3"/>
-            <line x1="300" y1="0"  x2="300" y2="48" stroke="rgba(123,179,216,.4)" stroke-width="1" stroke-dasharray="4 3"/>
-            <!-- Clamps -->
-            <rect x="74" y="44" width="12" height="6" rx="1" fill="none" stroke="rgba(123,179,216,.6)" stroke-width="1"/>
-            <rect x="184" y="44" width="12" height="6" rx="1" fill="none" stroke="rgba(123,179,216,.6)" stroke-width="1"/>
-            <rect x="294" y="44" width="12" height="6" rx="1" fill="none" stroke="rgba(123,179,216,.6)" stroke-width="1"/>
-          </g>
-
-          <!-- ── MAIN TRUSS ── -->
-          <!-- Outer tubes -->
-          <line class="rd rd-2 draw-line" x1="20" y1="50" x2="360" y2="50" stroke="rgba(123,179,216,.9)" stroke-width="3.5" stroke-linecap="round" pathLength="1"/>
-          <line class="rd rd-2 draw-line" x1="20" y1="70" x2="360" y2="70" stroke="rgba(123,179,216,.6)" stroke-width="2" stroke-linecap="round" pathLength="1"/>
-          <!-- Diagonal bracing -->
-          <g class="rd rd-3" stroke="rgba(123,179,216,.25)" stroke-width="1">
-            <line x1="20"  y1="50" x2="60"  y2="70"/><line x1="60"  y1="50" x2="100" y2="70"/>
-            <line x1="100" y1="50" x2="140" y2="70"/><line x1="140" y1="50" x2="180" y2="70"/>
-            <line x1="180" y1="50" x2="220" y2="70"/><line x1="220" y1="50" x2="260" y2="70"/>
-            <line x1="260" y1="50" x2="300" y2="70"/><line x1="300" y1="50" x2="340" y2="70"/>
-            <line x1="340" y1="50" x2="360" y2="70"/>
-            <!-- Reverse bracing -->
-            <line x1="40"  y1="50" x2="20"  y2="70"/><line x1="80"  y1="50" x2="60"  y2="70"/>
-            <line x1="120" y1="50" x2="100" y2="70"/><line x1="160" y1="50" x2="140" y2="70"/>
-            <line x1="200" y1="50" x2="180" y2="70"/><line x1="240" y1="50" x2="220" y2="70"/>
-            <line x1="280" y1="50" x2="260" y2="70"/><line x1="320" y1="50" x2="300" y2="70"/>
-            <line x1="360" y1="50" x2="340" y2="70"/>
-          </g>
-          <!-- Vertical struts -->
-          <g class="rd rd-3" stroke="rgba(123,179,216,.18)" stroke-width="1">
-            <line x1="60" y1="50" x2="60" y2="70"/><line x1="100" y1="50" x2="100" y2="70"/>
-            <line x1="140" y1="50" x2="140" y2="70"/><line x1="180" y1="50" x2="180" y2="70"/>
-            <line x1="220" y1="50" x2="220" y2="70"/><line x1="260" y1="50" x2="260" y2="70"/>
-            <line x1="300" y1="50" x2="300" y2="70"/><line x1="340" y1="50" x2="340" y2="70"/>
-          </g>
-
-          <!-- ── LIGHT BEAMS (rendered before fixtures so fixtures sit on top) ── -->
-          <!-- Left moving head beam -->
-          <polygon class="rd rd-7 beam-coral" points="80,98 55,278 105,278" fill="url(#beamL)" opacity="0"/>
-          <!-- Right moving head beam -->
-          <polygon class="rd rd-7 beam-coral" points="300,98 275,278 325,278" fill="url(#beamR)" opacity="0"/>
-          <!-- Centre wash beam -->
-          <polygon class="rd rd-7 beam-blue" points="190,88 150,278 230,278" fill="url(#beamC)" opacity="0"/>
-
-          <!-- ── DROP CABLES to fixtures ── -->
-          <g class="rd rd-4" stroke="rgba(232,116,122,.45)" stroke-width="1" stroke-dasharray="3 2">
-            <line x1="80"  y1="70" x2="80"  y2="88"/>
-            <line x1="300" y1="70" x2="300" y2="88"/>
-          </g>
-          <line class="rd rd-4" x1="190" y1="70" x2="190" y2="80" stroke="rgba(123,179,216,.45)" stroke-width="1" stroke-dasharray="3 2"/>
-
-          <!-- ── MOVING HEAD LEFT ── -->
-          <g class="rd rd-5" filter="url(#glow-coral)">
-            <!-- Yoke -->
-            <line x1="72" y1="88" x2="72" y2="102" stroke="rgba(232,116,122,.7)" stroke-width="1.5"/>
-            <line x1="88" y1="88" x2="88" y2="102" stroke="rgba(232,116,122,.7)" stroke-width="1.5"/>
-            <line x1="72" y1="88" x2="88" y2="88" stroke="rgba(232,116,122,.5)" stroke-width="1"/>
-            <!-- Head body -->
-            <rect x="68" y="100" width="24" height="18" rx="3" fill="rgba(13,26,58,.9)" stroke="rgba(232,116,122,.85)" stroke-width="1.5"/>
-            <!-- Lens -->
-            <circle cx="80" cy="109" r="6" fill="rgba(232,116,122,.08)" stroke="rgba(232,116,122,.7)" stroke-width="1"/>
-            <circle cx="80" cy="109" r="3" fill="rgba(232,116,122,.3)"/>
-            <circle cx="80" cy="109" r="1.2" fill="rgba(255,200,200,.8)"/>
-            <!-- Label -->
-            <text x="80" y="126" text-anchor="middle" font-size="5" fill="rgba(232,116,122,.5)" letter-spacing="1" font-family="monospace">MH-01</text>
-          </g>
-
-          <!-- ── MOVING HEAD RIGHT ── -->
-          <g class="rd rd-5" filter="url(#glow-coral)">
-            <line x1="292" y1="88" x2="292" y2="102" stroke="rgba(232,116,122,.7)" stroke-width="1.5"/>
-            <line x1="308" y1="88" x2="308" y2="102" stroke="rgba(232,116,122,.7)" stroke-width="1.5"/>
-            <line x1="292" y1="88" x2="308" y2="88" stroke="rgba(232,116,122,.5)" stroke-width="1"/>
-            <rect x="288" y="100" width="24" height="18" rx="3" fill="rgba(13,26,58,.9)" stroke="rgba(232,116,122,.85)" stroke-width="1.5"/>
-            <circle cx="300" cy="109" r="6" fill="rgba(232,116,122,.08)" stroke="rgba(232,116,122,.7)" stroke-width="1"/>
-            <circle cx="300" cy="109" r="3" fill="rgba(232,116,122,.3)"/>
-            <circle cx="300" cy="109" r="1.2" fill="rgba(255,200,200,.8)"/>
-            <text x="300" y="126" text-anchor="middle" font-size="5" fill="rgba(232,116,122,.5)" letter-spacing="1" font-family="monospace">MH-02</text>
-          </g>
-
-          <!-- ── CENTRE WASH LIGHT ── -->
-          <g class="rd rd-5" filter="url(#glow-blue)">
-            <rect x="178" y="80" width="24" height="16" rx="2" fill="rgba(13,26,58,.9)" stroke="rgba(123,179,216,.8)" stroke-width="1.5"/>
-            <circle cx="190" cy="88" r="5.5" fill="rgba(123,179,216,.1)" stroke="rgba(123,179,216,.65)" stroke-width="1"/>
-            <circle cx="190" cy="88" r="2.5" fill="rgba(123,179,216,.4)"/>
-            <text x="190" y="104" text-anchor="middle" font-size="5" fill="rgba(123,179,216,.5)" letter-spacing="1" font-family="monospace">WASH</text>
-          </g>
-
-          <!-- ── PAR CANS (x4 across truss) ── -->
-          <g class="rd rd-5">
-            <g stroke="rgba(123,179,216,.55)" fill="none">
-              <!-- Par 1 -->
-              <rect x="115" y="72" width="14" height="20" rx="2" stroke-width="1.2"/>
-              <circle cx="122" cy="84" r="4" stroke-width="1"/>
-              <line x1="122" y1="92" x2="122" y2="96" stroke-width="1"/>
-              <!-- Par 2 -->
-              <rect x="145" y="72" width="14" height="20" rx="2" stroke-width="1.2"/>
-              <circle cx="152" cy="84" r="4" stroke-width="1"/>
-              <line x1="152" y1="92" x2="152" y2="96" stroke-width="1"/>
-              <!-- Par 3 -->
-              <rect x="221" y="72" width="14" height="20" rx="2" stroke-width="1.2"/>
-              <circle cx="228" cy="84" r="4" stroke-width="1"/>
-              <line x1="228" y1="92" x2="228" y2="96" stroke-width="1"/>
-              <!-- Par 4 -->
-              <rect x="251" y="72" width="14" height="20" rx="2" stroke-width="1.2"/>
-              <circle cx="258" cy="84" r="4" stroke-width="1"/>
-              <line x1="258" y1="92" x2="258" y2="96" stroke-width="1"/>
-            </g>
-          </g>
-
-          <!-- ── STAGE FLOOR ── -->
-          <line class="rd rd-6" x1="10" y1="278" x2="370" y2="278" stroke="rgba(255,255,255,.2)" stroke-width="1"/>
-          <!-- Stage platform -->
-          <rect class="rd rd-6" x="100" y="258" width="180" height="20" rx="1" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="1"/>
-          <line class="rd rd-6" x1="140" y1="258" x2="140" y2="278" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-          <line class="rd rd-6" x1="190" y1="258" x2="190" y2="278" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-          <line class="rd rd-6" x1="240" y1="258" x2="240" y2="278" stroke="rgba(255,255,255,.06)" stroke-width="1"/>
-
-          <!-- ── SPEAKER STACKS LEFT ── -->
-          <g class="rd rd-6">
-            <!-- Top cab -->
-            <rect x="14" y="198" width="36" height="44" rx="2" fill="rgba(13,26,58,.8)" stroke="rgba(123,179,216,.65)" stroke-width="1.5"/>
-            <circle cx="32" cy="212" r="7" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
-            <circle cx="32" cy="212" r="3.5" fill="rgba(123,179,216,.15)"/>
-            <circle cx="32" cy="230" r="5.5" fill="none" stroke="rgba(123,179,216,.3)" stroke-width="1"/>
-            <!-- Sub -->
-            <rect x="14" y="242" width="36" height="36" rx="1" fill="rgba(13,26,58,.8)" stroke="rgba(123,179,216,.4)" stroke-width="1.5"/>
-            <rect x="20" y="248" width="24" height="24" rx="10" fill="none" stroke="rgba(123,179,216,.25)" stroke-width="1"/>
-            <circle cx="32" cy="260" r="4" fill="none" stroke="rgba(123,179,216,.2)" stroke-width="1"/>
-            <text x="32" y="287" text-anchor="middle" font-size="5" fill="rgba(123,179,216,.4)" letter-spacing="1" font-family="monospace">SPK-L</text>
-          </g>
-
-          <!-- ── SPEAKER STACKS RIGHT ── -->
-          <g class="rd rd-6">
-            <rect x="330" y="198" width="36" height="44" rx="2" fill="rgba(13,26,58,.8)" stroke="rgba(123,179,216,.65)" stroke-width="1.5"/>
-            <circle cx="348" cy="212" r="7" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
-            <circle cx="348" cy="212" r="3.5" fill="rgba(123,179,216,.15)"/>
-            <circle cx="348" cy="230" r="5.5" fill="none" stroke="rgba(123,179,216,.3)" stroke-width="1"/>
-            <rect x="330" y="242" width="36" height="36" rx="1" fill="rgba(13,26,58,.8)" stroke="rgba(123,179,216,.4)" stroke-width="1.5"/>
-            <rect x="336" y="248" width="24" height="24" rx="10" fill="none" stroke="rgba(123,179,216,.25)" stroke-width="1"/>
-            <circle cx="348" cy="260" r="4" fill="none" stroke="rgba(123,179,216,.2)" stroke-width="1"/>
-            <text x="348" y="287" text-anchor="middle" font-size="5" fill="rgba(123,179,216,.4)" letter-spacing="1" font-family="monospace">SPK-R</text>
-          </g>
-
-          <!-- ── FOH MIXER DESK ── -->
-          <g class="rd rd-8">
-            <rect x="128" y="240" width="124" height="28" rx="3" fill="rgba(13,26,58,.9)" stroke="rgba(255,255,255,.3)" stroke-width="1.5"/>
-            <!-- Channel faders -->
-            <g stroke="rgba(255,255,255,.12)" stroke-width="1">
-              <line x1="140" y1="240" x2="140" y2="268"/><line x1="151" y1="240" x2="151" y2="268"/>
-              <line x1="162" y1="240" x2="162" y2="268"/><line x1="173" y1="240" x2="173" y2="268"/>
-              <line x1="184" y1="240" x2="184" y2="268"/><line x1="195" y1="240" x2="195" y2="268"/>
-              <line x1="206" y1="240" x2="206" y2="268"/><line x1="217" y1="240" x2="217" y2="268"/>
-              <line x1="228" y1="240" x2="228" y2="268"/><line x1="239" y1="240" x2="239" y2="268"/>
-            </g>
-            <!-- Fader knobs (different heights = realistic) -->
-            <g fill="rgba(255,255,255,.35)">
-              <rect x="137" y="248" width="6" height="3" rx="1"/>
-              <rect x="148" y="252" width="6" height="3" rx="1"/>
-              <rect x="159" y="245" width="6" height="3" rx="1"/>
-              <rect x="170" y="255" width="6" height="3" rx="1"/>
-              <rect x="181" y="250" width="6" height="3" rx="1"/>
-              <rect x="192" y="247" width="6" height="3" rx="1"/>
-              <rect x="203" y="253" width="6" height="3" rx="1"/>
-              <rect x="214" y="249" width="6" height="3" rx="1"/>
-              <rect x="225" y="244" width="6" height="3" rx="1"/>
-              <rect x="236" y="251" width="6" height="3" rx="1"/>
-            </g>
-            <!-- Master fader -->
-            <rect x="244" y="240" width="8" height="28" rx="1" fill="none" stroke="rgba(232,116,122,.5)" stroke-width="1"/>
-            <rect x="242" y="250" width="12" height="4" rx="1" fill="rgba(232,116,122,.4)"/>
-            <text x="190" y="280" text-anchor="middle" font-size="5.5" fill="rgba(255,255,255,.25)" letter-spacing="2" font-family="monospace">FOH CONSOLE</text>
-          </g>
-
-          <!-- ── DMX LABEL + STATUS DOTS ── -->
-          <g class="rd rd-9">
-            <text x="20" y="170" font-size="6" fill="rgba(123,179,216,.35)" letter-spacing="2" font-family="monospace">DMX</text>
-            <circle cx="44" cy="167" r="2.5" fill="rgba(123,179,216,.6)" class="status-pulse"/>
-            <text x="20" y="182" font-size="6" fill="rgba(232,116,122,.35)" letter-spacing="2" font-family="monospace">PWR</text>
-            <circle cx="44" cy="179" r="2.5" fill="rgba(232,116,122,.6)" class="status-pulse-2"/>
-            <text x="20" y="194" font-size="6" fill="rgba(255,255,255,.2)" letter-spacing="2" font-family="monospace">AUD</text>
-            <circle cx="44" cy="191" r="2.5" fill="rgba(100,200,100,.5)" class="status-pulse-3"/>
-          </g>
-
-          <!-- ── EFFETTI WATERMARK ── -->
-          <text class="rd rd-9" x="190" y="298" text-anchor="middle" font-size="7" letter-spacing="5" fill="rgba(255,255,255,.12)" font-family="'Korbin',serif" font-weight="300">EFFETTI · EST 2024</text>
-        </svg>
-
-        <style>
-          .av-rig {
-            width: 100%; display: block;
-            background: transparent;
-          }
-
-          /* ── STROKE-DRAW ANIMATION ── */
-          .draw-line {
-            stroke-dasharray: 1;
-            stroke-dashoffset: 1;
-          }
-          .rd { opacity: 0; }
-          .rd-0 { animation: rigAppear .3s ease 0.1s both; }
-          .rd-1 { animation: rigAppear .4s ease 0.3s both; }
-          .rd-2 { animation: rigDraw   .7s ease 0.5s both; }
-          .rd-3 { animation: rigAppear .5s ease 1.0s both; }
-          .rd-4 { animation: rigAppear .3s ease 1.3s both; }
-          .rd-5 { animation: rigAppear .5s ease 1.5s both; }
-          .rd-6 { animation: rigAppear .5s ease 1.9s both; }
-          .rd-7 { animation: beamIn    .8s ease 2.3s both; }
-          .rd-8 { animation: rigAppear .4s ease 2.7s both; }
-          .rd-9 { animation: rigAppear .4s ease 3.0s both; }
-
-          @keyframes rigAppear {
-            from { opacity:0; transform:translateY(3px); }
-            to   { opacity:1; transform:translateY(0); }
-          }
-          @keyframes rigDraw {
-            from { opacity:0; stroke-dashoffset:1; }
-            to   { opacity:1; stroke-dashoffset:0; }
-          }
-          @keyframes beamIn {
-            from { opacity:0; }
-            to   { opacity:1; }
-          }
-
-          /* beam slow pulse after appearing */
-          .beam-coral { animation: rigAppear .8s ease 2.3s both, beamPulseC 4s ease-in-out 3.1s infinite; }
-          .beam-blue  { animation: rigAppear .8s ease 2.3s both, beamPulseB 5s ease-in-out 3.3s infinite; }
-          @keyframes beamPulseC { 0%,100%{opacity:.7} 50%{opacity:1} }
-          @keyframes beamPulseB { 0%,100%{opacity:.6} 50%{opacity:.9} }
-
-          /* status dot pulses */
-          .status-pulse   { animation: rigAppear .4s ease 3.0s both, dotPulse1 2s ease-in-out 3.4s infinite; }
-          .status-pulse-2 { animation: rigAppear .4s ease 3.0s both, dotPulse2 1.6s ease-in-out 3.6s infinite; }
-          .status-pulse-3 { animation: rigAppear .4s ease 3.0s both, dotPulse3 2.4s ease-in-out 3.8s infinite; }
-          @keyframes dotPulse1 { 0%,100%{opacity:.6} 50%{opacity:1} }
-          @keyframes dotPulse2 { 0%,100%{opacity:.4} 50%{opacity:.9} }
-          @keyframes dotPulse3 { 0%,100%{opacity:.5} 50%{opacity:1} }
-        </style>
+        <!-- Floor gobo circle where beam lands -->
+        <div class="mh-gobo" id="mhGobo"></div>
       </div>
+
+      <style>
+        .mh-widget {
+          position: relative;
+          width: 100%;
+          min-height: 420px;
+          border: 1px solid rgba(123,179,216,.12);
+          background: rgba(8,16,36,.95);
+          overflow: hidden;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+        }
+
+        /* ── FIXTURE ── */
+        .mh-fixture {
+          position: relative;
+          z-index: 10;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          padding-top: 1.2rem;
+          gap: 0;
+        }
+        .mh-yoke-h {
+          width: 60px; height: 14px;
+          border: 1.5px solid rgba(123,179,216,.5);
+          border-bottom: none;
+          border-radius: 4px 4px 0 0;
+          position: relative;
+        }
+        .mh-yoke-h::before, .mh-yoke-h::after {
+          content: '';
+          position: absolute;
+          bottom: 0;
+          width: 3px; height: 18px;
+          background: rgba(123,179,216,.4);
+        }
+        .mh-yoke-h::before { left: 8px; }
+        .mh-yoke-h::after  { right: 8px; }
+        .mh-body {
+          width: 48px; height: 48px;
+          border-radius: 50%;
+          background: rgba(20,35,70,.9);
+          border: 2px solid rgba(232,116,122,.6);
+          display: flex; align-items: center; justify-content: center;
+          box-shadow: 0 0 18px rgba(232,116,122,.25), inset 0 0 12px rgba(0,0,0,.5);
+          transition: box-shadow .3s;
+          position: relative; z-index:2;
+        }
+        .mh-widget:hover .mh-body,
+        .mh-widget.lit .mh-body {
+          box-shadow: 0 0 28px rgba(232,116,122,.6), 0 0 6px rgba(232,116,122,.9), inset 0 0 12px rgba(0,0,0,.5);
+        }
+        .mh-lens-ring {
+          width: 30px; height: 30px;
+          border-radius: 50%;
+          border: 1.5px solid rgba(232,116,122,.5);
+          display: flex; align-items: center; justify-content: center;
+        }
+        .mh-lens-inner {
+          width: 14px; height: 14px;
+          border-radius: 50%;
+          background: rgba(232,116,122,.15);
+          transition: background .3s, box-shadow .3s;
+        }
+        .mh-widget.lit .mh-lens-inner {
+          background: rgba(255,220,210,1);
+          box-shadow: 0 0 12px rgba(232,116,122,1), 0 0 4px rgba(255,255,255,.8);
+        }
+        .mh-label {
+          font-size: 8px; letter-spacing: .3em;
+          color: rgba(123,179,216,.4); margin-top: .4rem;
+          font-family: monospace;
+        }
+
+        /* ── BEAM ── */
+        .mh-beam-wrap {
+          position: absolute;
+          top: 74px;
+          left: 50%;
+          transform-origin: top center;
+          transform: translateX(-50%) rotate(0deg);
+          width: 400px;
+          height: 520px;
+          opacity: 0;
+          transition: opacity .4s ease, transform .25s cubic-bezier(.2,.8,.3,1);
+          pointer-events: none;
+          z-index: 5;
+        }
+        .mh-widget.lit .mh-beam-wrap { opacity: 1; }
+        .mh-beam-svg { width: 100%; height: 100%; }
+
+        /* ── GOBO (floor circle) ── */
+        .mh-gobo {
+          position: absolute;
+          bottom: 14px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 80px; height: 20px;
+          border-radius: 50%;
+          background: radial-gradient(ellipse, rgba(232,116,122,.45) 0%, rgba(232,116,122,0) 70%);
+          opacity: 0;
+          transition: opacity .4s, left .25s cubic-bezier(.2,.8,.3,1), width .25s;
+          pointer-events: none;
+          z-index: 4;
+        }
+        .mh-widget.lit .mh-gobo { opacity: 1; }
+
+        /* ── HINT ── */
+        .mh-hint {
+          position: absolute;
+          bottom: 18px; left: 50%;
+          transform: translateX(-50%);
+          display: flex; align-items: center; gap: .5rem;
+          opacity: 1; transition: opacity .5s;
+          z-index: 20;
+          pointer-events: none;
+        }
+        .mh-widget.lit .mh-hint { opacity: 0; }
+        .mh-hint-dot {
+          width: 6px; height: 6px; border-radius: 50%;
+          background: var(--coral);
+          animation: hintPulse 1.8s ease-in-out infinite;
+        }
+        @keyframes hintPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.3;transform:scale(.5)} }
+        .mh-hint-text {
+          font-size: 9px; letter-spacing: .3em;
+          text-transform: uppercase;
+          color: rgba(255,255,255,.35);
+          font-family: 'Korbin', serif;
+        }
+
+        /* ── SCANLINE OVERLAY ── */
+        .mh-widget::after {
+          content: '';
+          position: absolute; inset: 0;
+          background: repeating-linear-gradient(
+            0deg,
+            transparent,
+            transparent 3px,
+            rgba(0,0,0,.07) 3px,
+            rgba(0,0,0,.07) 4px
+          );
+          pointer-events: none; z-index: 30;
+        }
+
+        /* ── CORNER ACCENTS ── */
+        .mh-widget::before {
+          content: '';
+          position: absolute;
+          top: 0; left: 0;
+          width: 28px; height: 28px;
+          border-top: 1.5px solid rgba(232,116,122,.5);
+          border-left: 1.5px solid rgba(232,116,122,.5);
+          pointer-events: none; z-index: 31;
+        }
+      </style>
+
+      <script>
+      (function(){
+        const widget   = document.getElementById('mhWidget');
+        const beamWrap = document.getElementById('mhBeamWrap');
+        const gobo     = document.getElementById('mhGobo');
+
+        // Get the hero title element so beam can point at it
+        const heroTitle = document.querySelector('.about-title');
+
+        function getCenter(el) {
+          const r = el.getBoundingClientRect();
+          return { x: r.left + r.width / 2, y: r.top + r.height / 2 };
+        }
+
+        function pointAt(clientX, clientY) {
+          const wr = widget.getBoundingClientRect();
+          // Beam origin = centre-top of widget (where fixture is)
+          const originX = wr.left + wr.width / 2;
+          const originY = wr.top + 74;
+          const dx = clientX - originX;
+          const dy = clientY - originY;
+          const angle = Math.atan2(dx, dy) * (180 / Math.PI);
+          const clampedAngle = Math.max(-55, Math.min(55, angle));
+
+          beamWrap.style.transform = `translateX(-50%) rotate(${clampedAngle}deg)`;
+
+          // Move gobo based on angle
+          const goboOffset = clampedAngle * 2.2;
+          gobo.style.left = `calc(50% + ${goboOffset}px)`;
+          gobo.style.width = (70 + Math.abs(clampedAngle) * .4) + 'px';
+
+          widget.classList.add('lit');
+        }
+
+        // Mouse move on widget
+        widget.addEventListener('mousemove', e => {
+          pointAt(e.clientX, e.clientY);
+        });
+
+        // Touch
+        widget.addEventListener('touchmove', e => {
+          e.preventDefault();
+          pointAt(e.touches[0].clientX, e.touches[0].clientY);
+        }, { passive: false });
+
+        // Mouse leave — swing beam toward the hero title text
+        widget.addEventListener('mouseleave', () => {
+          if (heroTitle) {
+            const c = getCenter(heroTitle);
+            pointAt(c.x, c.y);
+            // Keep lit, just pointing at title
+          } else {
+            widget.classList.remove('lit');
+            beamWrap.style.transform = 'translateX(-50%) rotate(0deg)';
+          }
+        });
+
+        // On load, after a short delay auto-point at hero title as a teaser
+        setTimeout(() => {
+          if (heroTitle) {
+            const c = getCenter(heroTitle);
+            pointAt(c.x, c.y);
+            // Then after 2s return to idle
+            setTimeout(() => {
+              widget.classList.remove('lit');
+              beamWrap.style.transform = 'translateX(-50%) rotate(0deg)';
+            }, 2200);
+          }
+        }, 1800);
+      })();
+      </script>
+    </div>
+
     </div>
   </section>
 
@@ -1186,7 +1182,7 @@
       <p class="values-sub">The values that shape every decision, every setup, every relationship.</p>
     </div>
     <div class="values-grid">
-      <div class="value-card reveal reveal-delay-1 tilt-card" style="--card-accent:var(--coral);">
+      <div class="value-card reveal reveal-delay-1 tilt-card" data-num="01" style="--card-accent:var(--coral);">
         <div class="value-card-top-bar"></div>
         <div class="value-icon-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
@@ -1194,11 +1190,12 @@
         <span class="value-number">01</span>
         <div class="value-title">Client Peace of Mind</div>
         <div class="value-bar"></div>
+        <div class="value-tagline">Peace of mind, guaranteed</div>
         <div class="value-body">
           Your event is one of the most important moments for your audience. We take that seriously. From the first call to the final pack-down, we ensure you're never left worrying about the technical side — because we've got it handled.
         </div>
       </div>
-      <div class="value-card reveal reveal-delay-2 tilt-card" style="--card-accent:var(--blue-light);">
+      <div class="value-card reveal reveal-delay-2 tilt-card" data-num="02" style="--card-accent:var(--blue-light);">
         <div class="value-card-top-bar"></div>
         <div class="value-icon-wrap" style="color:var(--blue-light);border-color:rgba(123,179,216,.25);">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -1206,11 +1203,12 @@
         <span class="value-number">02</span>
         <div class="value-title">True Customisation</div>
         <div class="value-bar" style="background:var(--blue-light);"></div>
+        <div class="value-tagline">Built around you, not a template</div>
         <div class="value-body">
           We don't do cookie-cutter setups. Every event starts with a deep conversation about your vision, your space, your audience. We then engineer a solution built exactly around that — not a standard package forced to fit.
         </div>
       </div>
-      <div class="value-card reveal reveal-delay-3 tilt-card" style="--card-accent:var(--coral);">
+      <div class="value-card reveal reveal-delay-3 tilt-card" data-num="03" style="--card-accent:var(--coral);">
         <div class="value-card-top-bar"></div>
         <div class="value-icon-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
@@ -1218,11 +1216,12 @@
         <span class="value-number">03</span>
         <div class="value-title">Reliability, Always</div>
         <div class="value-bar"></div>
+        <div class="value-tagline">The show always goes on</div>
         <div class="value-body">
           In live events, failure is not an option. We maintain our equipment to the highest standards, plan redundancy into our setups, and show up with qualified engineers who have seen it all — so the show always goes on.
         </div>
       </div>
-      <div class="value-card reveal reveal-delay-1 tilt-card" style="--card-accent:var(--blue-light);">
+      <div class="value-card reveal reveal-delay-1 tilt-card" data-num="04" style="--card-accent:var(--blue-light);">
         <div class="value-card-top-bar"></div>
         <div class="value-icon-wrap" style="color:var(--blue-light);border-color:rgba(123,179,216,.25);">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
@@ -1230,11 +1229,12 @@
         <span class="value-number">04</span>
         <div class="value-title">Technical Excellence</div>
         <div class="value-bar" style="background:var(--blue-light);"></div>
+        <div class="value-tagline">Science meets craft</div>
         <div class="value-body">
           Our team includes warranted engineers and experienced designers who understand the science behind great sound and light. We invest in the best equipment and the knowledge to use it at its full potential.
         </div>
       </div>
-      <div class="value-card reveal reveal-delay-2 tilt-card" style="--card-accent:var(--coral);">
+      <div class="value-card reveal reveal-delay-2 tilt-card" data-num="05" style="--card-accent:var(--coral);">
         <div class="value-card-top-bar"></div>
         <div class="value-icon-wrap">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
@@ -1242,18 +1242,20 @@
         <span class="value-number">05</span>
         <div class="value-title">Lasting Partnerships</div>
         <div class="value-bar"></div>
+        <div class="value-tagline">We're in it for the long run</div>
         <div class="value-body">
           We don't vanish after the event. We follow up, we learn, we improve. The goal is always a long-term relationship — clients who trust us so completely they never have to look elsewhere for their AV needs.
         </div>
       </div>
-      <div class="value-card reveal reveal-delay-3 tilt-card" style="--card-accent:var(--blue-light);">
+      <div class="value-card reveal reveal-delay-3 tilt-card" data-num="06" style="--card-accent:var(--blue-light);">
         <div class="value-card-top-bar"></div>
         <div class="value-icon-wrap" style="color:var(--blue-light);border-color:rgba(123,179,216,.25);">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="5" r="2"/><circle cx="5" cy="19" r="2"/><circle cx="19" cy="19" r="2"/><line x1="12" y1="7" x2="5" y2="17"/><line x1="12" y1="7" x2="19" y2="17"/><line x1="7" y1="19" x2="17" y2="19"/></svg>
         </div>
         <span class="value-number">06</span>
         <div class="value-title">Full-Service Thinking</div>
         <div class="value-bar" style="background:var(--blue-light);"></div>
+        <div class="value-tagline">One call covers everything</div>
         <div class="value-body">
           From AV equipment and power distribution to event planning support and access to our network of trusted specialists — we think holistically about your event, covering every angle so nothing falls through the cracks.
         </div>
@@ -1271,6 +1273,24 @@
       transition: transform .5s cubic-bezier(.4,0,.2,1);
     }
     .value-card:hover .value-card-top-bar { transform: scaleX(1); }
+
+    /* Big ghost number watermark */
+    .value-card::before {
+      content: attr(data-num);
+      position: absolute;
+      bottom: -0.1em; right: .3rem;
+      font-size: 8rem; font-weight: 900;
+      line-height: 1;
+      color: transparent;
+      -webkit-text-stroke: 1px rgba(255,255,255,.04);
+      pointer-events: none;
+      transition: -webkit-text-stroke .4s;
+      letter-spacing: -.04em;
+    }
+    .value-card:hover::before {
+      -webkit-text-stroke: 1px rgba(255,255,255,.09);
+    }
+
     .value-icon-wrap {
       width: 44px; height: 44px;
       border: 1px solid rgba(232,116,122,.22);
@@ -1278,12 +1298,23 @@
       display: flex; align-items: center; justify-content: center;
       color: var(--coral);
       margin-bottom: 1.2rem;
-      transition: border-color .3s, background .3s;
+      transition: border-color .3s, background .3s, transform .3s;
     }
     .value-card:hover .value-icon-wrap {
       border-color: rgba(232,116,122,.55);
       background: rgba(232,116,122,.06);
+      transform: scale(1.08) rotate(-4deg);
     }
+
+    /* Short punchy tagline under the title */
+    .value-tagline {
+      font-size: 10px; letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 1rem;
+      transition: color .3s;
+    }
+    .value-card:hover .value-tagline { color: rgba(255,255,255,.4); }
   </style>
 
   <!-- Section marker -->
