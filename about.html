@@ -722,9 +722,128 @@
     </div>
     <div class="hero-right">
       <div class="founded-badge">
-        <span class="badge-year">2024</span>
-        <span class="badge-label">Est. Malta</span>
-        <p class="badge-sub">Born local.<br>Built to grow.</p>
+        <!-- Self-building AV rig SVG -->
+        <svg class="av-rig" viewBox="0 0 320 220" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+
+          <!-- Truss top bar -->
+          <line class="rig-draw rig-draw--1" x1="30" y1="30" x2="290" y2="30" stroke="rgba(123,179,216,.7)" stroke-width="3" stroke-linecap="round"/>
+          <!-- Truss bottom bar -->
+          <line class="rig-draw rig-draw--2" x1="30" y1="52" x2="290" y2="52" stroke="rgba(123,179,216,.5)" stroke-width="1.5" stroke-linecap="round"/>
+          <!-- Truss cross braces -->
+          <line class="rig-draw rig-draw--2" x1="30"  y1="30" x2="70"  y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
+          <line class="rig-draw rig-draw--2" x1="70"  y1="30" x2="110" y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
+          <line class="rig-draw rig-draw--2" x1="110" y1="30" x2="150" y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
+          <line class="rig-draw rig-draw--2" x1="150" y1="30" x2="190" y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
+          <line class="rig-draw rig-draw--2" x1="190" y1="30" x2="230" y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
+          <line class="rig-draw rig-draw--2" x1="230" y1="30" x2="270" y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
+          <line class="rig-draw rig-draw--2" x1="270" y1="30" x2="290" y2="52" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-linecap="round"/>
+
+          <!-- Vertical rigging drops -->
+          <line class="rig-draw rig-draw--3" x1="70"  y1="52" x2="70"  y2="78" stroke="rgba(232,116,122,.5)" stroke-width="1" stroke-dasharray="3 3"/>
+          <line class="rig-draw rig-draw--3" x1="140" y1="52" x2="140" y2="68" stroke="rgba(232,116,122,.5)" stroke-width="1" stroke-dasharray="3 3"/>
+          <line class="rig-draw rig-draw--3" x1="180" y1="52" x2="180" y2="68" stroke="rgba(232,116,122,.5)" stroke-width="1" stroke-dasharray="3 3"/>
+          <line class="rig-draw rig-draw--3" x1="250" y1="52" x2="250" y2="78" stroke="rgba(232,116,122,.5)" stroke-width="1" stroke-dasharray="3 3"/>
+
+          <!-- Moving head left -->
+          <g class="rig-draw rig-draw--4">
+            <rect x="55" y="78" width="30" height="20" rx="3" fill="none" stroke="rgba(232,116,122,.8)" stroke-width="1.5"/>
+            <circle cx="70" cy="88" r="5" fill="none" stroke="rgba(232,116,122,.6)" stroke-width="1"/>
+            <circle cx="70" cy="88" r="2" fill="rgba(232,116,122,.4)"/>
+          </g>
+          <!-- Moving head right -->
+          <g class="rig-draw rig-draw--4">
+            <rect x="235" y="78" width="30" height="20" rx="3" fill="none" stroke="rgba(232,116,122,.8)" stroke-width="1.5"/>
+            <circle cx="250" cy="88" r="5" fill="none" stroke="rgba(232,116,122,.6)" stroke-width="1"/>
+            <circle cx="250" cy="88" r="2" fill="rgba(232,116,122,.4)"/>
+          </g>
+
+          <!-- PAR cans -->
+          <g class="rig-draw rig-draw--4">
+            <rect x="128" y="68" width="14" height="18" rx="2" fill="none" stroke="rgba(123,179,216,.7)" stroke-width="1.5"/>
+            <line x1="135" y1="86" x2="135" y2="90" stroke="rgba(123,179,216,.5)" stroke-width="1"/>
+          </g>
+          <g class="rig-draw rig-draw--4">
+            <rect x="168" y="68" width="14" height="18" rx="2" fill="none" stroke="rgba(123,179,216,.7)" stroke-width="1.5"/>
+            <line x1="175" y1="86" x2="175" y2="90" stroke="rgba(123,179,216,.5)" stroke-width="1"/>
+          </g>
+
+          <!-- Light beams from moving heads -->
+          <line class="rig-draw rig-draw--5 beam-pulse" x1="70"  y1="98"  x2="40"  y2="185" stroke="rgba(232,116,122,.18)" stroke-width="18" stroke-linecap="round"/>
+          <line class="rig-draw rig-draw--5 beam-pulse" x1="250" y1="98"  x2="280" y2="185" stroke="rgba(232,116,122,.18)" stroke-width="18" stroke-linecap="round"/>
+          <!-- PAR beams -->
+          <line class="rig-draw rig-draw--5" x1="135" y1="90" x2="120" y2="185" stroke="rgba(123,179,216,.1)" stroke-width="14" stroke-linecap="round"/>
+          <line class="rig-draw rig-draw--5" x1="175" y1="90" x2="190" y2="185" stroke="rgba(123,179,216,.1)" stroke-width="14" stroke-linecap="round"/>
+
+          <!-- Stage floor line -->
+          <line class="rig-draw rig-draw--6" x1="20" y1="188" x2="300" y2="188" stroke="rgba(255,255,255,.15)" stroke-width="1"/>
+
+          <!-- Speaker cab left -->
+          <g class="rig-draw rig-draw--6">
+            <rect x="20" y="155" width="28" height="33" rx="2" fill="none" stroke="rgba(123,179,216,.6)" stroke-width="1.5"/>
+            <circle cx="34" cy="165" r="5" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
+            <circle cx="34" cy="178" r="4" fill="none" stroke="rgba(123,179,216,.3)" stroke-width="1"/>
+          </g>
+          <!-- Speaker cab right -->
+          <g class="rig-draw rig-draw--6">
+            <rect x="272" y="155" width="28" height="33" rx="2" fill="none" stroke="rgba(123,179,216,.6)" stroke-width="1.5"/>
+            <circle cx="286" cy="165" r="5" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
+            <circle cx="286" cy="178" r="4" fill="none" stroke="rgba(123,179,216,.3)" stroke-width="1"/>
+          </g>
+
+          <!-- Subwoofer left -->
+          <g class="rig-draw rig-draw--7">
+            <rect x="20" y="188" width="28" height="20" rx="1" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1.5"/>
+            <rect x="24" y="192" width="20" height="12" rx="8" fill="none" stroke="rgba(123,179,216,.25)" stroke-width="1"/>
+          </g>
+          <!-- Subwoofer right -->
+          <g class="rig-draw rig-draw--7">
+            <rect x="272" y="188" width="28" height="20" rx="1" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1.5"/>
+            <rect x="276" y="192" width="20" height="12" rx="8" fill="none" stroke="rgba(123,179,216,.25)" stroke-width="1"/>
+          </g>
+
+          <!-- Mixer desk -->
+          <g class="rig-draw rig-draw--7">
+            <rect x="120" y="193" width="80" height="14" rx="2" fill="none" stroke="rgba(255,255,255,.25)" stroke-width="1.5"/>
+            <line x1="130" y1="193" x2="130" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+            <line x1="140" y1="193" x2="140" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+            <line x1="150" y1="193" x2="150" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+            <line x1="160" y1="193" x2="160" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+            <line x1="170" y1="193" x2="170" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+            <line x1="180" y1="193" x2="180" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+            <line x1="190" y1="193" x2="190" y2="207" stroke="rgba(255,255,255,.1)" stroke-width="1"/>
+          </g>
+
+          <!-- Effetti label -->
+          <text class="rig-draw rig-draw--8" x="160" y="218" text-anchor="middle" font-size="8" letter-spacing="4" fill="rgba(255,255,255,.2)" font-family="'Korbin',serif" font-weight="300" text-transform="uppercase">EFFETTI · EST 2024</text>
+        </svg>
+
+        <style>
+          .av-rig { width:100%; max-width:320px; display:block; }
+
+          /* Each group fades+draws in sequentially */
+          .rig-draw { opacity:0; }
+
+          .rig-draw--1 { animation: rigFade .4s ease .3s both; }
+          .rig-draw--2 { animation: rigFade .5s ease .6s both; }
+          .rig-draw--3 { animation: rigFade .4s ease 1.0s both; }
+          .rig-draw--4 { animation: rigFade .4s ease 1.3s both; }
+          .rig-draw--5 { animation: rigFade .6s ease 1.6s both; }
+          .rig-draw--6 { animation: rigFade .4s ease 2.0s both; }
+          .rig-draw--7 { animation: rigFade .4s ease 2.3s both; }
+          .rig-draw--8 { animation: rigFade .5s ease 2.6s both; }
+
+          @keyframes rigFade {
+            from { opacity:0; transform:translateY(4px); }
+            to   { opacity:1; transform:translateY(0); }
+          }
+
+          /* subtle beam pulse — CSS only, no JS */
+          .beam-pulse { animation: rigFade .6s ease 1.6s both, beamPulse 3s ease-in-out 2.2s infinite; }
+          @keyframes beamPulse {
+            0%,100% { opacity:.18; }
+            50%      { opacity:.32; }
+          }
+        </style>
       </div>
     </div>
   </section>
@@ -733,110 +852,6 @@
   <div class="section-divider" style="margin-top:3rem;">
     <div class="section-divider-line"></div>
   </div>
-
-  <!-- ── SIGNAL VISUAL ── -->
-  <div class="signal-strip reveal" style="max-width:1200px;margin:0 auto;padding:0;border:1px solid rgba(123,179,216,.08);background:rgba(123,179,216,.03);overflow:hidden;position:relative;">
-    <div class="signal-inner">
-      <div class="signal-label-left">
-        <span class="signal-tag">AV SIGNAL</span>
-        <span class="signal-live"><span class="signal-dot"></span>LIVE</span>
-      </div>
-      <div class="signal-bars" id="signalBars"></div>
-      <div class="signal-label-right">
-        <span class="signal-tag">EFFETTI.MT</span>
-        <span class="signal-freq">48kHz · DMX · DANTE</span>
-      </div>
-    </div>
-    <div class="signal-scanline"></div>
-  </div>
-
-  <style>
-    .signal-strip { position:relative; }
-    .signal-inner {
-      display:flex; align-items:center; gap:2rem;
-      padding:2rem 3rem;
-    }
-    .signal-label-left, .signal-label-right {
-      display:flex; flex-direction:column; gap:.4rem; flex-shrink:0;
-    }
-    .signal-label-right { align-items:flex-end; }
-    .signal-tag {
-      font-size:9px; letter-spacing:.35em; text-transform:uppercase;
-      color:var(--muted); font-weight:300;
-    }
-    .signal-live {
-      display:flex; align-items:center; gap:.4rem;
-      font-size:9px; letter-spacing:.3em; text-transform:uppercase;
-      color:var(--coral); font-weight:500;
-    }
-    .signal-dot {
-      width:6px; height:6px; border-radius:50%;
-      background:var(--coral);
-      animation:pulseDot 1.4s ease-in-out infinite;
-    }
-    @keyframes pulseDot {
-      0%,100%{opacity:1;transform:scale(1)}
-      50%{opacity:.3;transform:scale(.6)}
-    }
-    .signal-freq {
-      font-size:9px; letter-spacing:.2em; text-transform:uppercase;
-      color:var(--blue-light); font-weight:300; opacity:.6;
-    }
-    .signal-bars {
-      flex:1; display:flex; align-items:center;
-      gap:3px; height:64px;
-    }
-    .signal-bar {
-      flex:1; border-radius:1px;
-      background:linear-gradient(to top, var(--coral), var(--blue-light));
-      opacity:.8;
-      animation:barPulse var(--dur,1s) ease-in-out infinite alternate;
-      animation-delay:var(--delay,0s);
-    }
-    @keyframes barPulse {
-      0%  { height:var(--min-h,8px); opacity:.4; }
-      100%{ height:var(--max-h,48px); opacity:.9; }
-    }
-    .signal-scanline {
-      position:absolute; top:0; left:-100%;
-      width:60%; height:100%;
-      background:linear-gradient(to right, transparent, rgba(123,179,216,.04), transparent);
-      animation:scan 3.5s linear infinite;
-    }
-    @keyframes scan { to{left:160%;} }
-    @media(max-width:768px){
-      .signal-inner { padding:1.5rem; gap:1rem; }
-      .signal-bars { height:44px; }
-    }
-  </style>
-  <script>
-    (function(){
-      const container = document.getElementById('signalBars');
-      if(!container) return;
-      const count = 52;
-      const waveform = [];
-      // Generate a realistic audio waveform shape
-      for(let i=0;i<count;i++){
-        const t = i/count;
-        const env = Math.sin(t*Math.PI); // envelope shape
-        const noise = .4 + Math.random()*.6;
-        waveform.push(env * noise);
-      }
-      waveform.forEach((v,i)=>{
-        const bar = document.createElement('div');
-        bar.className = 'signal-bar';
-        const minH = Math.max(4, Math.round(v*12));
-        const maxH = Math.max(10, Math.round(v*58));
-        const dur = (.6 + Math.random()*.8).toFixed(2);
-        const delay = (Math.random()*-.8).toFixed(2);
-        bar.style.setProperty('--min-h', minH+'px');
-        bar.style.setProperty('--max-h', maxH+'px');
-        bar.style.setProperty('--dur', dur+'s');
-        bar.style.setProperty('--delay', delay+'s');
-        container.appendChild(bar);
-      });
-    })();
-  </script>
 
   <!-- Section marker -->
   <div class="section-marker">
@@ -851,136 +866,35 @@
       <h2 class="story-heading">
         Engineered from<br><span class="blue">the ground up.</span>
       </h2>
-      <p class="story-heading-sub">
-        A story built on one principle: AV done properly, every time.
-      </p>
     </div>
-
-    <!-- Timeline-style story layout -->
-    <div class="story-timeline">
-      <div class="story-timeline-line"></div>
-
-      <div class="story-timeline-item reveal reveal-delay-1">
-        <div class="sti-node">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <div class="sti-content">
-          <span class="sti-year">2024</span>
-          <div class="sti-title">The Foundation</div>
-          <div class="sti-body">Effetti was founded with a simple idea: audio visual should be done properly, with an engineering mindset that brings structure, reliability, and attention to detail to every setup. From the beginning, the focus was on delivering clean, well-executed setups that clients could trust, every time.</div>
-        </div>
-      </div>
-
-      <div class="story-timeline-item reveal reveal-delay-2">
-        <div class="sti-node">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
-        </div>
-        <div class="sti-content">
-          <span class="sti-year">Accessibility</span>
-          <div class="sti-title">Making Quality Accessible</div>
-          <div class="sti-body">Effetti set out to make high-quality and visually engaging setups more accessible. The aim was not just to provide equipment, but to help organisations and events achieve a more polished and professional result — without unnecessary complexity or cost.</div>
-        </div>
-      </div>
-
-      <div class="story-timeline-item reveal reveal-delay-3">
-        <div class="sti-node">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
-        </div>
-        <div class="sti-content">
-          <span class="sti-year">Malta</span>
-          <div class="sti-title">A Specialised Local Service</div>
-          <div class="sti-body">Based in Malta, Effetti has grown into a specialised service that combines technical knowledge with practical event experience. All work is carried out in-house — from sound engineering to lighting design — ensuring consistency and full control over every project.</div>
-        </div>
-      </div>
-
-      <div class="story-timeline-item reveal reveal-delay-4">
-        <div class="sti-node">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
-        </div>
-        <div class="sti-content">
-          <span class="sti-year">Today</span>
-          <div class="sti-title">Engineered for Every Event</div>
-          <div class="sti-body">With capabilities such as DMX programming and a strong focus on customisation, each setup is tailored to the specific needs of the event. Supported by warranted engineering expertise, Effetti continues to deliver reliable, well-engineered AV solutions with a focus on quality, clarity, and execution.</div>
-        </div>
-      </div>
+    <div class="story-simple reveal reveal-delay-1">
+      <p class="story-p">Effetti was founded in 2024 with a simple idea: audio visual should be done properly — with an engineering mindset that brings structure, reliability, and attention to detail to every setup. From the beginning, the focus was on delivering clean, well-executed results that clients could trust, every time.</p>
+      <p class="story-p">At the same time, Effetti set out to make high-quality and visually engaging setups more accessible. The aim was not just to provide equipment, but to help organisations and events achieve a more polished and professional result without unnecessary complexity.</p>
+      <p class="story-p">Based in Malta, Effetti has grown into a specialised service that combines technical knowledge with practical event experience. All work is carried out in-house — from sound engineering to lighting design — ensuring consistency and full control over every project. With capabilities such as DMX programming and a strong focus on customisation, each setup is tailored to the specific needs of the event.</p>
     </div>
-
     <style>
-      .story-timeline {
-        position: relative;
-        padding-left: 3rem;
-        margin-top: 1rem;
-      }
-      .story-timeline-line {
-        position: absolute;
-        left: 10px;
-        top: 8px;
-        bottom: 8px;
-        width: 1px;
-        background: linear-gradient(to bottom, var(--coral), var(--blue-light), transparent);
-      }
-      .story-timeline-item {
-        display: flex;
-        gap: 2rem;
-        margin-bottom: 3rem;
-        position: relative;
-      }
-      .story-timeline-item:last-child { margin-bottom: 0; }
-      .sti-node {
-        flex-shrink: 0;
-        width: 36px; height: 36px;
-        border-radius: 50%;
-        border: 1px solid rgba(232,116,122,.35);
-        background: var(--navy);
-        display: flex; align-items: center; justify-content: center;
-        color: var(--coral);
-        position: relative;
-        margin-left: -2.85rem;
-        margin-top: .2rem;
-        transition: border-color .3s, background .3s;
-        z-index: 1;
-      }
-      .story-timeline-item:hover .sti-node {
-        border-color: var(--coral);
-        background: rgba(232,116,122,.08);
-      }
-      .sti-content {
-        flex: 1;
-        padding: 1.8rem 2rem;
+      .story-simple {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr;
+        gap: 2px;
+        background: rgba(123,179,216,.06);
         border: 1px solid rgba(123,179,216,.08);
-        background: rgba(123,179,216,.02);
-        position: relative;
-        transition: background .4s, border-color .3s;
+        margin-top: 1.5rem;
       }
-      .sti-content::before {
-        content: '';
-        position: absolute;
-        left: 0; top: 0; bottom: 0;
-        width: 2px;
-        background: linear-gradient(to bottom, var(--coral), transparent);
-        transform: scaleY(0); transform-origin: top;
-        transition: transform .4s ease;
+      .story-p {
+        padding: 2.2rem 2rem;
+        background: var(--navy);
+        font-size: 13px; font-weight: 300;
+        color: var(--soft); line-height: 1.85;
+        border-left: 2px solid transparent;
+        transition: border-color .3s, background .3s;
       }
-      .story-timeline-item:hover .sti-content {
+      .story-p:hover {
         background: rgba(26,43,94,.5);
-        border-color: rgba(123,179,216,.15);
-      }
-      .story-timeline-item:hover .sti-content::before { transform: scaleY(1); }
-      .sti-year {
-        font-size: 9px; letter-spacing: .35em; text-transform: uppercase;
-        color: var(--coral); display: block; margin-bottom: .6rem;
-      }
-      .sti-title {
-        font-size: 16px; font-weight: 700; letter-spacing: .04em;
-        text-transform: uppercase; margin-bottom: .75rem; line-height: 1.2;
-      }
-      .sti-body {
-        font-size: 13px; font-weight: 300; color: var(--soft); line-height: 1.85;
+        border-left-color: var(--coral);
       }
       @media(max-width:768px){
-        .story-timeline { padding-left: 2rem; }
-        .sti-node { margin-left: -1.85rem; width:28px; height:28px; }
-        .sti-content { padding: 1.2rem 1.2rem; }
+        .story-simple { grid-template-columns: 1fr; }
       }
     </style>
   </section>
@@ -1118,12 +1032,6 @@
           </h2>
           <p class="vision-statement">
             Our vision is to continue growing — while ensuring that no matter how far we scale, we always deliver the highest level of service to every client, every time.
-          </p>
-          <p class="vision-body">
-            Growth means nothing if it comes at the expense of the client experience. As we expand our capabilities and our team, the standard of service remains the foundation. Every client — especially those who've trusted us from the beginning — stays at the heart of everything we do.
-          </p>
-          <p class="vision-body" style="margin-top:1.2rem;">
-            We are constantly growing our inventory, ensuring all equipment is well-maintained and ready at every deployment. We look after our long-standing clients and will always go the extra mile for them — because that trust is the most valuable thing we have.
           </p>
         </div>
         <div class="vision-right">
