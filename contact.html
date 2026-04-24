@@ -161,53 +161,21 @@
 
     /* ── ROTARY PHONE ── */
     .phone-wrap {
-      display:flex; flex-direction:column; align-items:center;
-      justify-content:center; position:relative;
-      height:320px;
+      display:flex; align-items:center; justify-content:center;
+      position:relative; height:320px;
     }
-
-    /* The cradle/base - stays fixed */
-    .phone-cradle {
-      position:relative; width:200px;
-    }
-
-    /* Handset - animates on/off cradle */
-    .phone-handset {
-      position:absolute;
-      top: 0; left:50%;
-      transform:translateX(-50%) rotate(-18deg);
-      transform-origin: 60% 80%;
-      animation: handsetCycle 7s ease-in-out 1.2s infinite;
-    }
-
-    @keyframes handsetCycle {
-      /* resting on cradle */
-      0%   { transform:translateX(-50%) rotate(-18deg); }
-      /* lift off */
-      12%  { transform:translateX(-50%) rotate(-45deg) translateY(-18px); }
-      /* hold lifted */
-      40%  { transform:translateX(-50%) rotate(-45deg) translateY(-18px); }
-      /* set back down */
-      52%  { transform:translateX(-50%) rotate(-18deg); }
-      /* stay on cradle */
-      100% { transform:translateX(-50%) rotate(-18deg); }
-    }
-
-    /* Dial ring rotation */
     .phone-dial-ring {
-      transform-origin: 50% 50%;
-      animation: dialSpin 7s ease-in-out 1.2s infinite;
+      transform-origin: 100px 148px; /* centre of dial circle in SVG coords */
+      animation: dialSpin 10s ease-in-out 2s infinite;
     }
     @keyframes dialSpin {
-      0%,10%  { transform:rotate(0deg); }
-      18%     { transform:rotate(-120deg); }
-      30%     { transform:rotate(0deg); }
-      40%,100%{ transform:rotate(0deg); }
+      0%      { transform: rotate(0deg); }
+      25%     { transform: rotate(360deg); }
+      100%    { transform: rotate(360deg); }
     }
-
     @media(max-width:900px){
       .contact-hero { grid-template-columns:1fr; }
-      .phone-wrap { height:200px; }
+      .phone-wrap { height:220px; }
     }
     @media(max-width:768px){
       .contact-hero { padding:3rem 1.5rem 1.5rem; }
@@ -631,99 +599,116 @@
 
     <!-- Rotary telephone illustration -->
     <div class="phone-wrap">
-      <div class="phone-cradle">
-        <svg viewBox="0 0 200 280" xmlns="http://www.w3.org/2000/svg" width="200" height="280" aria-hidden="true">
-          <defs>
-            <filter id="phoneGlow">
-              <feGaussianBlur stdDeviation="3" result="blur"/>
-              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-            </filter>
-          </defs>
+      <svg viewBox="0 0 220 300" xmlns="http://www.w3.org/2000/svg" width="220" height="300" aria-hidden="true">
+        <defs>
+          <filter id="phoneGlow" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="2.5" result="blur"/>
+            <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+        </defs>
 
-          <!-- ── CRADLE BASE ── -->
-          <rect x="20" y="200" width="160" height="55" rx="12"
-                fill="rgba(13,26,58,.9)" stroke="rgba(123,179,216,.5)" stroke-width="1.5"/>
-          <!-- Cradle ears (where handset rests) -->
-          <ellipse cx="45" cy="200" rx="14" ry="8"
-                   fill="rgba(13,26,58,.9)" stroke="rgba(123,179,216,.4)" stroke-width="1.5"/>
-          <ellipse cx="155" cy="200" rx="14" ry="8"
-                   fill="rgba(13,26,58,.9)" stroke="rgba(123,179,216,.4)" stroke-width="1.5"/>
+        <!-- ═══ PHONE BODY (box-shaped desk phone) ═══ -->
+        <rect x="20" y="110" width="180" height="110" rx="10"
+              fill="rgba(10,20,50,.95)" stroke="rgba(123,179,216,.55)" stroke-width="1.8"/>
 
-          <!-- ── DIAL PLATE ── -->
-          <circle cx="100" cy="235" r="26"
-                  fill="rgba(8,16,36,.8)" stroke="rgba(123,179,216,.35)" stroke-width="1"/>
-          <!-- Rotating dial ring -->
-          <g class="phone-dial-ring">
-            <circle cx="100" cy="235" r="20"
-                    fill="none" stroke="rgba(123,179,216,.3)" stroke-width="1" stroke-dasharray="3 4"/>
-            <!-- Dial holes -->
-            <circle cx="100" cy="217" r="3" fill="rgba(232,116,122,.6)" stroke="rgba(232,116,122,.4)" stroke-width="1"/>
-            <circle cx="113" cy="221" r="3" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
-            <circle cx="118" cy="234" r="3" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
-            <circle cx="113" cy="248" r="3" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
-            <circle cx="100" cy="253" r="3" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
-            <circle cx="87"  cy="248" r="3" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
-            <circle cx="82"  cy="234" r="3" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
-            <circle cx="87"  cy="221" r="3" fill="none" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
-          </g>
-          <!-- Finger stop -->
-          <circle cx="108" cy="218" r="2" fill="rgba(232,116,122,.5)"/>
-          <!-- Centre dot -->
-          <circle cx="100" cy="235" r="4" fill="rgba(123,179,216,.25)" stroke="rgba(123,179,216,.4)" stroke-width="1"/>
+        <!-- Top ridge / speaker strip -->
+        <rect x="30" y="118" width="160" height="8" rx="3"
+              fill="rgba(123,179,216,.08)" stroke="rgba(123,179,216,.2)" stroke-width="1"/>
+        <!-- Speaker dots on top ridge -->
+        <circle cx="80"  cy="122" r="1.2" fill="rgba(123,179,216,.4)"/>
+        <circle cx="88"  cy="122" r="1.2" fill="rgba(123,179,216,.4)"/>
+        <circle cx="96"  cy="122" r="1.2" fill="rgba(123,179,216,.4)"/>
+        <circle cx="104" cy="122" r="1.2" fill="rgba(123,179,216,.4)"/>
+        <circle cx="112" cy="122" r="1.2" fill="rgba(123,179,216,.4)"/>
+        <circle cx="120" cy="122" r="1.2" fill="rgba(123,179,216,.4)"/>
+        <circle cx="128" cy="122" r="1.2" fill="rgba(123,179,216,.4)"/>
+        <circle cx="136" cy="122" r="1.2" fill="rgba(123,179,216,.4)"/>
 
-          <!-- Cord (wavy line from base) -->
-          <path d="M100 255 Q95 262 103 268 Q111 274 100 278"
-                fill="none" stroke="rgba(123,179,216,.3)" stroke-width="2" stroke-linecap="round"/>
+        <!-- ═══ CRADLE CUTOUT (U-shape on top of body) ═══ -->
+        <!-- Left cradle ear -->
+        <rect x="28" y="100" width="30" height="22" rx="6"
+              fill="rgba(10,20,50,.95)" stroke="rgba(123,179,216,.5)" stroke-width="1.5"/>
+        <!-- Right cradle ear -->
+        <rect x="162" y="100" width="30" height="22" rx="6"
+              fill="rgba(10,20,50,.95)" stroke="rgba(123,179,216,.5)" stroke-width="1.5"/>
 
-          <!-- ── HANDSET (animated) ── -->
-          <g class="phone-handset" filter="url(#phoneGlow)">
-            <!-- Handset body -->
-            <rect x="72" y="30" width="56" height="130" rx="28"
-                  fill="rgba(13,26,58,.95)" stroke="rgba(232,116,122,.7)" stroke-width="1.8"/>
-            <!-- Top earpiece -->
-            <ellipse cx="100" cy="52" rx="18" ry="14"
-                     fill="rgba(8,16,36,.9)" stroke="rgba(232,116,122,.5)" stroke-width="1.2"/>
-            <!-- Earpiece grille holes -->
-            <circle cx="95"  cy="50" r="1.5" fill="rgba(232,116,122,.4)"/>
-            <circle cx="100" cy="47" r="1.5" fill="rgba(232,116,122,.4)"/>
-            <circle cx="105" cy="50" r="1.5" fill="rgba(232,116,122,.4)"/>
-            <circle cx="95"  cy="54" r="1.5" fill="rgba(232,116,122,.4)"/>
-            <circle cx="100" cy="57" r="1.5" fill="rgba(232,116,122,.4)"/>
-            <circle cx="105" cy="54" r="1.5" fill="rgba(232,116,122,.4)"/>
-            <!-- Bottom mouthpiece -->
-            <ellipse cx="100" cy="138" rx="18" ry="14"
-                     fill="rgba(8,16,36,.9)" stroke="rgba(232,116,122,.5)" stroke-width="1.2"/>
-            <!-- Mouthpiece grille -->
-            <circle cx="95"  cy="136" r="1.5" fill="rgba(232,116,122,.35)"/>
-            <circle cx="100" cy="133" r="1.5" fill="rgba(232,116,122,.35)"/>
-            <circle cx="105" cy="136" r="1.5" fill="rgba(232,116,122,.35)"/>
-            <circle cx="95"  cy="140" r="1.5" fill="rgba(232,116,122,.35)"/>
-            <circle cx="100" cy="143" r="1.5" fill="rgba(232,116,122,.35)"/>
-            <circle cx="105" cy="140" r="1.5" fill="rgba(232,116,122,.35)"/>
-            <!-- Cord attach point at bottom of handset -->
-            <line x1="100" y1="158" x2="100" y2="168"
-                  stroke="rgba(123,179,216,.3)" stroke-width="2" stroke-linecap="round"/>
-          </g>
+        <!-- ═══ HANDSET (lying across cradle) ═══ -->
+        <!-- Handset body — horizontal arc shape -->
+        <path d="M 42 106 Q 110 88 178 106"
+              fill="none" stroke="rgba(232,116,122,.0)" stroke-width="1"/>
+        <!-- Handset as a thick curved bar -->
+        <rect x="32" y="96" width="156" height="18" rx="9"
+              fill="rgba(15,28,65,.97)" stroke="rgba(232,116,122,.75)" stroke-width="1.8"
+              filter="url(#phoneGlow)"/>
+        <!-- Earpiece (left end) -->
+        <ellipse cx="46" cy="105" rx="10" ry="7"
+                 fill="rgba(8,16,40,.9)" stroke="rgba(232,116,122,.5)" stroke-width="1.2"/>
+        <circle cx="44" cy="104" r="1.2" fill="rgba(232,116,122,.45)"/>
+        <circle cx="48" cy="104" r="1.2" fill="rgba(232,116,122,.45)"/>
+        <circle cx="46" cy="107" r="1.2" fill="rgba(232,116,122,.45)"/>
+        <!-- Mouthpiece (right end) -->
+        <ellipse cx="174" cy="105" rx="10" ry="7"
+                 fill="rgba(8,16,40,.9)" stroke="rgba(232,116,122,.5)" stroke-width="1.2"/>
+        <circle cx="172" cy="104" r="1.2" fill="rgba(232,116,122,.35)"/>
+        <circle cx="176" cy="104" r="1.2" fill="rgba(232,116,122,.35)"/>
+        <circle cx="174" cy="107" r="1.2" fill="rgba(232,116,122,.35)"/>
 
-          <!-- "RING RING" text that pulses when handset is up -->
-          <text x="100" y="185" text-anchor="middle"
-                font-size="7" letter-spacing="3"
-                fill="rgba(232,116,122,.0)"
-                font-family="'Korbin',serif" font-weight="300"
-                style="animation: ringText 7s ease-in-out 1.2s infinite">
-            RING · RING
-          </text>
-        </svg>
-        <style>
-          @keyframes ringText {
-            0%,10%  { opacity:0; }
-            18%     { opacity:.7; }
-            35%     { opacity:.7; }
-            45%     { opacity:0; }
-            100%    { opacity:0; }
-          }
-        </style>
-      </div>
+        <!-- Cord (from bottom of body) -->
+        <path d="M 110 220 Q 108 230 115 236 Q 122 242 110 248 Q 98 254 105 260 Q 112 266 110 275"
+              fill="none" stroke="rgba(123,179,216,.4)" stroke-width="2.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+
+        <!-- ═══ ROTARY DIAL ═══ -->
+        <!-- Dial plate background -->
+        <circle cx="100" cy="148" r="36"
+                fill="rgba(6,14,36,.95)" stroke="rgba(123,179,216,.4)" stroke-width="1.5"/>
+        <!-- Outer ring detail -->
+        <circle cx="100" cy="148" r="32"
+                fill="none" stroke="rgba(123,179,216,.12)" stroke-width="1"/>
+
+        <!-- Rotating part -->
+        <g class="phone-dial-ring">
+          <!-- Spinning ring -->
+          <circle cx="100" cy="148" r="28"
+                  fill="none" stroke="rgba(123,179,216,.25)" stroke-width="1"
+                  stroke-dasharray="4 3"/>
+
+          <!-- 8 finger holes evenly around ring at r=22 -->
+          <!-- hole positions: 0°=top, then every 45° clockwise -->
+          <!-- top -->
+          <circle cx="100" cy="126" r="4" fill="rgba(10,20,50,.9)" stroke="rgba(123,179,216,.55)" stroke-width="1.2"/>
+          <!-- 45° -->
+          <circle cx="116" cy="132" r="4" fill="rgba(10,20,50,.9)" stroke="rgba(123,179,216,.45)" stroke-width="1.2"/>
+          <!-- 90° right -->
+          <circle cx="122" cy="148" r="4" fill="rgba(10,20,50,.9)" stroke="rgba(123,179,216,.45)" stroke-width="1.2"/>
+          <!-- 135° -->
+          <circle cx="116" cy="164" r="4" fill="rgba(10,20,50,.9)" stroke="rgba(123,179,216,.45)" stroke-width="1.2"/>
+          <!-- 180° bottom -->
+          <circle cx="100" cy="170" r="4" fill="rgba(10,20,50,.9)" stroke="rgba(123,179,216,.45)" stroke-width="1.2"/>
+          <!-- 225° -->
+          <circle cx="84"  cy="164" r="4" fill="rgba(10,20,50,.9)" stroke="rgba(123,179,216,.45)" stroke-width="1.2"/>
+          <!-- 270° left -->
+          <circle cx="78"  cy="148" r="4" fill="rgba(10,20,50,.9)" stroke="rgba(123,179,216,.45)" stroke-width="1.2"/>
+          <!-- 315° -->
+          <circle cx="84"  cy="132" r="4" fill="rgba(10,20,50,.9)" stroke="rgba(123,179,216,.45)" stroke-width="1.2"/>
+        </g>
+
+        <!-- Finger stop (fixed, not rotating) -->
+        <circle cx="108" cy="128" r="3"
+                fill="rgba(232,116,122,.7)" stroke="rgba(232,116,122,.4)" stroke-width="1"/>
+
+        <!-- Dial centre hub (fixed) -->
+        <circle cx="100" cy="148" r="6"
+                fill="rgba(10,20,50,.9)" stroke="rgba(123,179,216,.5)" stroke-width="1.2"/>
+        <circle cx="100" cy="148" r="2.5"
+                fill="rgba(123,179,216,.4)"/>
+
+        <!-- ═══ LABEL ═══ -->
+        <text x="110" y="200" text-anchor="middle"
+              font-size="6" letter-spacing="3"
+              fill="rgba(255,255,255,.15)"
+              font-family="'Korbin',serif" font-weight="300">EFFETTI · MT</text>
+      </svg>
     </div>
   </div>
 
