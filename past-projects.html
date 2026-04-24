@@ -1,0 +1,1126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Past Projects — Effetti Malta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family:'Korbin'; src:url('fonts/fonnts.com-Korbin_Light.otf') format('opentype'); font-weight:300; }
+    @font-face { font-family:'Korbin'; src:url('fonts/fonnts.com-Korbin_Book.otf') format('opentype'); font-weight:400; }
+    @font-face { font-family:'Korbin'; src:url('fonts/fonnts.com-Korbin_Medium.otf') format('opentype'); font-weight:500; }
+    @font-face { font-family:'Korbin'; src:url('fonts/fonnts.com-Korbin_Bold.otf') format('opentype'); font-weight:700; }
+    @font-face { font-family:'Korbin'; src:url('fonts/fonnts.com-Korbin_Black.otf') format('opentype'); font-weight:900; }
+
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+    :root {
+      --navy:       #0D1A3A;
+      --navy-mid:   #1A2B5E;
+      --blue-light: #7BB3D8;
+      --coral:      #E8747A;
+      --coral-soft: #F2A0A4;
+      --white:      #FFFFFF;
+      --soft:       rgba(255,255,255,0.6);
+      --muted:      rgba(255,255,255,0.32);
+    }
+
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--navy);
+      color:var(--white);
+      font-family:'Korbin','Cormorant Garamond',serif;
+      font-weight:400;
+      overflow-x:hidden;
+      min-height:100vh;
+    }
+
+    /* ── CURSOR ── */
+    * { cursor:none; }
+    .cursor {
+      position:fixed; width:10px; height:10px;
+      background:var(--coral); border-radius:50%;
+      pointer-events:none; z-index:9999;
+      transform:translate(-50%,-50%);
+      transition:width .25s,height .25s;
+    }
+    .cursor-ring {
+      position:fixed; width:36px; height:36px;
+      border:1px solid rgba(232,116,122,.45); border-radius:50%;
+      pointer-events:none; z-index:9998;
+      transform:translate(-50%,-50%);
+      transition:width .3s,height .3s;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:1.5rem 4rem;
+      background:rgba(13,26,58,.96);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(123,179,216,.1);
+      transition:padding .4s;
+    }
+    nav.scrolled { padding:.9rem 4rem; }
+    .nav-logo { display:flex; align-items:center; text-decoration:none; }
+    .nav-logo img { height:56px; width:auto; display:block; transition:height .4s; }
+    nav.scrolled .nav-logo img { height:44px; }
+    .nav-logo-fallback {
+      font-family:'Korbin',serif; font-weight:700; font-size:22px;
+      letter-spacing:.12em; text-transform:uppercase;
+      color:var(--white); text-decoration:none;
+    }
+    .nav-logo-fallback span { color:var(--coral); }
+    .nav-links { display:flex; gap:2.5rem; list-style:none; }
+    .nav-links a {
+      font-size:12px; font-weight:400; letter-spacing:.2em;
+      text-transform:uppercase; text-decoration:none;
+      color:var(--soft); transition:color .3s;
+      position:relative;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0; right:0;
+      height:1px; background:var(--coral);
+      transform:scaleX(0); transition:transform .3s;
+    }
+    .nav-links a:hover, .nav-links a.active { color:var(--white); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform:scaleX(1); }
+    .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; padding:4px; }
+    .hamburger span { display:block; width:24px; height:1px; background:var(--white); transition:all .3s; }
+    .mobile-menu {
+      display:none; position:fixed; inset:0; background:var(--navy); z-index:99;
+      flex-direction:column; align-items:center; justify-content:center; gap:2rem;
+    }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a {
+      font-size:28px; font-weight:300; letter-spacing:.15em;
+      text-transform:uppercase; text-decoration:none; color:var(--white); transition:color .3s;
+    }
+    .mobile-menu a:hover { color:var(--coral); }
+
+    /* ── BACKGROUND ── */
+    .bg-orbs { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+    .orb { position:absolute; border-radius:50%; filter:blur(90px); opacity:0; }
+    .orb-1 {
+      width:700px; height:700px;
+      background:radial-gradient(circle, rgba(232,116,122,.08) 0%, transparent 70%);
+      top:-20%; left:-15%;
+      animation:orbFloat 20s ease-in-out infinite alternate, fadeInOrb .8s ease .2s both;
+    }
+    .orb-2 {
+      width:500px; height:500px;
+      background:radial-gradient(circle, rgba(123,179,216,.07) 0%, transparent 70%);
+      bottom:-10%; right:-5%;
+      animation:orbFloat 25s ease-in-out infinite alternate-reverse, fadeInOrb .8s ease .4s both;
+    }
+    @keyframes orbFloat { 0%{transform:translate(0,0) scale(1)} 100%{transform:translate(40px,50px) scale(1.06)} }
+    @keyframes fadeInOrb { from{opacity:0} to{opacity:1} }
+    .bg-grid {
+      position:fixed; inset:0; pointer-events:none; z-index:0; opacity:.035;
+      background-image:linear-gradient(45deg,rgba(123,179,216,1) 1px,transparent 1px),linear-gradient(-45deg,rgba(123,179,216,1) 1px,transparent 1px);
+      background-size:80px 80px;
+    }
+
+    /* ── READING PROGRESS ── */
+    .reading-progress {
+      position:fixed; top:0; left:0; z-index:200;
+      height:2px; width:0%;
+      background:linear-gradient(to right, var(--coral), var(--blue-light));
+      transition:width .05s linear;
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .projects-page { padding-top:96px; position:relative; }
+
+    /* ── HERO ── */
+    .projects-hero {
+      position:relative; z-index:2;
+      padding:5rem 4rem 4rem;
+      max-width:1200px; margin:0 auto;
+      display:grid;
+      grid-template-columns:1fr auto;
+      gap:3rem;
+      align-items:end;
+    }
+    .hero-left {}
+    .projects-label {
+      font-size:11px; letter-spacing:.35em; text-transform:uppercase;
+      color:var(--coral); margin-bottom:1.2rem; display:block;
+      opacity:0; animation:slideUp .7s ease .1s both;
+    }
+    .projects-title {
+      font-size:clamp(42px,7vw,90px);
+      font-weight:900; line-height:1.0; letter-spacing:-.01em;
+      opacity:0; animation:slideUp .7s ease .2s both;
+    }
+    .projects-title .accent { color:var(--coral); }
+    .projects-title .blue   { color:var(--blue-light); }
+    .projects-sub {
+      font-size:16px; font-weight:300; color:var(--soft);
+      max-width:520px; line-height:1.85; margin-top:1.5rem;
+      opacity:0; animation:slideUp .7s ease .35s both;
+    }
+    .hero-right {
+      opacity:0; animation:slideUp .8s ease .5s both;
+      display:flex; flex-direction:column; align-items:flex-end; gap:.5rem;
+      padding-bottom:.5rem;
+    }
+    .event-count-badge {
+      border:1px solid rgba(123,179,216,.2);
+      padding:1.5rem 2rem;
+      text-align:right;
+      position:relative;
+    }
+    .event-count-badge::before {
+      content:''; position:absolute; top:0; right:0;
+      width:32px; height:32px;
+      border-top:2px solid var(--coral); border-right:2px solid var(--coral);
+    }
+    .event-count-badge::after {
+      content:''; position:absolute; bottom:0; left:0;
+      width:32px; height:32px;
+      border-bottom:2px solid var(--blue-light); border-left:2px solid var(--blue-light);
+    }
+    .badge-num {
+      font-size:clamp(42px,5vw,64px); font-weight:900; color:var(--white);
+      line-height:1; display:block;
+    }
+    .badge-num .num-accent { color:var(--coral); }
+    .badge-label {
+      font-size:10px; letter-spacing:.35em; text-transform:uppercase;
+      color:var(--muted); margin-top:.4rem; display:block;
+    }
+
+    /* ── DIVIDER ── */
+    .section-divider {
+      position:relative; z-index:2;
+      max-width:1200px; margin:0 auto; padding:0 4rem;
+      opacity:0; animation:fadeIn .8s ease .6s both;
+    }
+    .section-divider-line {
+      height:1px;
+      background:linear-gradient(to right, transparent, rgba(123,179,216,.3), rgba(232,116,122,.3), transparent);
+    }
+
+    /* ── FILTER BAR ── */
+    .filter-bar {
+      position:relative; z-index:2;
+      max-width:1200px; margin:2.5rem auto 0;
+      padding:0 4rem;
+      display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+      opacity:0; animation:slideUp .7s ease .7s both;
+    }
+    .filter-label {
+      font-size:10px; letter-spacing:.3em; text-transform:uppercase;
+      color:var(--muted); margin-right:.5rem;
+    }
+    .filter-btn {
+      padding:6px 18px;
+      border:1px solid rgba(123,179,216,.2);
+      background:transparent; color:var(--soft);
+      font-family:'Korbin',serif; font-size:11px;
+      font-weight:400; letter-spacing:.18em; text-transform:uppercase;
+      transition:all .25s; position:relative; overflow:hidden;
+    }
+    .filter-btn::before {
+      content:''; position:absolute; inset:0;
+      background:rgba(123,179,216,.08);
+      transform:scaleX(0); transform-origin:left;
+      transition:transform .3s;
+    }
+    .filter-btn:hover::before, .filter-btn.active::before { transform:scaleX(1); }
+    .filter-btn.active { color:var(--white); border-color:rgba(232,116,122,.5); }
+    .filter-btn.active::before { background:rgba(232,116,122,.1); }
+
+    /* ── STATUS BAR ── */
+    .status-bar {
+      position:relative; z-index:2;
+      max-width:1200px; margin:2rem auto 0;
+      padding:0 4rem;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .status-text {
+      font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+      color:var(--muted);
+    }
+    .status-text span { color:var(--coral); }
+
+    /* ── EVENTS GRID ── */
+    .events-grid {
+      position:relative; z-index:2;
+      max-width:1200px; margin:2.5rem auto 0;
+      padding:0 4rem;
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:2px;
+    }
+
+    /* ── EVENT CARD ── */
+    .event-card {
+      background:rgba(255,255,255,.025);
+      border:1px solid rgba(123,179,216,.08);
+      position:relative; overflow:hidden;
+      display:flex; flex-direction:column;
+      opacity:0; transform:translateY(24px);
+      transition:opacity .6s ease, transform .6s ease, background .4s, border-color .35s;
+    }
+    .event-card.visible { opacity:1; transform:translateY(0); }
+    .event-card:hover {
+      background:rgba(255,255,255,.045);
+      border-color:rgba(123,179,216,.18);
+      transform:translateY(-3px);
+    }
+    .event-card::before {
+      content:''; position:absolute;
+      left:0; top:0; bottom:0; width:3px;
+      background:linear-gradient(to bottom, var(--coral), var(--blue-light));
+      transform:scaleY(0); transform-origin:top;
+      transition:transform .5s cubic-bezier(.4,0,.2,1);
+    }
+    .event-card:hover::before { transform:scaleY(1); }
+
+    /* Card photo slideshow */
+    .card-photo {
+      position:relative; width:100%; aspect-ratio:16/9; overflow:hidden;
+      background:#070f20;
+      flex-shrink:0;
+    }
+    .slide {
+      position:absolute; inset:0;
+      background-size:cover; background-position:center;
+      opacity:0; transition:opacity .8s ease;
+    }
+    .slide.active { opacity:1; }
+    .slide-placeholder {
+      position:absolute; inset:0;
+      display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      background:linear-gradient(135deg, #0a1428 0%, #0f2144 40%, #0d1a3a 100%);
+      gap:1rem;
+    }
+    .placeholder-icon {
+      width:56px; height:56px;
+      border:1px solid rgba(123,179,216,.2); border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      color:rgba(123,179,216,.4);
+    }
+    .placeholder-icon svg { width:24px; height:24px; }
+    .placeholder-title {
+      font-size:13px; font-weight:700; letter-spacing:.12em;
+      text-transform:uppercase; color:rgba(255,255,255,.25);
+      text-align:center; padding:0 2rem;
+    }
+    /* Slideshow dots */
+    .slide-dots {
+      position:absolute; bottom:12px; left:50%; transform:translateX(-50%);
+      display:flex; gap:6px; z-index:10;
+    }
+    .slide-dot {
+      width:5px; height:5px; border-radius:50%;
+      background:rgba(255,255,255,.35);
+      transition:background .3s, transform .3s;
+    }
+    .slide-dot.active { background:var(--coral); transform:scale(1.3); }
+    /* Prev / next arrows */
+    .slide-arrow {
+      position:absolute; top:50%; transform:translateY(-50%);
+      width:36px; height:36px; z-index:10;
+      background:rgba(13,26,58,.7); border:1px solid rgba(255,255,255,.1);
+      border-radius:50%; display:flex; align-items:center; justify-content:center;
+      color:var(--white); opacity:0; transition:opacity .25s;
+    }
+    .slide-arrow svg { width:14px; height:14px; }
+    .slide-arrow--prev { left:12px; }
+    .slide-arrow--next { right:12px; }
+    .card-photo:hover .slide-arrow { opacity:1; }
+
+    /* Card body */
+    .card-body { padding:2rem 2.5rem 2.5rem; flex:1; display:flex; flex-direction:column; gap:1.2rem; }
+    .card-meta-row {
+      display:flex; align-items:center; justify-content:space-between;
+      gap:1rem; flex-wrap:wrap;
+    }
+    .card-date {
+      font-size:10px; letter-spacing:.3em; text-transform:uppercase;
+      color:var(--coral); font-weight:300;
+    }
+    .card-index {
+      font-size:10px; letter-spacing:.25em; color:var(--muted); font-weight:300;
+    }
+    .card-title {
+      font-size:clamp(18px,2.2vw,26px);
+      font-weight:900; line-height:1.15; letter-spacing:-.01em;
+    }
+    .card-info {
+      display:flex; flex-wrap:wrap; gap:.75rem 2rem;
+    }
+    .card-info-item {
+      display:flex; align-items:center; gap:.5rem;
+      font-size:12px; font-weight:300; color:var(--soft);
+      letter-spacing:.05em;
+    }
+    .card-info-item svg { width:13px; height:13px; color:var(--blue-light); flex-shrink:0; }
+    .card-tags { display:flex; flex-wrap:wrap; gap:.5rem; }
+    .tag {
+      padding:4px 12px;
+      border:1px solid rgba(123,179,216,.2);
+      font-size:10px; font-weight:400; letter-spacing:.18em;
+      text-transform:uppercase; color:var(--blue-light);
+      background:rgba(123,179,216,.05);
+      transition:border-color .3s, background .3s;
+    }
+    .event-card:hover .tag {
+      border-color:rgba(123,179,216,.35);
+      background:rgba(123,179,216,.1);
+    }
+    .card-description {
+      font-size:14px; font-weight:300; color:var(--soft);
+      line-height:1.85;
+    }
+    .card-highlight {
+      font-size:13px; font-weight:300; color:var(--coral-soft);
+      font-style:italic; line-height:1.7;
+      padding-left:1.2rem;
+      border-left:2px solid rgba(232,116,122,.35);
+    }
+
+    /* ── LOAD MORE SECTION ── */
+    .load-more-section {
+      position:relative; z-index:2;
+      max-width:1200px; margin:3rem auto 0;
+      padding:0 4rem 6rem;
+      display:flex; flex-direction:column;
+      align-items:center; gap:1.5rem;
+    }
+    .load-more-progress {
+      width:240px; height:1px;
+      background:rgba(123,179,216,.12);
+      position:relative; overflow:hidden;
+    }
+    .load-more-progress-fill {
+      height:100%;
+      background:linear-gradient(to right, var(--coral), var(--blue-light));
+      transition:width .5s ease;
+    }
+    .load-more-btn {
+      display:inline-flex; align-items:center; gap:12px;
+      padding:16px 44px;
+      border:1px solid rgba(123,179,216,.3);
+      color:var(--white); background:transparent;
+      font-family:'Korbin',serif;
+      font-size:11px; font-weight:500;
+      letter-spacing:.25em; text-transform:uppercase;
+      position:relative; overflow:hidden;
+      transition:color .3s;
+    }
+    .load-more-btn::before {
+      content:''; position:absolute; inset:0;
+      background:rgba(123,179,216,.12);
+      transform:scaleX(0); transform-origin:left;
+      transition:transform .4s cubic-bezier(.4,0,.2,1);
+    }
+    .load-more-btn:hover::before { transform:scaleX(1); }
+    .load-more-btn span, .load-more-btn svg { position:relative; z-index:1; }
+    .load-more-btn svg { width:14px; height:14px; transition:transform .3s; }
+    .load-more-btn:hover svg { transform:translateY(3px); }
+    .load-more-btn:disabled {
+      opacity:.3; pointer-events:none;
+    }
+    .load-more-count {
+      font-size:11px; letter-spacing:.2em; text-transform:uppercase;
+      color:var(--muted);
+    }
+    .load-more-count span { color:var(--soft); }
+
+    /* No results */
+    .no-results {
+      position:relative; z-index:2;
+      max-width:1200px; margin:4rem auto;
+      padding:0 4rem;
+      text-align:center;
+      display:none;
+    }
+    .no-results p {
+      font-size:16px; font-weight:300; color:var(--muted);
+    }
+
+    /* ── FOOTER ── */
+    footer {
+      position:relative; z-index:2;
+      background:#070f20; padding:2.5rem 4rem;
+      display:flex; align-items:center; justify-content:space-between;
+      flex-wrap:wrap; gap:1rem;
+      border-top:1px solid rgba(123,179,216,.07);
+    }
+    .footer-logo { display:flex; align-items:center; text-decoration:none; }
+    .footer-logo img { height:66px; width:auto; }
+    .footer-logo-text {
+      font-size:18px; font-weight:700; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--white);
+    }
+    .footer-logo-text span { color:var(--coral); }
+    .footer-copy { font-size:11px; font-weight:300; letter-spacing:.1em; color:var(--muted); }
+    .footer-links { display:flex; gap:1.5rem; }
+    .footer-social {
+      display:flex; align-items:center; justify-content:center;
+      width:36px; height:36px;
+      border:1px solid rgba(255,255,255,.12); border-radius:50%;
+      color:var(--muted); transition:color .3s, border-color .3s;
+    }
+    .footer-social svg { width:16px; height:16px; }
+    .footer-social:hover { color:var(--white); border-color:rgba(255,255,255,.35); }
+
+    /* ── SCROLL REVEAL ── */
+    .reveal { opacity:0; transform:translateY(28px); transition:opacity .8s ease, transform .8s ease; }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+
+    /* ── ANIMATIONS ── */
+    @keyframes slideUp { from{opacity:0;transform:translateY(28px)} to{opacity:1;transform:translateY(0)} }
+    @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width:1024px) {
+      .projects-hero { grid-template-columns:1fr; gap:2rem; }
+      .hero-right { align-items:flex-start; }
+    }
+    @media (max-width:768px) {
+      nav { padding:1rem 1.5rem; }
+      nav.scrolled { padding:.8rem 1.5rem; }
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
+      .projects-hero { padding:4rem 1.5rem 3rem; }
+      .section-divider { padding:0 1.5rem; }
+      .filter-bar { padding:0 1.5rem; }
+      .status-bar { padding:0 1.5rem; }
+      .events-grid { grid-template-columns:1fr; padding:0 1.5rem; gap:3px; }
+      .load-more-section { padding:0 1.5rem 5rem; }
+      .card-body { padding:1.5rem 1.5rem 2rem; }
+      footer { padding:2rem 1.5rem; flex-direction:column; align-items:flex-start; }
+      .no-results { padding:0 1.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="reading-progress" id="readingProgress"></div>
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+</div>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMobile()">Home</a>
+  <a href="about.html" onclick="closeMobile()">About</a>
+  <a href="past-projects.html" onclick="closeMobile()">Past Projects</a>
+  <a href="contact.html" onclick="closeMobile()">Contact Us</a>
+</div>
+
+<!-- Nav -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="images/logos/Effetti Logo.png" alt="Effetti Malta"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+    <span class="nav-logo-fallback" style="display:none">Effetti<span>.</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html">About</a></li>
+    <li><a href="past-projects.html" class="active">Past Projects</a></li>
+    <li><a href="contact.html">Contact Us</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="projects-page">
+
+  <!-- ── HERO ── -->
+  <section class="projects-hero">
+    <div class="hero-left">
+      <span class="projects-label">Portfolio</span>
+      <h1 class="projects-title">
+        Our<br><span class="blue">past</span><br><span class="accent">projects.</span>
+      </h1>
+      <p class="projects-sub">
+        Real events. Real setups. Every entry below is a production we've designed, engineered, and delivered - from club nights to corporate shows across Malta.
+      </p>
+    </div>
+    <div class="hero-right">
+      <div class="event-count-badge">
+        <span class="badge-num" id="totalBadge"><span class="num-accent">100+</span></span>
+        <span class="badge-label">Events Completed</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="section-divider" style="margin-top:2rem;">
+    <div class="section-divider-line"></div>
+  </div>
+
+  <!-- ── FILTER BAR ── -->
+  <div class="filter-bar" id="filterBar">
+    <span class="filter-label">Filter</span>
+    <!-- Buttons injected by JS -->
+  </div>
+
+  <!-- ── STATUS BAR ── -->
+  <div class="status-bar reveal">
+    <span class="status-text" id="statusText">Showing <span>0</span> of <span>0</span> events</span>
+  </div>
+
+  <!-- ── EVENTS GRID ── -->
+  <div class="events-grid" id="eventsGrid"></div>
+
+  <!-- No results -->
+  <div class="no-results" id="noResults">
+    <p>No events found for this filter. Try selecting a different category.</p>
+  </div>
+
+  <!-- ── LOAD MORE ── -->
+  <div class="load-more-section">
+    <div class="load-more-progress">
+      <div class="load-more-progress-fill" id="progressFill"></div>
+    </div>
+    <button class="load-more-btn" id="loadMoreBtn">
+      <span>Load More</span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <line x1="12" y1="5" x2="12" y2="19"/><polyline points="19 12 12 19 5 12"/>
+      </svg>
+    </button>
+    <span class="load-more-count" id="loadMoreCount"></span>
+  </div>
+
+</div><!-- /projects-page -->
+
+<!-- Footer -->
+<footer>
+  <a href="index.html" class="footer-logo">
+    <img src="images/logos/Effetti Logo.png" alt="Effetti Malta"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+    <span class="footer-logo-text" style="display:none">Effetti<span>.</span></span>
+  </a>
+  <p class="footer-copy">© 2026 Effetti Malta. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="https://www.instagram.com/effetti.mt/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="footer-social">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.facebook.com/p/Effetti-Malta-61568374137968/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="footer-social">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════
+   EVENT DATA — add new events at the TOP of this array.
+   Each new event object will automatically appear first on the page.
+   ═══════════════════════════════════════════════════════════════ */
+const EVENTS_PER_PAGE = 6;
+
+const events = [
+  {
+    id: "frat-elsa-2026",
+    title: "Frat — Semester 2",
+    date: "2026-04-01",
+    displayDate: "April 2026",
+    location: "Montekristo, Malta",
+    client: "ELSA Malta",
+    tags: ["Lighting", "Audio", "DJ Equipment", "Staging & Trussing", "Effects"],
+    description: "Full-scale production for ELSA Malta's Frat event at Montekristo. We handled the complete AV setup — lighting, audio, smoke machines, DJ equipment, staging, trussing, and power distribution. A high-energy student event demanding a professional, end-to-end production.",
+    highlight: "A full-setup production covering every element from power distribution to programming — one of our most complete builds to date.",
+    photos: [
+      "images/past-projects/frat semester 2 2026.jpeg"
+    ]
+  },
+  {
+    id: "archives-white-party-2026",
+    title: "Archives — White Party",
+    date: "2026-04-01",
+    displayDate: "April 2026",
+    location: "Surfside, Malta",
+    client: "Archives",
+    tags: ["Lighting", "Audio", "DJ Equipment"],
+    description: "Summer opening White Party for Archives at Surfside. We provided the full AV package — audio, lighting, and DJ equipment — tailored for an open-air beach venue. A clean, high-impact setup designed to match the energy of a season-opening event.",
+    highlight: "A summer-opening setup built for open-air impact — clean audio and atmospheric lighting to kick off the season.",
+    photos: [
+      "images/past-projects/Archives Surfside 2026.jpeg"
+    ]
+  },
+  {
+    id: "archoholics-saces-2026",
+    title: "Archoholics — Liquid Club",
+    date: "2026-04-01",
+    displayDate: "April 2026",
+    location: "Liquid Club, Malta",
+    client: "SACES",
+    tags: ["Lighting", "Effects"],
+    description: "Custom lighting show for SACES's Archoholics event at Liquid Club. The production featured lasers, moving heads, strobes, and FX panels — all programmed and operated to create a visually immersive club experience tailored to the event's identity.",
+    highlight: "Lasers, moving heads, strobes, and FX panels — a fully custom lighting show built around the event's energy.",
+    photos: [
+      "images/past-projects/archoholics.jpeg"
+    ]
+  },
+  {
+    id: "rakii-boiler-room-2026",
+    title: "Rakii — Boiler Room Edition",
+    date: "2026-03-01",
+    displayDate: "March 2026",
+    location: "Mawest, Valletta",
+    client: "Rakii",
+    tags: ["Lighting", "Audio", "Effects"],
+    description: "Red-themed underground atmosphere for Rakii's Boiler Room edition at Mawest in Valletta. The DJ was positioned centrally, with full lighting and audio provision built around that focal point. Custom red DMX programming and smoke effects created an intense, intimate club environment.",
+    highlight: "Intimate, club-like energy created through precise lighting angles and a centrally positioned DJ setup.",
+    photos: [
+      "images/past-projects/Rakii Event Cover.jpeg"
+    ]
+  },
+  {
+    id: "levis-2026",
+    title: "Levi's Influencer Exclusive",
+    date: "2026-03-28",
+    displayDate: "28th March 2026",
+    location: "The Point Malta",
+    client: "Levi's Malta",
+    tags: ["Lighting", "Audio", "DJ Equipment"],
+    description: "Exclusive social event for the Levi's store reopening at The Point. We provided professional lighting, audio, and a premium DJ setup featuring brand new CDJ 3000s. The lighting was designed to complement the retail environment and match Levi's visual identity.",
+    highlight: "A sleek, on-brand aesthetic that elevated the store relaunch — lighting designed to complement the retail environment.",
+    photos: []
+  },
+  {
+    id: "raided-wild-west-2026",
+    title: "Raided — Wild West Edition",
+    date: "2026-03-07",
+    displayDate: "7th March 2026",
+    location: "Outdoor Venue (Generator-Powered)",
+    client: "Raided",
+    tags: ["Audio", "Lighting", "DJ Equipment", "Staging & Trussing", "Effects"],
+    description: "A full outdoor production running entirely on generator power. We handled everything from power distribution upwards — staging, trussing, a complete PA system, CDJ 3000s, and custom-programmed Wild West lighting. Every element of the show, from power to programming, was Effetti.",
+    highlight: "End-to-end generator-powered production — every element of the show, from power to programming, was handled by Effetti.",
+    photos: [
+      "images/past-projects/Raided Event Cover 1.jpeg",
+      "images/past-projects/Raided Event Cover 2.jpeg"
+    ]
+  },
+  {
+    id: "saces-debate-2026",
+    title: "Strip — Debate hosted by SACES",
+    date: "2026-03-06",
+    displayDate: "6th March 2026",
+    location: "Malta",
+    client: "SACES",
+    tags: ["Lighting", "Audio", "Live Streaming"],
+    description: "AV support and livestreaming for a live debate event. We handled full lighting and audio setup alongside a professional livestream broadcast — delivering broadcast-quality production for a high-stakes academic environment.",
+    highlight: "First production to include our live streaming service — broadcast quality for a high-stakes debate environment.",
+    photos: []
+  },
+  {
+    id: "sdg-champions-2026",
+    title: "SDG Champions Event",
+    date: "2026-03-01",
+    displayDate: "1st March 2026",
+    location: "Design Cluster, Valletta",
+    client: "SDG Champions",
+    tags: ["Audio", "DJ Equipment"],
+    description: "A subtle, refined setup for a sustainability-themed event at the Design Cluster in Valletta. DJ and audio equipment was integrated to blend seamlessly with the surrounding artwork and creative space — minimal footprint, maximum impact.",
+    highlight: "Minimal footprint, maximum impact — the setup disappeared into the art while the sound filled the room.",
+    photos: []
+  },
+  {
+    id: "ballo-di-signori-2025",
+    title: "Ballo di Signori — ASCS × GHSL Christmas Ball",
+    date: "2025-12-18",
+    displayDate: "18th December 2025",
+    location: "Eden Lodge, Malta",
+    client: "ASCS × GHSL",
+    tags: ["Audio", "Lighting", "DJ Equipment", "Staging & Trussing", "Effects", "Live Bands"],
+    description: "An elegant Christmas ball requiring a sophisticated multi-discipline AV setup — staging, trussing, live band configuration, multiple DJ slots, and custom-programmed DMX lighting tailored to a formal setting. A full-scale production for a prestigious annual event.",
+    highlight: "\"The lighting transformed the venue — it felt truly special.\" — Client feedback.",
+    photos: []
+  },
+  {
+    id: "raided-halloween-2025",
+    title: "Raided — Halloween Party",
+    date: "2025-10-31",
+    displayDate: "31st October 2025",
+    location: "Malta",
+    client: "Raided",
+    tags: ["Lighting", "Audio", "DJ Equipment", "Staging & Trussing", "Effects"],
+    description: "Full production for a Halloween-themed club night — red atmospheric lighting, custom DMX smoke integration, trussing, and a powerful sound system designed for the occasion. Every element was calibrated to the theme.",
+    highlight: "Custom-programmed red DMX scenes synced with smoke machines created an intense, immersive Halloween atmosphere.",
+    photos: []
+  },
+  {
+    id: "ascs-boat-party-2025",
+    title: "ASCS Boat Party",
+    date: "2025-08-29",
+    displayDate: "29th August 2025",
+    location: "At Sea, Malta",
+    client: "ASCS Malta",
+    tags: ["Lighting", "Audio", "DJ Equipment"],
+    description: "Full AV provision for a university organisation's boat party — speakers, DJ equipment, and lighting all configured for an open-air marine environment. A unique challenge requiring compact, reliable equipment that worked flawlessly on the water.",
+    highlight: "A great night with the ASCS Malta university community — AV that worked flawlessly on the water.",
+    photos: []
+  },
+  {
+    id: "rakii-barracuda-2025",
+    title: "Rakii — Barracuda Rooftop",
+    date: "2025-07-11",
+    displayDate: "11th July 2025",
+    location: "Barracuda Rooftop, Malta",
+    client: "Rakii",
+    tags: ["Lighting", "Audio", "DJ Equipment"],
+    description: "Sunset multi-DJ event on a rooftop venue. We provided the full AV package — lighting, audio, and DJ equipment — for an outdoor summer experience, coordinating seamless DJ transitions from sunset through to the night.",
+    highlight: "Coordinating seamless DJ transitions through a summer sunset into the night, with lighting that evolved across the full session.",
+    photos: []
+  },
+  {
+    id: "art-exhibition-2025",
+    title: "Art Exhibition Opening & Panel Discussion",
+    date: "2025-04-29",
+    displayDate: "29th April 2025",
+    location: "Ta' Qali National Park, Malta",
+    client: "Confidential",
+    tags: ["Audio"],
+    description: "Discreet audio setup for an art exhibition opening and panel discussion at Ta' Qali National Park. Microphones and a clear PA system configured for a cultured, quiet audience — sensitive acoustic design that served the art.",
+    highlight: "Sensitive acoustic design that served the art — clear speech reinforcement without intruding on the exhibition atmosphere.",
+    photos: []
+  }
+];
+
+/* ═══════════════════════════════════════════════════════════════
+   RENDERING ENGINE
+   ═══════════════════════════════════════════════════════════════ */
+
+let currentFilter = 'All';
+let visibleCount  = EVENTS_PER_PAGE;
+let slideshowTimers = {};
+
+/* Fixed ordered service categories — edit here to add/remove filters */
+const SERVICE_CATEGORIES = [
+  "Audio",
+  "Lighting",
+  "DJ Equipment",
+  "Staging & Trussing",
+  "Effects",
+  "Live Streaming",
+  "Live Bands"
+];
+
+function getAllTags() {
+  return SERVICE_CATEGORIES;
+}
+
+/* Filtered events based on current filter */
+function getFiltered() {
+  if (currentFilter === 'All') return events;
+  return events.filter(e => e.tags.some(t =>
+    t.toLowerCase().includes(currentFilter.toLowerCase()) ||
+    currentFilter.toLowerCase().includes(t.toLowerCase())
+  ));
+}
+
+/* Build filter buttons */
+function buildFilterBar() {
+  const bar = document.getElementById('filterBar');
+  const tags = ['All', ...getAllTags()];
+  bar.innerHTML = '<span class="filter-label">Filter by service</span>';
+  tags.forEach(tag => {
+    const btn = document.createElement('button');
+    btn.className = 'filter-btn' + (tag === 'All' ? ' active' : '');
+    btn.textContent = tag;
+    btn.addEventListener('click', () => {
+      currentFilter = tag;
+      visibleCount = EVENTS_PER_PAGE;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      render();
+    });
+    bar.appendChild(btn);
+  });
+}
+
+/* Create placeholder SVG for events without photos */
+function placeholderSlide(title) {
+  const div = document.createElement('div');
+  div.className = 'slide active slide-placeholder';
+  div.innerHTML = `
+    <div class="placeholder-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="2" y="3" width="20" height="14" rx="2"/>
+        <line x1="2" y1="20" x2="22" y2="20"/>
+        <circle cx="8.5" cy="8.5" r="1.5"/>
+        <polyline points="21 15 16 10 5 17"/>
+      </svg>
+    </div>
+    <div class="placeholder-title">${title}</div>`;
+  return div;
+}
+
+/* Build a single event card */
+function buildCard(event, globalIndex) {
+  const card = document.createElement('div');
+  card.className = 'event-card';
+  card.style.transitionDelay = ((globalIndex % 2) * 0.1) + 's';
+
+  /* ── Photo area ── */
+  const photoArea = document.createElement('div');
+  photoArea.className = 'card-photo';
+
+  const photos = event.photos || [];
+
+  if (photos.length === 0) {
+    photoArea.appendChild(placeholderSlide(event.title));
+  } else if (photos.length === 1) {
+    const slide = document.createElement('div');
+    slide.className = 'slide active';
+    slide.style.backgroundImage = `url('${photos[0]}')`;
+    // Fallback if image fails
+    const img = new Image();
+    img.onload = () => slide.style.backgroundImage = `url('${photos[0]}')`;
+    img.onerror = () => {
+      slide.classList.remove('slide');
+      slide.classList.add('slide-placeholder');
+      slide.innerHTML = placeholderSlide(event.title).innerHTML;
+    };
+    img.src = photos[0];
+    photoArea.appendChild(slide);
+  } else {
+    // Multi-photo slideshow
+    photos.forEach((src, i) => {
+      const slide = document.createElement('div');
+      slide.className = 'slide' + (i === 0 ? ' active' : '');
+      slide.style.backgroundImage = `url('${src}')`;
+      // Fallback
+      const img = new Image();
+      img.onerror = () => {
+        if (i === 0) {
+          const ph = placeholderSlide(event.title);
+          slide.innerHTML = ph.innerHTML;
+          slide.className = (i === 0 ? 'slide active slide-placeholder' : 'slide slide-placeholder');
+        }
+      };
+      img.src = src;
+      photoArea.appendChild(slide);
+    });
+
+    // Dots
+    const dotsRow = document.createElement('div');
+    dotsRow.className = 'slide-dots';
+    photos.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'slide-dot' + (i === 0 ? ' active' : '');
+      dotsRow.appendChild(dot);
+    });
+    photoArea.appendChild(dotsRow);
+
+    // Arrows
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'slide-arrow slide-arrow--prev';
+    prevBtn.setAttribute('aria-label', 'Previous photo');
+    prevBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>`;
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'slide-arrow slide-arrow--next';
+    nextBtn.setAttribute('aria-label', 'Next photo');
+    nextBtn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>`;
+    photoArea.appendChild(prevBtn);
+    photoArea.appendChild(nextBtn);
+
+    // Slideshow logic
+    let current = 0;
+    const slides = photoArea.querySelectorAll('.slide');
+    const dots   = dotsRow.querySelectorAll('.slide-dot');
+
+    function goTo(n) {
+      slides[current].classList.remove('active');
+      dots[current].classList.remove('active');
+      current = (n + photos.length) % photos.length;
+      slides[current].classList.add('active');
+      dots[current].classList.add('active');
+    }
+
+    prevBtn.addEventListener('click', e => { e.stopPropagation(); clearInterval(slideshowTimers[event.id]); goTo(current - 1); slideshowTimers[event.id] = setInterval(() => goTo(current + 1), 4000); });
+    nextBtn.addEventListener('click', e => { e.stopPropagation(); clearInterval(slideshowTimers[event.id]); goTo(current + 1); slideshowTimers[event.id] = setInterval(() => goTo(current + 1), 4000); });
+    dots.forEach((dot, i) => dot.addEventListener('click', e => { e.stopPropagation(); clearInterval(slideshowTimers[event.id]); goTo(i); slideshowTimers[event.id] = setInterval(() => goTo(current + 1), 4000); }));
+
+    slideshowTimers[event.id] = setInterval(() => goTo(current + 1), 4000);
+  }
+
+  /* ── Card Body ── */
+  const body = document.createElement('div');
+  body.className = 'card-body';
+
+  body.innerHTML = `
+    <div class="card-meta-row">
+      <span class="card-date">${event.displayDate}</span>
+      <span class="card-index">${String(globalIndex + 1).padStart(2,'0')}</span>
+    </div>
+    <h2 class="card-title">${event.title}</h2>
+    <div class="card-info">
+      <div class="card-info-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/>
+        </svg>
+        ${event.location}
+      </div>
+      <div class="card-info-item">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/>
+          <path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/>
+        </svg>
+        ${event.client}
+      </div>
+    </div>
+    <div class="card-tags">${event.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
+    <p class="card-description">${event.description}</p>
+    <p class="card-highlight">${event.highlight}</p>`;
+
+  card.appendChild(photoArea);
+  card.appendChild(body);
+  return card;
+}
+
+/* Main render function */
+function render() {
+  // Clear timers
+  Object.values(slideshowTimers).forEach(t => clearInterval(t));
+  slideshowTimers = {};
+
+  const filtered  = getFiltered();
+  const toShow    = filtered.slice(0, visibleCount);
+  const grid      = document.getElementById('eventsGrid');
+  const noResults = document.getElementById('noResults');
+
+  grid.innerHTML = '';
+
+  if (filtered.length === 0) {
+    noResults.style.display = 'block';
+    grid.style.display = 'none';
+  } else {
+    noResults.style.display = 'none';
+    grid.style.display = 'grid';
+    toShow.forEach((event, i) => {
+      const card = buildCard(event, events.indexOf(event));
+      grid.appendChild(card);
+    });
+  }
+
+  // Observe cards for scroll reveal
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.08 });
+  grid.querySelectorAll('.event-card').forEach(c => observer.observe(c));
+
+  // Update status
+  const statusText = document.getElementById('statusText');
+  statusText.innerHTML = `Showing <span>${Math.min(visibleCount, filtered.length)}</span> of <span>${filtered.length}</span> event${filtered.length !== 1 ? 's' : ''}`;
+
+  // Update hero badge
+  document.getElementById('totalBadge').innerHTML = `<span class="num-accent">${events.length}</span>`;
+
+  // Load more button
+  const btn = document.getElementById('loadMoreBtn');
+  const countLabel = document.getElementById('loadMoreCount');
+  const progressFill = document.getElementById('progressFill');
+
+  const remaining = filtered.length - visibleCount;
+  const pct = Math.min(visibleCount / filtered.length * 100, 100);
+  progressFill.style.width = pct + '%';
+
+  if (remaining <= 0) {
+    btn.disabled = true;
+    btn.querySelector('span').textContent = 'All events shown';
+    countLabel.textContent = '';
+  } else {
+    btn.disabled = false;
+    btn.querySelector('span').textContent = 'Load More';
+    countLabel.innerHTML = `<span>${remaining}</span> more event${remaining !== 1 ? 's' : ''}`;
+  }
+}
+
+/* Load more */
+document.getElementById('loadMoreBtn').addEventListener('click', () => {
+  visibleCount += EVENTS_PER_PAGE;
+  render();
+  // Smooth scroll to first new card
+  const cards = document.querySelectorAll('.event-card');
+  const firstNew = cards[visibleCount - EVENTS_PER_PAGE];
+  if (firstNew) {
+    setTimeout(() => firstNew.scrollIntoView({ behavior:'smooth', block:'start' }), 100);
+  }
+});
+
+/* Init */
+buildFilterBar();
+render();
+
+/* ── CURSOR ── */
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('cursorRing');
+let mx=0,my=0,rx=0,ry=0;
+document.addEventListener('mousemove', e => { mx=e.clientX; my=e.clientY; });
+(function animCursor() {
+  cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+  rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+  ring.style.left=rx+'px'; ring.style.top=ry+'px';
+  requestAnimationFrame(animCursor);
+})();
+document.addEventListener('mouseover', e => {
+  if (e.target.closest('a,button,.filter-btn,.event-card,.footer-social')) {
+    cursor.style.width='16px'; cursor.style.height='16px';
+    ring.style.width='52px'; ring.style.height='52px';
+  } else {
+    cursor.style.width='10px'; cursor.style.height='10px';
+    ring.style.width='36px'; ring.style.height='36px';
+  }
+});
+
+/* ── NAV SHRINK ── */
+const navEl = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  navEl.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive:true });
+
+/* ── READING PROGRESS ── */
+const progressBar = document.getElementById('readingProgress');
+window.addEventListener('scroll', () => {
+  const doc = document.documentElement;
+  progressBar.style.width = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100) + '%';
+}, { passive:true });
+
+/* ── ORB PARALLAX ── */
+const orb1=document.querySelector('.orb-1');
+const orb2=document.querySelector('.orb-2');
+document.addEventListener('mousemove', e => {
+  const x=(e.clientX/window.innerWidth-.5)*30;
+  const y=(e.clientY/window.innerHeight-.5)*30;
+  if(orb1) orb1.style.transform=`translate(${x*.6}px,${y*.6}px)`;
+  if(orb2) orb2.style.transform=`translate(${-x*.4}px,${-y*.4}px)`;
+}, { passive:true });
+
+/* ── HAMBURGER ── */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+function closeMobile() { mobileMenu.classList.remove('open'); }
+
+/* ── REVEAL ON SCROLL (non-card elements) ── */
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); } });
+}, { threshold:.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+
+</body>
+</html>
