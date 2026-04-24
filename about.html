@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About — Effetti Malta</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    @font-face { font-family:'Korbin'; src:url('fonts/fonnts.com-Korbin_Light.otf') format('opentype'); font-weight:300; }
+    @font-face { font-family:'Korbin'; src:url('fonts/fonnts.com-Korbin_Book.otf') format('opentype'); font-weight:400; }
+    @font-face { font-family:'Korbin'; src:url('fonts/fonnts.com-Korbin_Medium.otf') format('opentype'); font-weight:500; }
+    @font-face { font-family:'Korbin'; src:url('fonts/fonnts.com-Korbin_Bold.otf') format('opentype'); font-weight:700; }
+    @font-face { font-family:'Korbin'; src:url('fonts/fonnts.com-Korbin_Black.otf') format('opentype'); font-weight:900; }
+
+    *, *::before, *::after { box-sizing:border-box; margin:0; padding:0; }
+
+    :root {
+      --navy:       #0D1A3A;
+      --navy-mid:   #1A2B5E;
+      --blue-light: #7BB3D8;
+      --coral:      #E8747A;
+      --coral-soft: #F2A0A4;
+      --white:      #FFFFFF;
+      --soft:       rgba(255,255,255,0.6);
+      --muted:      rgba(255,255,255,0.32);
+    }
+
+    html { scroll-behavior:smooth; }
+    body {
+      background:var(--navy);
+      color:var(--white);
+      font-family:'Korbin','Cormorant Garamond',serif;
+      font-weight:400;
+      overflow-x:hidden;
+      min-height:100vh;
+    }
+
+    /* CURSOR */
+    * { cursor:none; }
+    .cursor {
+      position:fixed; width:10px; height:10px;
+      background:var(--coral); border-radius:50%;
+      pointer-events:none; z-index:9999;
+      transform:translate(-50%,-50%);
+      transition:width .25s,height .25s,opacity .3s;
+    }
+    .cursor-ring {
+      position:fixed; width:36px; height:36px;
+      border:1px solid rgba(232,116,122,.45); border-radius:50%;
+      pointer-events:none; z-index:9998;
+      transform:translate(-50%,-50%);
+      transition:width .3s,height .3s;
+    }
+    .cursor.magnetic { width:20px; height:20px; background:rgba(232,116,122,.7); }
+    .cursor-ring.magnetic { width:64px; height:64px; border-color:rgba(232,116,122,.25); }
+
+    /* NAV */
+    nav {
+      position:fixed; top:0; left:0; right:0; z-index:100;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:1.5rem 4rem;
+      background:rgba(13,26,58,.96);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid rgba(123,179,216,.1);
+      transition:padding .4s ease;
+    }
+    nav.scrolled { padding:.9rem 4rem; }
+    .nav-logo { display:flex; align-items:center; text-decoration:none; }
+    .nav-logo img { height:56px; width:auto; display:block; transition:height .4s; }
+    nav.scrolled .nav-logo img { height:44px; }
+    .nav-logo-fallback {
+      font-family:'Korbin',serif; font-weight:700; font-size:22px;
+      letter-spacing:.12em; text-transform:uppercase;
+      color:var(--white); text-decoration:none;
+    }
+    .nav-logo-fallback span { color:var(--coral); }
+    .nav-links { display:flex; gap:2.5rem; list-style:none; }
+    .nav-links a {
+      font-size:12px; font-weight:400; letter-spacing:.2em;
+      text-transform:uppercase; text-decoration:none;
+      color:var(--soft); transition:color .3s;
+      position:relative;
+    }
+    .nav-links a::after {
+      content:''; position:absolute; bottom:-4px; left:0; right:0;
+      height:1px; background:var(--coral);
+      transform:scaleX(0); transition:transform .3s;
+    }
+    .nav-links a:hover, .nav-links a.active { color:var(--white); }
+    .nav-links a:hover::after, .nav-links a.active::after { transform:scaleX(1); }
+    .hamburger { display:none; flex-direction:column; gap:5px; background:none; border:none; padding:4px; }
+    .hamburger span { display:block; width:24px; height:1px; background:var(--white); transition:all .3s; }
+    .mobile-menu {
+      display:none; position:fixed; inset:0; background:var(--navy); z-index:99;
+      flex-direction:column; align-items:center; justify-content:center; gap:2rem;
+    }
+    .mobile-menu.open { display:flex; }
+    .mobile-menu a {
+      font-size:28px; font-weight:300; letter-spacing:.15em;
+      text-transform:uppercase; text-decoration:none; color:var(--white); transition:color .3s;
+    }
+    .mobile-menu a:hover { color:var(--coral); }
+
+    /* ── BACKGROUND ── */
+    .bg-orbs {
+      position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden;
+    }
+    .orb {
+      position:absolute; border-radius:50%; filter:blur(90px);
+      opacity:0;
+    }
+    .orb-1 {
+      width:700px; height:700px;
+      background:radial-gradient(circle, rgba(232,116,122,.1) 0%, transparent 70%);
+      top:-20%; left:-15%;
+      animation:orbFloat 20s ease-in-out infinite alternate, fadeInOrb .8s ease .2s both;
+    }
+    .orb-2 {
+      width:500px; height:500px;
+      background:radial-gradient(circle, rgba(123,179,216,.09) 0%, transparent 70%);
+      bottom:-10%; right:-5%;
+      animation:orbFloat 25s ease-in-out infinite alternate-reverse, fadeInOrb .8s ease .4s both;
+    }
+    .orb-3 {
+      width:350px; height:350px;
+      background:radial-gradient(circle, rgba(123,179,216,.06) 0%, transparent 70%);
+      top:55%; left:55%;
+      animation:orbFloat 18s ease-in-out infinite alternate, fadeInOrb .8s ease .6s both;
+    }
+    @keyframes orbFloat {
+      0%   { transform:translate(0,0) scale(1); }
+      100% { transform:translate(40px,50px) scale(1.06); }
+    }
+    @keyframes fadeInOrb { from{opacity:0} to{opacity:1} }
+
+    .bg-grid {
+      position:fixed; inset:0; pointer-events:none; z-index:0;
+      opacity:.04;
+      background-image:
+        linear-gradient(45deg, rgba(123,179,216,1) 1px, transparent 1px),
+        linear-gradient(-45deg, rgba(123,179,216,1) 1px, transparent 1px);
+      background-size:80px 80px;
+    }
+
+    /* ── PAGE WRAPPER ── */
+    .about-page { padding-top:96px; position:relative; }
+
+    /* ── HERO ── */
+    .about-hero {
+      position:relative; z-index:2;
+      padding:4rem 4rem 3rem;
+      max-width:1200px; margin:0 auto;
+      display:grid;
+      grid-template-columns:1fr 420px;
+      gap:4rem;
+      align-items:end;
+    }
+    .about-label {
+      font-size:clamp(14px,2vw,22px);
+      font-weight:900; letter-spacing:.02em;
+      text-transform:uppercase; color:var(--coral);
+      margin-bottom:.7rem; line-height:1;
+      opacity:0; animation:slideUp .7s ease .1s both;
+    }
+    .about-title {
+      font-size:clamp(26px,4.5vw,58px);
+      font-weight:900; line-height:1.0; letter-spacing:-.01em;
+      opacity:0; animation:slideUp .7s ease .2s both;
+    }
+    .about-title .accent { color:var(--coral); }
+    .about-title .blue { color:var(--blue-light); }
+    .about-sub {
+      font-size:15px; font-weight:300; color:var(--soft);
+      max-width:480px; line-height:1.85; margin-top:1.2rem;
+      opacity:0; animation:slideUp .7s ease .35s both;
+    }
+
+    /* Founded badge */
+    .hero-right {
+      display:flex; flex-direction:column; align-items:flex-end; gap:1.5rem;
+      opacity:0; animation:slideUp .8s ease .5s both;
+      padding-bottom:.5rem;
+    }
+    .founded-badge {
+      border:1px solid rgba(123,179,216,.2);
+      padding:2rem 2.5rem;
+      text-align:right;
+      position:relative;
+    }
+    .founded-badge::before {
+      content:''; position:absolute;
+      top:0; right:0;
+      width:40px; height:40px;
+      border-top:2px solid var(--coral);
+      border-right:2px solid var(--coral);
+    }
+    .founded-badge::after {
+      content:''; position:absolute;
+      bottom:0; left:0;
+      width:40px; height:40px;
+      border-bottom:2px solid var(--blue-light);
+      border-left:2px solid var(--blue-light);
+    }
+    .badge-year {
+      font-size:clamp(52px,6vw,80px);
+      font-weight:900; color:var(--white);
+      line-height:1; display:block;
+    }
+    .badge-label {
+      font-size:10px; letter-spacing:.35em;
+      text-transform:uppercase; color:var(--muted);
+      margin-top:.5rem; display:block;
+    }
+    .badge-sub {
+      font-size:13px; font-weight:300; color:var(--soft);
+      margin-top:.75rem; line-height:1.6;
+    }
+
+    /* ── DIVIDER LINE ── */
+    .section-divider {
+      position:relative; z-index:2;
+      max-width:1200px; margin:0 auto;
+      padding:0 4rem;
+      opacity:0; animation:fadeIn .8s ease .6s both;
+    }
+    .section-divider-line {
+      height:1px;
+      background:linear-gradient(to right, transparent, rgba(123,179,216,.3), rgba(232,116,122,.3), transparent);
+    }
+
+    /* ── STATS STRIP ── */
+    .stats-strip {
+      position:relative; z-index:2;
+      max-width:1200px; margin:0 auto;
+      padding:0 4rem;
+      display:grid;
+      grid-template-columns:repeat(4,1fr);
+      border:1px solid rgba(123,179,216,.08);
+      background:rgba(123,179,216,.03);
+    }
+    .stat-item {
+      padding:3rem 2.5rem;
+      border-right:1px solid rgba(123,179,216,.08);
+      opacity:0;
+      position:relative;
+      overflow:hidden;
+    }
+    .stat-item:last-child { border-right:none; }
+    .stat-item::before {
+      content:''; position:absolute;
+      bottom:0; left:0; right:0; height:2px;
+      background:linear-gradient(to right, var(--coral), transparent);
+      transform:scaleX(0); transform-origin:left;
+      transition:transform .6s ease;
+    }
+    .stat-item.visible::before { transform:scaleX(1); }
+    .stat-number {
+      font-size:clamp(36px,4vw,58px);
+      font-weight:900; line-height:1;
+      color:var(--white); display:block;
+    }
+    .stat-number .stat-accent { color:var(--coral); }
+    .stat-label {
+      font-size:10px; letter-spacing:.28em; text-transform:uppercase;
+      color:var(--muted); margin-top:.75rem; display:block;
+      line-height:1.5;
+    }
+
+    /* ── STORY SECTION ── */
+    .story-section {
+      position:relative; z-index:2;
+      max-width:1200px; margin:6rem auto 0;
+      padding:0 4rem;
+    }
+    .story-header {
+      margin-bottom:3rem;
+    }
+    .section-label {
+      font-size:10px; letter-spacing:.35em; text-transform:uppercase;
+      color:var(--coral); margin-bottom:1.2rem; display:block;
+    }
+    .story-heading {
+      font-size:clamp(30px,4vw,52px);
+      font-weight:900; line-height:1.1; letter-spacing:-.01em;
+    }
+    .story-heading .blue { color:var(--blue-light); }
+    .story-heading-sub {
+      font-size:15px; font-weight:300; color:var(--soft);
+      max-width:600px; line-height:1.85; margin-top:1rem;
+    }
+
+    /* Story cards grid — matches values section style */
+    .story-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:2px;
+      background:rgba(123,179,216,.06);
+      border:1px solid rgba(123,179,216,.08);
+    }
+    .story-card {
+      padding:2.5rem 2.5rem;
+      background:var(--navy);
+      position:relative; overflow:hidden;
+      transition:background .4s;
+    }
+    .story-card::after {
+      content:''; position:absolute;
+      inset:0;
+      background:linear-gradient(135deg, rgba(123,179,216,.06) 0%, transparent 60%);
+      opacity:0; transition:opacity .4s;
+    }
+    .story-card:hover { background:rgba(26,43,94,.6); }
+    .story-card:hover::after { opacity:1; }
+    .story-card-icon {
+      width:40px; height:40px;
+      border:1px solid rgba(123,179,216,.25); border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--blue-light); margin-bottom:1.2rem;
+    }
+    .story-card-icon svg { width:18px; height:18px; }
+    .story-card-bar {
+      width:32px; height:2px; background:var(--blue-light);
+      margin-bottom:1.2rem;
+      transition:width .4s ease;
+    }
+    .story-card:hover .story-card-bar { width:56px; }
+    .story-card-title {
+      font-size:16px; font-weight:700; letter-spacing:.04em;
+      text-transform:uppercase; margin-bottom:.8rem; line-height:1.2;
+    }
+    .story-card-body {
+      font-size:13px; font-weight:300; color:var(--soft);
+      line-height:1.85;
+    }
+    .story-card-body strong { color:var(--white); font-weight:500; }
+
+    /* ── VALUES SECTION ── */
+    .values-section {
+      position:relative; z-index:2;
+      max-width:1200px; margin:7rem auto 0;
+      padding:0 4rem;
+    }
+    .values-header {
+      display:flex; align-items:flex-end; justify-content:space-between;
+      margin-bottom:3rem;
+    }
+    .values-heading {
+      font-size:clamp(30px,4vw,52px);
+      font-weight:900; line-height:1.1;
+    }
+    .values-heading .accent { color:var(--coral); }
+    .values-sub {
+      font-size:14px; font-weight:300; color:var(--soft);
+      max-width:320px; line-height:1.7; text-align:right;
+    }
+    .values-grid {
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:2px;
+      background:rgba(123,179,216,.06);
+      border:1px solid rgba(123,179,216,.08);
+    }
+    .value-card {
+      padding:3rem 2.5rem;
+      background:var(--navy);
+      position:relative; overflow:hidden;
+      transition:background .4s;
+    }
+    .value-card::after {
+      content:''; position:absolute;
+      inset:0;
+      background:linear-gradient(135deg, rgba(232,116,122,.06) 0%, transparent 60%);
+      opacity:0; transition:opacity .4s;
+    }
+    .value-card:hover { background:rgba(26,43,94,.6); }
+    .value-card:hover::after { opacity:1; }
+    .value-number {
+      font-size:11px; letter-spacing:.25em;
+      color:var(--muted); font-weight:300;
+      margin-bottom:1.5rem; display:block;
+    }
+    .value-title {
+      font-size:20px; font-weight:700; letter-spacing:.03em;
+      margin-bottom:1rem; line-height:1.2;
+    }
+    .value-bar {
+      width:32px; height:2px; background:var(--coral);
+      margin-bottom:1.2rem;
+      transition:width .4s ease;
+    }
+    .value-card:hover .value-bar { width:56px; }
+    .value-body {
+      font-size:13px; font-weight:300; color:var(--soft);
+      line-height:1.85;
+    }
+
+    /* ── VISION SECTION ── */
+    .vision-section {
+      position:relative; z-index:2;
+      max-width:1200px; margin:7rem auto 0;
+      padding:0 4rem;
+    }
+    .vision-inner {
+      border:1px solid rgba(123,179,216,.08);
+      background:rgba(123,179,216,.03);
+      position:relative; overflow:hidden;
+    }
+    .vision-inner::before {
+      content:''; position:absolute;
+      top:0; left:0; right:0; height:2px;
+      background:linear-gradient(to right, var(--coral), var(--blue-light), transparent);
+    }
+    .vision-grid {
+      display:grid;
+      grid-template-columns:1fr 1fr;
+    }
+    .vision-left {
+      padding:4rem;
+      border-right:1px solid rgba(123,179,216,.08);
+    }
+    .vision-right {
+      padding:4rem;
+      display:flex; flex-direction:column; gap:2.5rem;
+    }
+    .vision-eyebrow {
+      font-size:10px; letter-spacing:.35em; text-transform:uppercase;
+      color:var(--coral); margin-bottom:1.5rem; display:block;
+    }
+    .vision-title {
+      font-size:clamp(28px,3.5vw,46px);
+      font-weight:900; line-height:1.1; letter-spacing:-.01em;
+      margin-bottom:2rem;
+    }
+    .vision-title .blue { color:var(--blue-light); }
+    .vision-statement {
+      font-size:clamp(18px,2vw,24px);
+      font-weight:300; line-height:1.65; color:var(--white);
+      position:relative; padding-left:1.5rem;
+      margin-bottom:2rem;
+    }
+    .vision-statement::before {
+      content:''; position:absolute;
+      left:0; top:0; bottom:0; width:2px;
+      background:linear-gradient(to bottom, var(--coral), var(--blue-light));
+    }
+    .vision-body {
+      font-size:14px; font-weight:300; color:var(--soft); line-height:1.85;
+    }
+    .vision-pillar {
+      display:flex; gap:1.5rem; align-items:flex-start;
+    }
+    .vision-pillar-icon {
+      width:44px; height:44px; flex-shrink:0;
+      border:1px solid rgba(232,116,122,.25); border-radius:50%;
+      display:flex; align-items:center; justify-content:center;
+      color:var(--coral); margin-top:.2rem;
+    }
+    .vision-pillar-icon svg { width:18px; height:18px; }
+    .vision-pillar-content {}
+    .vision-pillar-title {
+      font-size:14px; font-weight:700; letter-spacing:.06em;
+      text-transform:uppercase; margin-bottom:.5rem;
+    }
+    .vision-pillar-body {
+      font-size:13px; font-weight:300; color:var(--soft); line-height:1.8;
+    }
+
+    /* ── CTA SECTION ── */
+    .cta-section {
+      position:relative; z-index:2;
+      max-width:1200px; margin:7rem auto 0;
+      padding:0 4rem 7rem;
+    }
+    .cta-inner {
+      display:grid;
+      grid-template-columns:1fr 1fr 1fr;
+      gap:2px;
+      background:rgba(123,179,216,.06);
+      border:1px solid rgba(123,179,216,.08);
+    }
+    .cta-card {
+      padding:3.5rem 3rem;
+      background:var(--navy);
+      position:relative; overflow:hidden;
+      transition:background .4s;
+    }
+    .cta-card::before {
+      content:''; position:absolute; inset:0;
+      transition:opacity .4s; opacity:0;
+    }
+    .cta-card--projects::before {
+      background:radial-gradient(ellipse at bottom left, rgba(123,179,216,.08), transparent 60%);
+    }
+    .cta-card--contact::before {
+      background:radial-gradient(ellipse at top right, rgba(232,116,122,.1), transparent 60%);
+    }
+    .cta-card--join::before {
+      background:radial-gradient(ellipse at top left, rgba(123,179,216,.07), transparent 60%);
+    }
+    .cta-card:hover { background:rgba(26,43,94,.5); }
+    .cta-card:hover::before { opacity:1; }
+    .cta-card + .cta-card { border-left:1px solid rgba(123,179,216,.08); }
+    .cta-label {
+      font-size:9px; letter-spacing:.35em; text-transform:uppercase;
+      color:var(--muted); margin-bottom:1rem; display:block;
+    }
+    .cta-heading {
+      font-size:clamp(18px,2.2vw,28px);
+      font-weight:900; line-height:1.15; margin-bottom:1.2rem;
+    }
+    .cta-heading .accent { color:var(--coral); }
+    .cta-heading .blue   { color:var(--blue-light); }
+    .cta-body {
+      font-size:13px; font-weight:300; color:var(--soft);
+      line-height:1.8; max-width:300px; margin-bottom:2rem;
+    }
+    .cta-link {
+      display:inline-flex; align-items:center; gap:10px;
+      padding:14px 28px;
+      border:1px solid var(--coral);
+      color:var(--white); text-decoration:none;
+      font-size:11px; font-weight:500;
+      letter-spacing:.22em; text-transform:uppercase;
+      position:relative; overflow:hidden;
+      transition:color .3s;
+    }
+    .cta-link::before {
+      content:''; position:absolute; inset:0;
+      background:var(--coral);
+      transform:scaleX(0); transform-origin:left;
+      transition:transform .4s cubic-bezier(.4,0,.2,1);
+    }
+    .cta-link:hover::before { transform:scaleX(1); }
+    .cta-link span, .cta-link svg { position:relative; z-index:1; }
+    .cta-link svg { width:14px; height:14px; transition:transform .3s; }
+    .cta-link:hover svg { transform:translateX(4px); }
+    .cta-link--ghost {
+      border-color:rgba(123,179,216,.4);
+    }
+    .cta-link--ghost::before { background:rgba(123,179,216,.15); }
+    .cta-link--join {
+      border-color:rgba(232,116,122,.5);
+    }
+    .cta-link--join::before { background:rgba(232,116,122,.12); }
+    .join-email {
+      display:block;
+      font-size:11px; font-weight:300; color:var(--muted);
+      letter-spacing:.08em; margin-top:1rem;
+      text-decoration:none;
+      transition:color .3s;
+    }
+    .join-email:hover { color:var(--soft); }
+
+    /* FOOTER */
+    footer {
+      position:relative; z-index:2;
+      background:#070f20; padding:2.5rem 4rem;
+      display:flex; align-items:center; justify-content:space-between;
+      flex-wrap:wrap; gap:1rem;
+      border-top:1px solid rgba(123,179,216,.07);
+    }
+    .footer-logo { display:flex; align-items:center; text-decoration:none; }
+    .footer-logo img { height:66px; width:auto; }
+    .footer-logo-text {
+      font-size:18px; font-weight:700; letter-spacing:.12em;
+      text-transform:uppercase; color:var(--white);
+    }
+    .footer-logo-text span { color:var(--coral); }
+    .footer-copy { font-size:11px; font-weight:300; letter-spacing:.1em; color:var(--muted); }
+    .footer-links { display:flex; gap:1.5rem; }
+    .footer-social {
+      display:flex; align-items:center; justify-content:center;
+      width:36px; height:36px;
+      border:1px solid rgba(255,255,255,.12); border-radius:50%;
+      color:var(--muted); transition:color .3s, border-color .3s;
+    }
+    .footer-social svg { width:16px; height:16px; }
+    .footer-social:hover { color:var(--white); border-color:rgba(255,255,255,.35); }
+
+    /* SCROLL REVEAL */
+    .reveal {
+      opacity:0; transform:translateY(32px);
+      transition:opacity .8s ease, transform .8s ease;
+    }
+    .reveal.visible { opacity:1; transform:translateY(0); }
+    .reveal-delay-1 { transition-delay:.1s; }
+    .reveal-delay-2 { transition-delay:.2s; }
+    .reveal-delay-3 { transition-delay:.3s; }
+    .reveal-delay-4 { transition-delay:.4s; }
+
+    /* ANIMATIONS */
+    @keyframes slideUp {
+      from { opacity:0; transform:translateY(28px); }
+      to   { opacity:1; transform:translateY(0); }
+    }
+    @keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+    /* TILT CARD EFFECT */
+    .tilt-card { transform-style:preserve-3d; will-change:transform; }
+
+    /* PROGRESS BAR */
+    .reading-progress {
+      position:fixed; top:0; left:0; z-index:200;
+      height:2px; width:0%;
+      background:linear-gradient(to right, var(--coral), var(--blue-light));
+      transition:width .05s linear;
+    }
+
+    /* SECTION COUNTER */
+    .section-marker {
+      position:relative; z-index:2;
+      max-width:1200px; margin:0 auto;
+      padding:0 4rem;
+      display:flex; align-items:center; gap:1.5rem;
+      margin-top:5rem; margin-bottom:0;
+    }
+    .section-marker-line {
+      flex:1; height:1px;
+      background:linear-gradient(to right, rgba(123,179,216,.15), transparent);
+    }
+    .section-marker-num {
+      font-size:10px; letter-spacing:.3em; color:var(--muted);
+      font-weight:300; text-transform:uppercase;
+    }
+
+    /* HOVER GLOW ON STAT */
+    .stat-item { transition:background .4s; }
+    .stat-item:hover { background:rgba(123,179,216,.05); }
+
+    /* RESPONSIVE */
+    @media (max-width:1024px) {
+      .about-hero { grid-template-columns:1fr; gap:2.5rem; }
+      .hero-right { align-items:flex-start; }
+      .founded-badge { text-align:left; }
+      .story-grid { grid-template-columns:1fr 1fr; }
+      .vision-grid { grid-template-columns:1fr; }
+      .vision-left { border-right:none; border-bottom:1px solid rgba(123,179,216,.08); }
+      .cta-inner { grid-template-columns:1fr; }
+      .cta-card + .cta-card { border-left:none; border-top:1px solid rgba(123,179,216,.08); }
+    }
+    @media (max-width:768px) {
+      nav { padding:1rem 1.5rem; }
+      nav.scrolled { padding:.8rem 1.5rem; }
+      .nav-links { display:none; }
+      .hamburger { display:flex; }
+      .about-hero { padding:4rem 1.5rem 3rem; }
+      .section-divider { padding:0 1.5rem; }
+      .section-marker { padding:0 1.5rem; }
+      .stats-strip { grid-template-columns:1fr 1fr; padding:0 1.5rem; }
+      .stat-item:nth-child(2) { border-right:none; }
+      .story-section { padding:0 1.5rem; margin-top:4rem; }
+      .story-grid { grid-template-columns:1fr; }
+      .values-section { padding:0 1.5rem; margin-top:5rem; }
+      .values-header { flex-direction:column; align-items:flex-start; gap:1rem; }
+      .values-sub { text-align:left; max-width:none; }
+      .values-grid { grid-template-columns:1fr; }
+      .vision-section { padding:0 1.5rem; margin-top:5rem; }
+      .vision-left { padding:2.5rem 2rem; }
+      .vision-right { padding:2.5rem 2rem; }
+      .cta-section { padding:0 1.5rem 5rem; margin-top:5rem; }
+      .cta-card { padding:2.5rem 2rem; }
+      footer { padding:2rem 1.5rem; flex-direction:column; align-items:flex-start; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Reading progress bar -->
+<div class="reading-progress" id="readingProgress"></div>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<div class="bg-grid"></div>
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="index.html" onclick="closeMobile()">Home</a>
+  <a href="about.html" onclick="closeMobile()">About</a>
+  <a href="past-projects.html" onclick="closeMobile()">Past Projects</a>
+  <a href="contact.html" onclick="closeMobile()">Contact Us</a>
+</div>
+
+<!-- Nav -->
+<nav id="nav">
+  <a href="index.html" class="nav-logo">
+    <img src="images/logos/Effetti Logo.png" alt="Effetti Malta"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+    <span class="nav-logo-fallback" style="display:none">Effetti<span>.</span></span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="about.html" class="active">About</a></li>
+    <li><a href="past-projects.html">Past Projects</a></li>
+    <li><a href="contact.html">Contact Us</a></li>
+  </ul>
+  <button class="hamburger" id="hamburger" aria-label="Menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
+
+<div class="about-page">
+
+  <!-- ── HERO ── -->
+  <section class="about-hero">
+    <div class="hero-left">
+      <p class="about-label">Who we are</p>
+      <h1 class="about-title">
+        Built for<br>
+        <span class="blue">the sound.</span><br>
+        <span class="accent">Driven by</span><br>
+        the craft.
+      </h1>
+      <p class="about-sub">
+        Effetti Malta was born in 2024 with a clear purpose: to bring engineered, fully customised AV solutions to events across Malta — no matter the scale. From intimate private gatherings to large-scale productions, we treat every setup as its own project. But beyond the technical side, our real purpose is to be the reliable long-term partner our clients can depend on — so that when event day comes, they can focus entirely on their event, with complete peace of mind.
+      </p>
+    </div>
+    <div class="hero-right">
+      <div class="founded-badge">
+        <span class="badge-year">2024</span>
+        <span class="badge-label">Est. Malta</span>
+        <p class="badge-sub">Born local.<br>Built to grow.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Divider -->
+  <div class="section-divider" style="margin-top:3rem;">
+    <div class="section-divider-line"></div>
+  </div>
+
+  <!-- ── SIGNAL VISUAL ── -->
+  <div class="signal-strip reveal" style="max-width:1200px;margin:0 auto;padding:0;border:1px solid rgba(123,179,216,.08);background:rgba(123,179,216,.03);overflow:hidden;position:relative;">
+    <div class="signal-inner">
+      <div class="signal-label-left">
+        <span class="signal-tag">AV SIGNAL</span>
+        <span class="signal-live"><span class="signal-dot"></span>LIVE</span>
+      </div>
+      <div class="signal-bars" id="signalBars"></div>
+      <div class="signal-label-right">
+        <span class="signal-tag">EFFETTI.MT</span>
+        <span class="signal-freq">48kHz · DMX · DANTE</span>
+      </div>
+    </div>
+    <div class="signal-scanline"></div>
+  </div>
+
+  <style>
+    .signal-strip { position:relative; }
+    .signal-inner {
+      display:flex; align-items:center; gap:2rem;
+      padding:2rem 3rem;
+    }
+    .signal-label-left, .signal-label-right {
+      display:flex; flex-direction:column; gap:.4rem; flex-shrink:0;
+    }
+    .signal-label-right { align-items:flex-end; }
+    .signal-tag {
+      font-size:9px; letter-spacing:.35em; text-transform:uppercase;
+      color:var(--muted); font-weight:300;
+    }
+    .signal-live {
+      display:flex; align-items:center; gap:.4rem;
+      font-size:9px; letter-spacing:.3em; text-transform:uppercase;
+      color:var(--coral); font-weight:500;
+    }
+    .signal-dot {
+      width:6px; height:6px; border-radius:50%;
+      background:var(--coral);
+      animation:pulseDot 1.4s ease-in-out infinite;
+    }
+    @keyframes pulseDot {
+      0%,100%{opacity:1;transform:scale(1)}
+      50%{opacity:.3;transform:scale(.6)}
+    }
+    .signal-freq {
+      font-size:9px; letter-spacing:.2em; text-transform:uppercase;
+      color:var(--blue-light); font-weight:300; opacity:.6;
+    }
+    .signal-bars {
+      flex:1; display:flex; align-items:center;
+      gap:3px; height:64px;
+    }
+    .signal-bar {
+      flex:1; border-radius:1px;
+      background:linear-gradient(to top, var(--coral), var(--blue-light));
+      opacity:.8;
+      animation:barPulse var(--dur,1s) ease-in-out infinite alternate;
+      animation-delay:var(--delay,0s);
+    }
+    @keyframes barPulse {
+      0%  { height:var(--min-h,8px); opacity:.4; }
+      100%{ height:var(--max-h,48px); opacity:.9; }
+    }
+    .signal-scanline {
+      position:absolute; top:0; left:-100%;
+      width:60%; height:100%;
+      background:linear-gradient(to right, transparent, rgba(123,179,216,.04), transparent);
+      animation:scan 3.5s linear infinite;
+    }
+    @keyframes scan { to{left:160%;} }
+    @media(max-width:768px){
+      .signal-inner { padding:1.5rem; gap:1rem; }
+      .signal-bars { height:44px; }
+    }
+  </style>
+  <script>
+    (function(){
+      const container = document.getElementById('signalBars');
+      if(!container) return;
+      const count = 52;
+      const waveform = [];
+      // Generate a realistic audio waveform shape
+      for(let i=0;i<count;i++){
+        const t = i/count;
+        const env = Math.sin(t*Math.PI); // envelope shape
+        const noise = .4 + Math.random()*.6;
+        waveform.push(env * noise);
+      }
+      waveform.forEach((v,i)=>{
+        const bar = document.createElement('div');
+        bar.className = 'signal-bar';
+        const minH = Math.max(4, Math.round(v*12));
+        const maxH = Math.max(10, Math.round(v*58));
+        const dur = (.6 + Math.random()*.8).toFixed(2);
+        const delay = (Math.random()*-.8).toFixed(2);
+        bar.style.setProperty('--min-h', minH+'px');
+        bar.style.setProperty('--max-h', maxH+'px');
+        bar.style.setProperty('--dur', dur+'s');
+        bar.style.setProperty('--delay', delay+'s');
+        container.appendChild(bar);
+      });
+    })();
+  </script>
+
+  <!-- Section marker -->
+  <div class="section-marker">
+    <span class="section-marker-num">01 — Our Story</span>
+    <div class="section-marker-line"></div>
+  </div>
+
+  <!-- ── STORY SECTION (Change 6: restyled to match values, new copy) ── -->
+  <section class="story-section">
+    <div class="story-header reveal">
+      <span class="section-label">About Effetti</span>
+      <h2 class="story-heading">
+        Engineered from<br><span class="blue">the ground up.</span>
+      </h2>
+      <p class="story-heading-sub">
+        A story built on one principle: AV done properly, every time.
+      </p>
+    </div>
+
+    <!-- Timeline-style story layout -->
+    <div class="story-timeline">
+      <div class="story-timeline-line"></div>
+
+      <div class="story-timeline-item reveal reveal-delay-1">
+        <div class="sti-node">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="sti-content">
+          <span class="sti-year">2024</span>
+          <div class="sti-title">The Foundation</div>
+          <div class="sti-body">Effetti was founded with a simple idea: audio visual should be done properly, with an engineering mindset that brings structure, reliability, and attention to detail to every setup. From the beginning, the focus was on delivering clean, well-executed setups that clients could trust, every time.</div>
+        </div>
+      </div>
+
+      <div class="story-timeline-item reveal reveal-delay-2">
+        <div class="sti-node">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+        </div>
+        <div class="sti-content">
+          <span class="sti-year">Accessibility</span>
+          <div class="sti-title">Making Quality Accessible</div>
+          <div class="sti-body">Effetti set out to make high-quality and visually engaging setups more accessible. The aim was not just to provide equipment, but to help organisations and events achieve a more polished and professional result — without unnecessary complexity or cost.</div>
+        </div>
+      </div>
+
+      <div class="story-timeline-item reveal reveal-delay-3">
+        <div class="sti-node">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="sti-content">
+          <span class="sti-year">Malta</span>
+          <div class="sti-title">A Specialised Local Service</div>
+          <div class="sti-body">Based in Malta, Effetti has grown into a specialised service that combines technical knowledge with practical event experience. All work is carried out in-house — from sound engineering to lighting design — ensuring consistency and full control over every project.</div>
+        </div>
+      </div>
+
+      <div class="story-timeline-item reveal reveal-delay-4">
+        <div class="sti-node">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <div class="sti-content">
+          <span class="sti-year">Today</span>
+          <div class="sti-title">Engineered for Every Event</div>
+          <div class="sti-body">With capabilities such as DMX programming and a strong focus on customisation, each setup is tailored to the specific needs of the event. Supported by warranted engineering expertise, Effetti continues to deliver reliable, well-engineered AV solutions with a focus on quality, clarity, and execution.</div>
+        </div>
+      </div>
+    </div>
+
+    <style>
+      .story-timeline {
+        position: relative;
+        padding-left: 3rem;
+        margin-top: 1rem;
+      }
+      .story-timeline-line {
+        position: absolute;
+        left: 10px;
+        top: 8px;
+        bottom: 8px;
+        width: 1px;
+        background: linear-gradient(to bottom, var(--coral), var(--blue-light), transparent);
+      }
+      .story-timeline-item {
+        display: flex;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        position: relative;
+      }
+      .story-timeline-item:last-child { margin-bottom: 0; }
+      .sti-node {
+        flex-shrink: 0;
+        width: 36px; height: 36px;
+        border-radius: 50%;
+        border: 1px solid rgba(232,116,122,.35);
+        background: var(--navy);
+        display: flex; align-items: center; justify-content: center;
+        color: var(--coral);
+        position: relative;
+        margin-left: -2.85rem;
+        margin-top: .2rem;
+        transition: border-color .3s, background .3s;
+        z-index: 1;
+      }
+      .story-timeline-item:hover .sti-node {
+        border-color: var(--coral);
+        background: rgba(232,116,122,.08);
+      }
+      .sti-content {
+        flex: 1;
+        padding: 1.8rem 2rem;
+        border: 1px solid rgba(123,179,216,.08);
+        background: rgba(123,179,216,.02);
+        position: relative;
+        transition: background .4s, border-color .3s;
+      }
+      .sti-content::before {
+        content: '';
+        position: absolute;
+        left: 0; top: 0; bottom: 0;
+        width: 2px;
+        background: linear-gradient(to bottom, var(--coral), transparent);
+        transform: scaleY(0); transform-origin: top;
+        transition: transform .4s ease;
+      }
+      .story-timeline-item:hover .sti-content {
+        background: rgba(26,43,94,.5);
+        border-color: rgba(123,179,216,.15);
+      }
+      .story-timeline-item:hover .sti-content::before { transform: scaleY(1); }
+      .sti-year {
+        font-size: 9px; letter-spacing: .35em; text-transform: uppercase;
+        color: var(--coral); display: block; margin-bottom: .6rem;
+      }
+      .sti-title {
+        font-size: 16px; font-weight: 700; letter-spacing: .04em;
+        text-transform: uppercase; margin-bottom: .75rem; line-height: 1.2;
+      }
+      .sti-body {
+        font-size: 13px; font-weight: 300; color: var(--soft); line-height: 1.85;
+      }
+      @media(max-width:768px){
+        .story-timeline { padding-left: 2rem; }
+        .sti-node { margin-left: -1.85rem; width:28px; height:28px; }
+        .sti-content { padding: 1.2rem 1.2rem; }
+      }
+    </style>
+  </section>
+
+  <!-- Section marker -->
+  <div class="section-marker">
+    <span class="section-marker-num">02 — Our Principles</span>
+    <div class="section-marker-line"></div>
+  </div>
+
+  <!-- ── VALUES SECTION ── -->
+  <section class="values-section reveal">
+    <div class="values-header">
+      <div>
+        <span class="section-label">What drives us</span>
+        <h2 class="values-heading">Our core<br><span class="accent">principles.</span></h2>
+      </div>
+      <p class="values-sub">The values that shape every decision, every setup, every relationship.</p>
+    </div>
+    <div class="values-grid">
+      <div class="value-card reveal reveal-delay-1 tilt-card" style="--card-accent:var(--coral);">
+        <div class="value-card-top-bar"></div>
+        <div class="value-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+        </div>
+        <span class="value-number">01</span>
+        <div class="value-title">Client Peace of Mind</div>
+        <div class="value-bar"></div>
+        <div class="value-body">
+          Your event is one of the most important moments for your audience. We take that seriously. From the first call to the final pack-down, we ensure you're never left worrying about the technical side — because we've got it handled.
+        </div>
+      </div>
+      <div class="value-card reveal reveal-delay-2 tilt-card" style="--card-accent:var(--blue-light);">
+        <div class="value-card-top-bar"></div>
+        <div class="value-icon-wrap" style="color:var(--blue-light);border-color:rgba(123,179,216,.25);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+        </div>
+        <span class="value-number">02</span>
+        <div class="value-title">True Customisation</div>
+        <div class="value-bar" style="background:var(--blue-light);"></div>
+        <div class="value-body">
+          We don't do cookie-cutter setups. Every event starts with a deep conversation about your vision, your space, your audience. We then engineer a solution built exactly around that — not a standard package forced to fit.
+        </div>
+      </div>
+      <div class="value-card reveal reveal-delay-3 tilt-card" style="--card-accent:var(--coral);">
+        <div class="value-card-top-bar"></div>
+        <div class="value-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <span class="value-number">03</span>
+        <div class="value-title">Reliability, Always</div>
+        <div class="value-bar"></div>
+        <div class="value-body">
+          In live events, failure is not an option. We maintain our equipment to the highest standards, plan redundancy into our setups, and show up with qualified engineers who have seen it all — so the show always goes on.
+        </div>
+      </div>
+      <div class="value-card reveal reveal-delay-1 tilt-card" style="--card-accent:var(--blue-light);">
+        <div class="value-card-top-bar"></div>
+        <div class="value-icon-wrap" style="color:var(--blue-light);border-color:rgba(123,179,216,.25);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+        </div>
+        <span class="value-number">04</span>
+        <div class="value-title">Technical Excellence</div>
+        <div class="value-bar" style="background:var(--blue-light);"></div>
+        <div class="value-body">
+          Our team includes warranted engineers and experienced designers who understand the science behind great sound and light. We invest in the best equipment and the knowledge to use it at its full potential.
+        </div>
+      </div>
+      <div class="value-card reveal reveal-delay-2 tilt-card" style="--card-accent:var(--coral);">
+        <div class="value-card-top-bar"></div>
+        <div class="value-icon-wrap">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+        </div>
+        <span class="value-number">05</span>
+        <div class="value-title">Lasting Partnerships</div>
+        <div class="value-bar"></div>
+        <div class="value-body">
+          We don't vanish after the event. We follow up, we learn, we improve. The goal is always a long-term relationship — clients who trust us so completely they never have to look elsewhere for their AV needs.
+        </div>
+      </div>
+      <div class="value-card reveal reveal-delay-3 tilt-card" style="--card-accent:var(--blue-light);">
+        <div class="value-card-top-bar"></div>
+        <div class="value-icon-wrap" style="color:var(--blue-light);border-color:rgba(123,179,216,.25);">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" width="20" height="20"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+        </div>
+        <span class="value-number">06</span>
+        <div class="value-title">Full-Service Thinking</div>
+        <div class="value-bar" style="background:var(--blue-light);"></div>
+        <div class="value-body">
+          From AV equipment and power distribution to event planning support and access to our network of trusted specialists — we think holistically about your event, covering every angle so nothing falls through the cracks.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <style>
+    .value-card-top-bar {
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--card-accent, var(--coral));
+      transform: scaleX(0); transform-origin: left;
+      transition: transform .5s cubic-bezier(.4,0,.2,1);
+    }
+    .value-card:hover .value-card-top-bar { transform: scaleX(1); }
+    .value-icon-wrap {
+      width: 44px; height: 44px;
+      border: 1px solid rgba(232,116,122,.22);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      color: var(--coral);
+      margin-bottom: 1.2rem;
+      transition: border-color .3s, background .3s;
+    }
+    .value-card:hover .value-icon-wrap {
+      border-color: rgba(232,116,122,.55);
+      background: rgba(232,116,122,.06);
+    }
+  </style>
+
+  <!-- Section marker -->
+  <div class="section-marker">
+    <span class="section-marker-num">03 — Our Vision</span>
+    <div class="section-marker-line"></div>
+  </div>
+
+  <!-- ── VISION SECTION (Change 3: replaces founder section) ── -->
+  <section class="vision-section reveal">
+    <div class="vision-inner">
+      <div class="vision-grid">
+        <div class="vision-left">
+          <span class="vision-eyebrow">Where we're headed</span>
+          <h2 class="vision-title">
+            Growing with purpose.<br><span class="blue">Never at the cost of quality.</span>
+          </h2>
+          <p class="vision-statement">
+            Our vision is to continue growing — while ensuring that no matter how far we scale, we always deliver the highest level of service to every client, every time.
+          </p>
+          <p class="vision-body">
+            Growth means nothing if it comes at the expense of the client experience. As we expand our capabilities and our team, the standard of service remains the foundation. Every client — especially those who've trusted us from the beginning — stays at the heart of everything we do.
+          </p>
+          <p class="vision-body" style="margin-top:1.2rem;">
+            We are constantly growing our inventory, ensuring all equipment is well-maintained and ready at every deployment. We look after our long-standing clients and will always go the extra mile for them — because that trust is the most valuable thing we have.
+          </p>
+        </div>
+        <div class="vision-right">
+          <div class="vision-pillar reveal reveal-delay-1">
+            <div class="vision-pillar-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+              </svg>
+            </div>
+            <div class="vision-pillar-content">
+              <div class="vision-pillar-title">Scaling with standards</div>
+              <div class="vision-pillar-body">We grow deliberately — expanding only in ways that allow us to maintain the quality and personal attention every client deserves.</div>
+            </div>
+          </div>
+          <div class="vision-pillar reveal reveal-delay-2">
+            <div class="vision-pillar-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 7H4a2 2 0 00-2 2v6a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><line x1="16" y1="21" x2="16" y2="17"/><line x1="8" y1="21" x2="8" y2="17"/><line x1="12" y1="7" x2="12" y2="3"/><line x1="8" y1="3" x2="16" y2="3"/>
+              </svg>
+            </div>
+            <div class="vision-pillar-content">
+              <div class="vision-pillar-title">Always-ready inventory</div>
+              <div class="vision-pillar-body">We continuously invest in and maintain our equipment — so every deployment goes out in perfect condition, without compromise.</div>
+            </div>
+          </div>
+          <div class="vision-pillar reveal reveal-delay-3">
+            <div class="vision-pillar-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+              </svg>
+            </div>
+            <div class="vision-pillar-content">
+              <div class="vision-pillar-title">Long-lasting client relationships</div>
+              <div class="vision-pillar-body">Our long-term clients are always at the forefront of our mind. We will always help them in any way we can — that loyalty is mutual and it runs deep.</div>
+            </div>
+          </div>
+          <div class="vision-pillar reveal reveal-delay-4">
+            <div class="vision-pillar-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><line x1="19" y1="8" x2="19" y2="14"/><line x1="22" y1="11" x2="16" y2="11"/>
+              </svg>
+            </div>
+            <div class="vision-pillar-content">
+              <div class="vision-pillar-title">Building the right team</div>
+              <div class="vision-pillar-body">We are always looking to bring in the right people — engineers, operators, and designers who genuinely care about the craft and the client.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section marker -->
+  <div class="section-marker">
+    <span class="section-marker-num">04 — Get in Touch</span>
+    <div class="section-marker-line"></div>
+  </div>
+
+  <!-- ── CTA SECTION (Change 4: three cards, added Join Our Team) ── -->
+  <section class="cta-section">
+    <div class="cta-inner">
+      <div class="cta-card cta-card--projects reveal reveal-delay-1">
+        <span class="cta-label">See the work</span>
+        <h3 class="cta-heading">Our <span class="blue">past projects</span> speak for themselves.</h3>
+        <p class="cta-body">Browse real setups, real events, real results — from club nights to corporate shows across Malta.</p>
+        <a href="past-projects.html" class="cta-link cta-link--ghost">
+          <span>View Projects</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="cta-card cta-card--contact reveal reveal-delay-2">
+        <span class="cta-label">Start a conversation</span>
+        <h3 class="cta-heading">Let's build something <span class="accent">together.</span></h3>
+        <p class="cta-body">Tell us about your event — the venue, the vibe, the scale. We'll come back with the right AV setup for it.</p>
+        <a href="contact.html" class="cta-link">
+          <span>Get in Touch</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+      </div>
+      <div class="cta-card cta-card--join reveal reveal-delay-3" style="background:rgba(232,116,122,.04);">
+        <span class="cta-label" style="color:rgba(232,116,122,.55);">Join the team</span>
+        <h3 class="cta-heading" style="color:var(--coral-soft);">Passionate about <span class="accent">live events?</span></h3>
+        <p class="cta-body" style="color:rgba(242,160,164,.65);">We're always open to meeting people who care about the craft. Whether you're an engineer, technician, or designer — we'd love to hear from you.</p>
+        <a href="contact.html" class="cta-link cta-link--join">
+          <span>Work With Us</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </a>
+        <a href="mailto:info@effetti.mt" class="join-email">info@effetti.mt</a>
+      </div>
+    </div>
+  </section>
+
+</div><!-- /about-page -->
+
+<!-- Footer -->
+<footer>
+  <a href="index.html" class="footer-logo">
+    <img src="images/logos/Effetti Logo.png" alt="Effetti Malta"
+      onerror="this.style.display='none';this.nextElementSibling.style.display='inline'">
+    <span class="footer-logo-text" style="display:none">Effetti<span>.</span></span>
+  </a>
+  <p class="footer-copy">© 2026 Effetti Malta. All rights reserved.</p>
+  <div class="footer-links">
+    <a href="https://www.instagram.com/effetti.mt/" target="_blank" rel="noopener" aria-label="Instagram" class="footer-social">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+    </a>
+    <a href="https://www.facebook.com/p/Effetti-Malta-61568374137968/" target="_blank" rel="noopener" aria-label="Facebook" class="footer-social">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
+    </a>
+  </div>
+</footer>
+
+<script>
+  /* ── CURSOR ── */
+  const cursor = document.getElementById('cursor');
+  const ring   = document.getElementById('cursorRing');
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;});
+  (function animCursor(){
+    cursor.style.left=mx+'px'; cursor.style.top=my+'px';
+    rx+=(mx-rx)*.12; ry+=(my-ry)*.12;
+    ring.style.left=rx+'px'; ring.style.top=ry+'px';
+    requestAnimationFrame(animCursor);
+  })();
+
+  /* Magnetic cursor on interactive elements */
+  document.querySelectorAll('a,button,.value-card,.story-card').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{
+      cursor.classList.add('magnetic');
+      ring.classList.add('magnetic');
+    });
+    el.addEventListener('mouseleave',()=>{
+      cursor.classList.remove('magnetic');
+      ring.classList.remove('magnetic');
+    });
+  });
+
+  /* ── NAV SHRINK ON SCROLL ── */
+  const navEl = document.getElementById('nav');
+  window.addEventListener('scroll',()=>{
+    navEl.classList.toggle('scrolled', window.scrollY > 60);
+  },{passive:true});
+
+  /* ── READING PROGRESS BAR ── */
+  const progressBar = document.getElementById('readingProgress');
+  window.addEventListener('scroll',()=>{
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop;
+    const total = doc.scrollHeight - doc.clientHeight;
+    progressBar.style.width = (scrolled/total*100)+'%';
+  },{passive:true});
+
+  /* ── HAMBURGER ── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click',()=>mobileMenu.classList.toggle('open'));
+  function closeMobile(){mobileMenu.classList.remove('open');}
+
+  /* ── SCROLL REVEAL ── */
+  const observer = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        e.target.classList.add('visible');
+      }
+    });
+  },{threshold:.1});
+  document.querySelectorAll('.reveal, .stat-item').forEach(el=>observer.observe(el));
+
+  /* ── ORB PARALLAX ── */
+  const orb1=document.querySelector('.orb-1');
+  const orb2=document.querySelector('.orb-2');
+  const orb3=document.querySelector('.orb-3');
+  document.addEventListener('mousemove',e=>{
+    const x=(e.clientX/window.innerWidth-.5)*30;
+    const y=(e.clientY/window.innerHeight-.5)*30;
+    if(orb1) orb1.style.transform=`translate(${x*.6}px,${y*.6}px) scale(1)`;
+    if(orb2) orb2.style.transform=`translate(${-x*.4}px,${-y*.4}px) scale(1)`;
+    if(orb3) orb3.style.transform=`translate(${x*.8}px,${y*.8}px) scale(1)`;
+  },{passive:true});
+
+  /* ── STAT COUNTER ANIMATION ── */
+  const statObserver = new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){
+        const accentEl = e.target.querySelector('.stat-accent');
+        if(accentEl){
+          const val=parseInt(accentEl.textContent);
+          if(!isNaN(val)){
+            let count=0;
+            const id=setInterval(()=>{
+              count++;
+              accentEl.textContent=count;
+              if(count>=val) clearInterval(id);
+            }, 1800/val);
+          }
+        }
+        statObserver.unobserve(e.target);
+      }
+    });
+  },{threshold:.4});
+  document.querySelectorAll('.stat-item').forEach(el=>statObserver.observe(el));
+
+  /* ── TILT EFFECT ON VALUE CARDS ── */
+  document.querySelectorAll('.tilt-card').forEach(card=>{
+    card.addEventListener('mousemove',e=>{
+      const rect = card.getBoundingClientRect();
+      const cx = rect.left + rect.width/2;
+      const cy = rect.top + rect.height/2;
+      const dx = (e.clientX - cx) / (rect.width/2);
+      const dy = (e.clientY - cy) / (rect.height/2);
+      card.style.transform = `perspective(800px) rotateX(${-dy*4}deg) rotateY(${dx*4}deg) translateZ(4px)`;
+    });
+    card.addEventListener('mouseleave',()=>{
+      card.style.transform = 'perspective(800px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+    });
+  });
+
+  /* ── STAGGERED REVEAL FOR GRID CHILDREN ── */
+  document.querySelectorAll('.story-grid, .values-grid').forEach(grid=>{
+    const children = Array.from(grid.children);
+    children.forEach((child,i)=>{
+      child.style.transitionDelay = (i*0.07)+'s';
+    });
+  });
+
+  /* ── HOVER HIGHLIGHT LINE FOR VISION PILLARS ── */
+  document.querySelectorAll('.vision-pillar').forEach(p=>{
+    p.addEventListener('mouseenter',()=>{
+      p.querySelector('.vision-pillar-icon').style.borderColor='rgba(232,116,122,.6)';
+      p.querySelector('.vision-pillar-icon').style.color='var(--coral)';
+    });
+    p.addEventListener('mouseleave',()=>{
+      p.querySelector('.vision-pillar-icon').style.borderColor='rgba(232,116,122,.25)';
+    });
+  });
+</script>
+
+</body>
+</html>
