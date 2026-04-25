@@ -37,6 +37,10 @@
 
     /* ── CURSOR ── */
     * { cursor:none; }
+    @media (hover: none) and (pointer: coarse) {
+  * { cursor: auto !important; }
+  .service-photos { cursor: auto !important; }
+}
     .cursor {
       position:fixed; width:10px; height:10px;
       background:var(--coral); border-radius:50%;
