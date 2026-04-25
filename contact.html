@@ -266,12 +266,18 @@
     }
 
     @media(max-width:900px){
-      .contact-hero { grid-template-columns:1fr; }
-      .phone-wrap { width:240px; height:300px; }
+      .contact-hero { grid-template-columns:1fr 220px; gap:1.5rem; padding:3rem 2rem 1.5rem; }
+      .phone-wrap { width:200px; height:260px; }
     }
     @media(max-width:768px){
-      .contact-hero { padding:3rem 1.5rem 1.5rem; }
-      .phone-wrap { display:none; }
+      .contact-hero { grid-template-columns:1fr 150px; gap:1rem; padding:2.5rem 1.2rem 1.2rem; }
+      .phone-wrap { display:flex; width:140px; height:185px; }
+      .phone-wrap svg { width:140px !important; height:185px !important; }
+    }
+    @media(max-width:480px){
+      .contact-hero { grid-template-columns:1fr 110px; gap:.6rem; }
+      .phone-wrap { width:105px; height:140px; }
+      .phone-wrap svg { width:105px !important; height:140px !important; }
     }
 
     .contact-label {
