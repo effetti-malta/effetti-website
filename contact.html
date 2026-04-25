@@ -37,6 +37,18 @@
 
     /* CURSOR */
     * { cursor:none; }
+    @media (hover: none) and (pointer: coarse) {
+      * { cursor: auto !important; }
+      .cursor, .cursor-ring { display:none !important; }
+    }
+
+    /* READING PROGRESS */
+    .reading-progress {
+      position:fixed; top:0; left:0; z-index:200;
+      height:2px; width:0%;
+      background:linear-gradient(to right, var(--coral), var(--blue-light));
+      transition:width .05s linear;
+    }
     .cursor {
       position:fixed; width:10px; height:10px;
       background:var(--coral); border-radius:50%;
@@ -398,20 +410,39 @@
       opacity:0; animation:fadeIn .6s ease .65s both;
     }
 
-    /* ── EMAIL STATIC CARD (desktop) ── */
+    /* ── EMAIL DESKTOP DISPLAY ── */
     .email-static {
-      display:flex; align-items:center; gap:1.25rem;
-      padding:1.4rem 1.75rem;
-      border:1px solid rgba(232,116,122,.18);
-      background:rgba(232,116,122,.04);
+      padding:1.6rem 1.75rem;
       opacity:0; animation:slideUp .7s ease .7s both;
     }
-    .email-static .channel-icon {
-      color:var(--coral);
-      border-color:rgba(232,116,122,.3);
+    .email-or-divider {
+      display:flex; align-items:center; gap:1rem;
+      margin-bottom:1.4rem;
     }
-    .email-static .channel-name { color:var(--white); }
-    .email-static .channel-handle { color:rgba(232,116,122,.7); }
+    .email-or-line {
+      flex:1; height:1px;
+      background:rgba(123,179,216,.12);
+    }
+    .email-or-text {
+      font-size:10px; letter-spacing:.35em; text-transform:uppercase;
+      color:var(--muted); font-weight:300;
+    }
+    .email-direct-label {
+      font-size:9px; letter-spacing:.3em; text-transform:uppercase;
+      color:var(--muted); margin-bottom:.6rem;
+    }
+    .email-direct-address {
+      font-size:15px; font-weight:400; letter-spacing:.04em;
+      color:var(--coral); text-decoration:none;
+      border-bottom:1px solid rgba(232,116,122,.25);
+      padding-bottom:2px;
+      transition:color .3s, border-color .3s;
+      display:inline-block;
+    }
+    .email-direct-address:hover {
+      color:var(--coral-soft);
+      border-color:rgba(232,116,122,.6);
+    }
 
     .email-mobile-btn { display:none; }
 
@@ -514,33 +545,25 @@
     .success-sub { font-size:14px; color:var(--soft); line-height:1.7; }
 
     /* ── INFO STRIP ── */
-    .contact-info-strip {
+    /* COVER PHOTO */
+    .contact-cover {
       position:relative; z-index:2;
       max-width:1200px; margin:0 auto;
       padding:0 4rem 5rem;
-      display:grid; grid-template-columns:repeat(3,1fr);
-      gap:1px;
-      background:rgba(123,179,216,.06);
-      border:1px solid rgba(123,179,216,.08);
-      border-top:none;
+      opacity:0; animation:slideUp .7s ease .9s both;
     }
-    .info-item {
-      padding:2rem 2.5rem;
-      opacity:0; animation:slideUp .7s ease both;
-      background:rgba(13,26,58,.6);
+    .contact-cover-img {
+      width:100%; display:block;
+      object-fit:cover; object-position:center;
+      aspect-ratio:205/78; /* Facebook cover photo ratio ~2.6:1 */
+      border:1px solid rgba(123,179,216,.1);
+      filter:brightness(.92) saturate(1.05);
+      transition:filter .4s;
     }
-    .info-item:nth-child(1) { animation-delay:.7s; }
-    .info-item:nth-child(2) { animation-delay:.8s; }
-    .info-item:nth-child(3) { animation-delay:.9s; }
-    .info-icon { color:var(--coral); margin-bottom:1rem; }
-    .info-icon svg { width:22px; height:22px; }
-    .info-label {
-      font-size:9px; letter-spacing:.3em; text-transform:uppercase;
-      color:var(--muted); margin-bottom:.5rem;
+    .contact-cover-img:hover { filter:brightness(1) saturate(1.1); }
+    @media(max-width:768px){
+      .contact-cover { padding:0 1.5rem 3rem; }
     }
-    .info-value { font-size:15px; font-weight:400; color:var(--soft); }
-    .info-value a { color:var(--soft); text-decoration:none; transition:color .3s; }
-    .info-value a:hover { color:var(--coral); }
 
     /* FOOTER */
     footer {
@@ -633,6 +656,7 @@
 </head>
 <body>
 
+<div class="reading-progress" id="readingProgress"></div>
 <div class="cursor" id="cursor"></div>
 <div class="cursor-ring" id="cursorRing"></div>
 
@@ -858,16 +882,16 @@
 
       <div class="channel-divider"></div>
 
-      <!-- Email - static on desktop -->
+      <!-- Email - clean display on desktop -->
       <div class="email-static">
-        <div class="channel-icon">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 7 10-7"/>
-          </svg>
+        <div class="email-or-divider">
+          <span class="email-or-line"></span>
+          <span class="email-or-text">or</span>
+          <span class="email-or-line"></span>
         </div>
-        <div class="channel-text">
-          <span class="channel-name">Email Us</span>
-          <span class="channel-handle" id="emailDisplay1"></span>
+        <div class="email-direct">
+          <div class="email-direct-label">Email us directly</div>
+          <a class="email-direct-address" id="emailDisplay1" href="#"></a>
         </div>
       </div>
 
@@ -965,35 +989,13 @@
     </div>
   </div>
 
-  <!-- Info strip -->
-  <div class="contact-info-strip">
-    <div class="info-item">
-      <div class="info-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
-          <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
-        </svg>
-      </div>
-      <div class="info-label">Based in</div>
-      <div class="info-value">Malta, covering all islands</div>
-    </div>
-    <div class="info-item">
-      <div class="info-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
-          <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
-        </svg>
-      </div>
-      <div class="info-label">Typical response</div>
-      <div class="info-value">Within a few hours</div>
-    </div>
-    <div class="info-item">
-      <div class="info-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.3">
-          <path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 015.19 12.9 19.79 19.79 0 012.12 4.23 2 2 0 014.11 2h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/>
-        </svg>
-      </div>
-      <div class="info-label">Enquiries</div>
-      <div class="info-value" id="emailDisplay3"></div>
-    </div>
+  <!-- Cover photo -->
+  <div class="contact-cover">
+    <img
+      src="images/logos/COVER PHOTO EFFETTI FINAL.png"
+      alt="Effetti Malta"
+      class="contact-cover-img"
+    />
   </div>
 
 </div><!-- /contact-page -->
@@ -1024,9 +1026,9 @@
     const email  = user + '@' + domain;
     const mailto = 'mailto:' + email;
 
-    // Desktop handle display
+    // Desktop handle display — now an anchor element
     const d1 = document.getElementById('emailDisplay1');
-    if (d1) d1.innerHTML = email;
+    if (d1) { d1.textContent = email; d1.href = mailto; }
 
     // Mobile button href + handle display
     const mobileBtn = document.getElementById('emailMobileBtn');
@@ -1133,6 +1135,13 @@
   });
 
   window.addEventListener('load', updatePhoneRect);
+
+  /* ── READING PROGRESS ── */
+  const progressBar = document.getElementById('readingProgress');
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    progressBar.style.width = (doc.scrollTop / (doc.scrollHeight - doc.clientHeight) * 100) + '%';
+  }, { passive: true });
 </script>
 
 </body>
