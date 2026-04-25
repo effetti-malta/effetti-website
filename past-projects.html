@@ -349,13 +349,6 @@
       font-size:14px; font-weight:300; color:var(--soft);
       line-height:1.85;
     }
-    .card-highlight {
-      font-size:13px; font-weight:300; color:var(--coral-soft);
-      font-style:italic; line-height:1.7;
-      padding-left:1.2rem;
-      border-left:2px solid rgba(232,116,122,.35);
-    }
-
     /* ── LOAD MORE SECTION ── */
     .load-more-section {
       position:relative; z-index:2;
@@ -957,8 +950,7 @@ function buildCard(event, globalIndex) {
       </div>
     </div>
     <div class="card-tags">${event.tags.map(t=>`<span class="tag">${t}</span>`).join('')}</div>
-    <p class="card-description">${event.description}</p>
-    <p class="card-highlight">${event.highlight}</p>`;
+    <p class="card-description">${event.description}</p>`;
 
   card.appendChild(photoArea);
   card.appendChild(body);
