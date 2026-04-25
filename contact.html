@@ -485,6 +485,12 @@
     .form-group textarea { resize:none; height:130px; line-height:1.7; }
     .form-group select { background-image:none; }
     .form-group select option { background:var(--navy); color:var(--white); }
+    /* Date picker — suppress browser chrome that clashes with dark theme */
+    .form-group input[type="date"] { color-scheme:dark; }
+    .form-group input[type="date"]::-webkit-calendar-picker-indicator {
+      filter:invert(1) opacity(.4);
+      cursor:pointer;
+    }
 
     .form-line {
       height:1px; background:var(--coral); width:0;
@@ -933,7 +939,7 @@
           </div>
           <div class="form-group">
             <label for="event-date">Approximate Date</label>
-            <input type="text" id="event-date" name="event_date" placeholder="e.g. May 2026">
+            <input type="date" id="event-date" name="event_date" min="2025-01-01">
             <div class="form-line"></div>
           </div>
         </div>
