@@ -433,15 +433,8 @@
     }
     .email-direct-address {
       font-size:15px; font-weight:400; letter-spacing:.04em;
-      color:var(--coral); text-decoration:none;
-      border-bottom:1px solid rgba(232,116,122,.25);
-      padding-bottom:2px;
-      transition:color .3s, border-color .3s;
+      color:var(--coral);
       display:inline-block;
-    }
-    .email-direct-address:hover {
-      color:var(--coral-soft);
-      border-color:rgba(232,116,122,.6);
     }
 
     .email-mobile-btn { display:none; }
@@ -545,26 +538,6 @@
     .success-sub { font-size:14px; color:var(--soft); line-height:1.7; }
 
     /* ── INFO STRIP ── */
-    /* COVER PHOTO */
-    .contact-cover {
-      position:relative; z-index:2;
-      max-width:1200px; margin:0 auto;
-      padding:0 4rem 5rem;
-      opacity:0; animation:slideUp .7s ease .9s both;
-    }
-    .contact-cover-img {
-      width:100%; display:block;
-      object-fit:cover; object-position:center;
-      aspect-ratio:205/78; /* Facebook cover photo ratio ~2.6:1 */
-      border:1px solid rgba(123,179,216,.1);
-      filter:brightness(.92) saturate(1.05);
-      transition:filter .4s;
-    }
-    .contact-cover-img:hover { filter:brightness(1) saturate(1.1); }
-    @media(max-width:768px){
-      .contact-cover { padding:0 1.5rem 3rem; }
-    }
-
     /* FOOTER */
     footer {
       position:relative; z-index:2;
@@ -891,7 +864,7 @@
         </div>
         <div class="email-direct">
           <div class="email-direct-label">Email us directly</div>
-          <a class="email-direct-address" id="emailDisplay1" href="#"></a>
+          <span class="email-direct-address" id="emailDisplay1"></span>
         </div>
       </div>
 
@@ -989,14 +962,6 @@
     </div>
   </div>
 
-  <!-- Cover photo -->
-  <div class="contact-cover">
-    <img
-      src="images/logos/COVER PHOTO EFFETTI FINAL.png"
-      alt="Effetti Malta"
-      class="contact-cover-img"
-    />
-  </div>
 
 </div><!-- /contact-page -->
 
@@ -1026,9 +991,9 @@
     const email  = user + '@' + domain;
     const mailto = 'mailto:' + email;
 
-    // Desktop handle display — now an anchor element
+    // Desktop display — plain text, not a link
     const d1 = document.getElementById('emailDisplay1');
-    if (d1) { d1.textContent = email; d1.href = mailto; }
+    if (d1) d1.textContent = email;
 
     // Mobile button href + handle display
     const mobileBtn = document.getElementById('emailMobileBtn');
