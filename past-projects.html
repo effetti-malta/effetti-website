@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -468,11 +469,19 @@
     @keyframes fadeIn  { from{opacity:0} to{opacity:1} }
 
     /* ── RESPONSIVE ── */
-    @media (max-width:1024px) {
-      .projects-hero { grid-template-columns:1fr; gap:2rem; }
-      .hero-right { align-items:flex-start; }
+    /* ── SPOTLIGHT VISUAL ── */
+    .hero-right {
+      display:flex; align-items:center; justify-content:center;
+      position:relative;
     }
+    #spotlightCanvas {
+      display:block;
+    }
+
     @media (max-width:768px) {
+      .projects-hero { grid-template-columns:1fr; gap:2rem; }
+      .hero-right { align-items:flex-start; justify-content:flex-start; }
+      #spotlightCanvas { width:220px !important; height:280px !important; }
       nav { padding:1rem 1.5rem; }
       nav.scrolled { padding:.8rem 1.5rem; }
       .nav-links { display:none; }
@@ -538,6 +547,9 @@
       <p class="projects-sub">
         Real events. Real setups. Every entry below is an experience we've designed, engineered, and delivered - from private celebrations to corporate events across Malta.
       </p>
+    </div>
+    <div class="hero-right">
+      <canvas id="spotlightCanvas" width="320" height="420" aria-hidden="true"></canvas>
     </div>
   </section>
 
@@ -1057,6 +1069,265 @@ document.getElementById('loadMoreBtn').addEventListener('click', () => {
 /* Init */
 buildFilterBar();
 render();
+
+/* ══════════════════════════════════════════════════════════════
+   SPOTLIGHT CANVAS ANIMATION
+   ══════════════════════════════════════════════════════════════ */
+(function() {
+  const canvas = document.getElementById('spotlightCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  const W = canvas.width;
+  const H = canvas.height;
+
+  // Three moving-head lights on a truss
+  const lights = [
+    { x: 72,  y: 38, phase: 0,    speed: 0.38, color: [232, 116, 122], targetAngle: 0, currentAngle: 0 },
+    { x: 160, y: 28, phase: 2.09, speed: 0.28, color: [123, 179, 216], targetAngle: 0, currentAngle: 0 },
+    { x: 248, y: 38, phase: 4.19, speed: 0.44, color: [232, 116, 122], targetAngle: 0, currentAngle: 0 },
+  ];
+
+  // Dust particles inside each beam
+  const PARTICLE_COUNT = 18;
+  const particles = [];
+  for (let i = 0; i < PARTICLE_COUNT; i++) {
+    particles.push({
+      lightIdx: i % 3,
+      t: Math.random(),        // position along beam 0-1
+      offset: (Math.random() - 0.5) * 0.6, // lateral offset within cone
+      speed: 0.0008 + Math.random() * 0.001,
+      opacity: 0.1 + Math.random() * 0.25,
+      size: 0.8 + Math.random() * 1.2,
+    });
+  }
+
+  // Mouse tracking
+  let mouseX = W / 2, mouseY = H / 2, mouseOnCanvas = false;
+  canvas.addEventListener('mousemove', e => {
+    const r = canvas.getBoundingClientRect();
+    mouseX = (e.clientX - r.left) * (W / r.width);
+    mouseY = (e.clientY - r.top)  * (H / r.height);
+    mouseOnCanvas = true;
+  });
+  canvas.addEventListener('mouseleave', () => { mouseOnCanvas = false; });
+
+  function drawTruss() {
+    // Main bar
+    const grad = ctx.createLinearGradient(20, 26, W - 20, 26);
+    grad.addColorStop(0,   'rgba(123,179,216,0)');
+    grad.addColorStop(0.1, 'rgba(123,179,216,0.35)');
+    grad.addColorStop(0.5, 'rgba(123,179,216,0.5)');
+    grad.addColorStop(0.9, 'rgba(123,179,216,0.35)');
+    grad.addColorStop(1,   'rgba(123,179,216,0)');
+    ctx.beginPath();
+    ctx.moveTo(20, 26); ctx.lineTo(W - 20, 26);
+    ctx.strokeStyle = grad; ctx.lineWidth = 2.5; ctx.stroke();
+
+    // Cross-braces
+    ctx.lineWidth = 0.8;
+    ctx.strokeStyle = 'rgba(123,179,216,0.18)';
+    for (let x = 30; x < W - 20; x += 28) {
+      ctx.beginPath();
+      ctx.moveTo(x, 20); ctx.lineTo(x + 14, 32);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(x + 14, 20); ctx.lineTo(x, 32);
+      ctx.stroke();
+    }
+    // Second rail
+    ctx.beginPath();
+    ctx.moveTo(20, 32); ctx.lineTo(W - 20, 32);
+    ctx.strokeStyle = 'rgba(123,179,216,0.22)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+
+  function drawHead(light) {
+    const x = light.x, y = light.y;
+    const [r, g, b] = light.color;
+
+    // Mount bracket (drop from truss)
+    ctx.beginPath();
+    ctx.moveTo(x, 29); ctx.lineTo(x, y - 11);
+    ctx.strokeStyle = 'rgba(123,179,216,0.3)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    // Body (yoke + housing outer)
+    ctx.beginPath();
+    ctx.arc(x, y, 13, 0, Math.PI * 2);
+    const bodyGrad = ctx.createRadialGradient(x - 4, y - 4, 1, x, y, 13);
+    bodyGrad.addColorStop(0, 'rgba(40,60,100,0.95)');
+    bodyGrad.addColorStop(1, 'rgba(10,20,55,0.95)');
+    ctx.fillStyle = bodyGrad;
+    ctx.fill();
+    ctx.strokeStyle = `rgba(${r},${g},${b},0.55)`;
+    ctx.lineWidth = 1.2;
+    ctx.stroke();
+
+    // Lens glow
+    const lensGrad = ctx.createRadialGradient(x, y, 0, x, y, 9);
+    lensGrad.addColorStop(0,   `rgba(${r},${g},${b},0.9)`);
+    lensGrad.addColorStop(0.4, `rgba(${r},${g},${b},0.4)`);
+    lensGrad.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+    ctx.beginPath();
+    ctx.arc(x, y, 9, 0, Math.PI * 2);
+    ctx.fillStyle = lensGrad;
+    ctx.fill();
+
+    // Specular dot
+    ctx.beginPath();
+    ctx.arc(x - 3, y - 3, 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.5)';
+    ctx.fill();
+  }
+
+  function drawBeam(light, angle) {
+    const [r, g, b] = light.color;
+    const tipX = light.x;
+    const tipY = light.y + 14;
+
+    // How far the beam travels
+    const BEAM_LEN = H - tipY - 20;
+    const HALF_CONE = 0.13; // radians
+
+    const cx = tipX + Math.sin(angle) * BEAM_LEN;
+    const cy = tipY + Math.cos(angle) * BEAM_LEN;
+
+    const spread = BEAM_LEN * Math.tan(HALF_CONE);
+    const px =  Math.cos(angle);
+    const py = -Math.sin(angle);
+
+    // Outer glow (wider, more transparent)
+    const outerSpread = spread * 2.2;
+    const outerGrad = ctx.createLinearGradient(tipX, tipY, cx, cy);
+    outerGrad.addColorStop(0,   `rgba(${r},${g},${b},0.18)`);
+    outerGrad.addColorStop(0.35,`rgba(${r},${g},${b},0.06)`);
+    outerGrad.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+    ctx.beginPath();
+    ctx.moveTo(tipX, tipY);
+    ctx.lineTo(cx + px * outerSpread, cy + py * outerSpread);
+    ctx.lineTo(cx - px * outerSpread, cy - py * outerSpread);
+    ctx.closePath();
+    ctx.fillStyle = outerGrad;
+    ctx.fill();
+
+    // Core beam
+    const coreGrad = ctx.createLinearGradient(tipX, tipY, cx, cy);
+    coreGrad.addColorStop(0,   `rgba(${r},${g},${b},0.55)`);
+    coreGrad.addColorStop(0.25,`rgba(${r},${g},${b},0.18)`);
+    coreGrad.addColorStop(0.7, `rgba(${r},${g},${b},0.07)`);
+    coreGrad.addColorStop(1,   `rgba(${r},${g},${b},0.01)`);
+    ctx.beginPath();
+    ctx.moveTo(tipX, tipY);
+    ctx.lineTo(cx + px * spread, cy + py * spread);
+    ctx.lineTo(cx - px * spread, cy - py * spread);
+    ctx.closePath();
+    ctx.fillStyle = coreGrad;
+    ctx.fill();
+
+    // Floor pool of light
+    const poolX = cx;
+    const poolY = Math.min(cy, H - 18);
+    const poolRX = spread * 1.1;
+    const poolRY = poolRX * 0.22;
+    const poolGrad = ctx.createRadialGradient(poolX, poolY, 0, poolX, poolY, poolRX);
+    poolGrad.addColorStop(0,   `rgba(${r},${g},${b},0.3)`);
+    poolGrad.addColorStop(0.5, `rgba(${r},${g},${b},0.1)`);
+    poolGrad.addColorStop(1,   `rgba(${r},${g},${b},0)`);
+    ctx.save();
+    ctx.translate(poolX, poolY);
+    ctx.scale(1, 0.22);
+    ctx.beginPath();
+    ctx.arc(0, 0, poolRX, 0, Math.PI * 2);
+    ctx.fillStyle = poolGrad;
+    ctx.fill();
+    ctx.restore();
+
+    return { tipX, tipY, cx, cy, angle, spread, px, py, BEAM_LEN };
+  }
+
+  function drawParticles(lightData, t) {
+    particles.forEach(p => {
+      const ld = lightData[p.lightIdx];
+      if (!ld) return;
+      const { tipX, tipY, angle, BEAM_LEN } = ld;
+      const [r, g, b] = lights[p.lightIdx].color;
+
+      // Position along beam
+      const dist = p.t * BEAM_LEN;
+      const spread = dist * Math.tan(0.13) * p.offset;
+      const px_dir =  Math.cos(angle);
+      const py_dir = -Math.sin(angle);
+      const bx = tipX + Math.sin(angle) * dist + px_dir * spread;
+      const by = tipY + Math.cos(angle) * dist + py_dir * spread;
+
+      ctx.beginPath();
+      ctx.arc(bx, by, p.size, 0, Math.PI * 2);
+      const twinkle = 0.5 + 0.5 * Math.sin(t * 3 + p.t * 20);
+      ctx.fillStyle = `rgba(${r},${g},${b},${p.opacity * twinkle})`;
+      ctx.fill();
+
+      // Drift upward slowly
+      p.t -= p.speed;
+      if (p.t < 0) p.t = 1;
+    });
+  }
+
+  function drawFloorLine() {
+    const grad = ctx.createLinearGradient(0, H - 12, W, H - 12);
+    grad.addColorStop(0,   'rgba(123,179,216,0)');
+    grad.addColorStop(0.2, 'rgba(123,179,216,0.18)');
+    grad.addColorStop(0.5, 'rgba(123,179,216,0.3)');
+    grad.addColorStop(0.8, 'rgba(123,179,216,0.18)');
+    grad.addColorStop(1,   'rgba(123,179,216,0)');
+    ctx.beginPath();
+    ctx.moveTo(0, H - 12); ctx.lineTo(W, H - 12);
+    ctx.strokeStyle = grad; ctx.lineWidth = 1; ctx.stroke();
+  }
+
+  let t = 0;
+  function frame() {
+    ctx.clearRect(0, 0, W, H);
+    t += 0.016;
+
+    // Compute angles
+    lights.forEach((light, i) => {
+      const autoAngle = Math.sin(t * light.speed + light.phase) * 0.55;
+      if (mouseOnCanvas) {
+        // Blend toward cursor
+        const dx = mouseX - light.x;
+        const dy = mouseY - light.y;
+        const cursorAngle = Math.atan2(dx, dy);
+        const clampedAngle = Math.max(-0.7, Math.min(0.7, cursorAngle));
+        light.targetAngle = autoAngle * 0.3 + clampedAngle * 0.7;
+      } else {
+        light.targetAngle = autoAngle;
+      }
+      // Smooth
+      light.currentAngle += (light.targetAngle - light.currentAngle) * 0.06;
+    });
+
+    // Draw beams first (behind everything)
+    const lightData = lights.map(light => drawBeam(light, light.currentAngle));
+
+    // Particles
+    drawParticles(lightData, t);
+
+    // Truss
+    drawTruss();
+
+    // Heads
+    lights.forEach(light => drawHead(light));
+
+    // Floor
+    drawFloorLine();
+
+    requestAnimationFrame(frame);
+  }
+
+  frame();
+})();
 
 /* ── CURSOR ── */
 const cursor = document.getElementById('cursor');
