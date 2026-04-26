@@ -7,8 +7,8 @@
 
   <!-- Primary SEO -->
   <title>Past Projects & Events | AV Hire Portfolio Malta | Effetti Malta</title>
-  <meta name="description" content="See real AV setups delivered by Effetti Malta - weddings, club nights, boat parties, corporate events and festivals across Malta. Speaker rental, lighting hire and full setup taken care of.">
-  <meta name="keywords" content="AV events Malta, past projects Malta, event lighting Malta, speaker rental Malta, wedding AV setup Malta, club lighting Malta, event production portfolio Malta">
+  <meta name="description" content="See real AV setups delivered by Effetti Malta — weddings, club nights, boat parties, corporate events and festivals across Malta. Speaker rental, lighting hire and full production.">
+  <meta name="keywords" content="AV events Malta, past projects Malta, event lighting Malta, speaker hire Malta, wedding AV setup Malta, club lighting Malta, event production portfolio Malta">
   <meta name="robots" content="index, follow">
   <link rel="canonical" href="https://effetti.mt/past-projects.html">
 
@@ -16,7 +16,7 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://effetti.mt/past-projects.html">
   <meta property="og:title" content="Past Projects & Events | AV Hire Portfolio Malta | Effetti Malta">
-  <meta property="og:description" content="See real AV setups delivered by Effetti Malta - weddings, club nights, boat parties, corporate events and festivals across Malta.">
+  <meta property="og:description" content="See real AV setups delivered by Effetti Malta — weddings, club nights, boat parties, corporate events and festivals across Malta.">
   <meta property="og:image" content="https://effetti.mt/images/logos/og-image.jpg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
@@ -26,7 +26,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Past Projects & Events | AV Hire Portfolio Malta | Effetti Malta">
-  <meta name="twitter:description" content="See real AV setups delivered by Effetti Malta - weddings, club nights, boat parties, corporate events and festivals across Malta.">
+  <meta name="twitter:description" content="See real AV setups delivered by Effetti Malta — weddings, club nights, boat parties, corporate events and festivals across Malta.">
   <meta name="twitter:image" content="https://effetti.mt/images/logos/og-image.jpg">
 
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
@@ -190,6 +190,8 @@
       grid-column: 1 / -1;
       opacity:0; animation:slideUp .7s ease .35s both;
     }
+    .projects-sub--mobile { display:none; }
+    .projects-sub--desktop { display:block; grid-column: unset; }
 
 
     /* ── DIVIDER ── */
@@ -486,6 +488,8 @@
       .projects-hero { grid-template-columns:1fr auto; gap:1rem; align-items:start; }
       .hero-right { align-items:flex-start; justify-content:flex-end; }
       #spotlightCanvas { width:130px !important; height:165px !important; }
+      .projects-sub--desktop { display:none; }
+      .projects-sub--mobile { display:block; grid-column: 1 / -1; }
       nav { padding:1rem 1.5rem; }
       nav.scrolled { padding:.8rem 1.5rem; }
       .nav-links { display:none; }
@@ -548,11 +552,14 @@
       <h1 class="projects-title">
         Our<br><span class="blue">past</span><br><span class="accent">projects.</span>
       </h1>
+      <p class="projects-sub projects-sub--desktop">
+        Real events. Real setups. Every entry below is an experience we've designed, engineered, and delivered - from private celebrations to corporate events across Malta.
+      </p>
     </div>
     <div class="hero-right">
       <canvas id="spotlightCanvas" width="320" height="420" aria-hidden="true"></canvas>
     </div>
-    <p class="projects-sub">
+    <p class="projects-sub projects-sub--mobile">
       Real events. Real setups. Every entry below is an experience we've designed, engineered, and delivered - from private celebrations to corporate events across Malta.
     </p>
   </section>
@@ -625,7 +632,7 @@ const EVENTS_PER_PAGE = 6;
 const events = [
   {
     id: "frat-elsa-2026",
-    title: "Frat - Spring Break",
+    title: "Frat - Sprint Break",
     date: "2026-04-01",
     displayDate: "April 2026",
     location: "Montekristo, Malta",
