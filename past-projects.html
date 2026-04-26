@@ -169,6 +169,9 @@
       align-items:end;
     }
     .hero-left {}
+    .projects-sub-row {
+      grid-column: 1 / -1;
+    }
     .projects-label {
       font-size:11px; letter-spacing:.35em; text-transform:uppercase;
       color:var(--coral); margin-bottom:1.2rem; display:block;
@@ -184,6 +187,7 @@
     .projects-sub {
       font-size:16px; font-weight:300; color:var(--soft);
       max-width:520px; line-height:1.85; margin-top:1.5rem;
+      grid-column: 1 / -1;
       opacity:0; animation:slideUp .7s ease .35s both;
     }
 
@@ -479,9 +483,9 @@
     }
 
     @media (max-width:768px) {
-      .projects-hero { grid-template-columns:1fr; gap:2rem; }
-      .hero-right { align-items:flex-start; justify-content:flex-start; }
-      #spotlightCanvas { width:220px !important; height:280px !important; }
+      .projects-hero { grid-template-columns:1fr auto; gap:1rem; align-items:start; }
+      .hero-right { align-items:flex-start; justify-content:flex-end; }
+      #spotlightCanvas { width:130px !important; height:165px !important; }
       nav { padding:1rem 1.5rem; }
       nav.scrolled { padding:.8rem 1.5rem; }
       .nav-links { display:none; }
@@ -544,13 +548,13 @@
       <h1 class="projects-title">
         Our<br><span class="blue">past</span><br><span class="accent">projects.</span>
       </h1>
-      <p class="projects-sub">
-        Real events. Real setups. Every entry below is an experience we've designed, engineered, and delivered - from private celebrations to corporate events across Malta.
-      </p>
     </div>
     <div class="hero-right">
       <canvas id="spotlightCanvas" width="320" height="420" aria-hidden="true"></canvas>
     </div>
+    <p class="projects-sub">
+      Real events. Real setups. Every entry below is an experience we've designed, engineered, and delivered - from private celebrations to corporate events across Malta.
+    </p>
   </section>
 
   <!-- Divider -->
@@ -621,7 +625,7 @@ const EVENTS_PER_PAGE = 6;
 const events = [
   {
     id: "frat-elsa-2026",
-    title: "Frat - Sprint Break",
+    title: "Frat - Spring Break",
     date: "2026-04-01",
     displayDate: "April 2026",
     location: "Montekristo, Malta",
