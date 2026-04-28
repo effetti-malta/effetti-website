@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -748,6 +747,7 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
       .services-row--three-spotlight .service-item:first-child,
       .services-row--three-spotlight-r .service-item:last-child { flex:1; }
       .service-photos { aspect-ratio:4/3; } /* less tall on mobile */
+      .service-desc { font-size:16px; }
       /* Brands: smaller logos on mobile to prevent overlap */
       .brand-logo { padding:0 1rem; height:48px; }
       .brand-logo img { height:26px; max-width:80px; }
@@ -873,7 +873,7 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
           <circle cx="7" cy="12" r="2.5" fill="currentColor" fill-opacity=".15"/>
         </svg>
         <div class="service-name">Audio</div>
-        <div class="service-desc">Professional sound systems tailored to any venue. From crisp vocals to deep, punchy bass that drives the atmosphere.</div>
+        <div class="service-desc" data-mobile="Professional sound systems tailored to any venue.">Professional sound systems tailored to any venue. From crisp vocals to deep, punchy bass that drives the atmosphere.</div>
         </div>
       </div>
 
@@ -891,7 +891,7 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
           <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
         </svg>
         <div class="service-name">Lighting</div>
-        <div class="service-desc">Custom lighting design from ambient atmosphere to striking stage setups, programmed and operated to perfection.</div>
+        <div class="service-desc" data-mobile="Custom lighting programmed and operated to perfection.">Custom lighting design from ambient atmosphere to striking stage setups, programmed and operated to perfection.</div>
         </div>
       </div>
 
@@ -906,7 +906,7 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
           <path d="M3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3v5z"/>
         </svg>
         <div class="service-name">DJ Equipment</div>
-        <div class="service-desc">Industry-standard DJ setups ready for any performance.</div>
+        <div class="service-desc" data-mobile="Industry-standard DJ setups for any performance.">Industry-standard DJ setups ready for any performance.</div>
         </div>
       </div>
 
@@ -931,7 +931,7 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
           <line x1="15" y1="8" x2="15" y2="14"/>
         </svg>
         <div class="service-name">Staging and Trussing</div>
-        <div class="service-desc">Structural staging and rigging solutions engineered for safety and visual impact at every scale.</div>
+        <div class="service-desc" data-mobile="Staging and rigging engineered for safety and impact.">Structural staging and rigging solutions engineered for safety and visual impact at every scale.</div>
         </div>
       </div>
 
@@ -944,7 +944,7 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
           <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
         </svg>
         <div class="service-name">Power Distribution</div>
-        <div class="service-desc">Industrial-grade power infrastructure providing clean, safe and reliable distribution for any event complexity.</div>
+        <div class="service-desc" data-mobile="Clean, reliable power distribution for any event.">Industrial-grade power infrastructure providing clean, safe and reliable distribution for any event complexity.</div>
         </div>
       </div>
 
@@ -960,7 +960,7 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
           <path d="M12 14v7"/>
         </svg>
         <div class="service-name">Effects</div>
-        <div class="service-desc">Haze machines, lasers, strobes and atmospheric effects that bring energy and depth to your event.</div>
+        <div class="service-desc" data-mobile="Haze, lasers, strobes and atmospherics for your event.">Haze machines, lasers, strobes and atmospheric effects that bring energy and depth to your event.</div>
         </div>
       </div>
 
@@ -1117,6 +1117,13 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
 </div>
 
 <script>
+  // MOBILE SERVICE DESCRIPTIONS
+  if (window.matchMedia('(max-width:768px)').matches) {
+    document.querySelectorAll('.service-desc[data-mobile]').forEach(el => {
+      el.textContent = el.dataset.mobile;
+    });
+  }
+
   // CURSOR
   const cursor = document.getElementById('cursor');
   const ring = document.getElementById('cursorRing');
