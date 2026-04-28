@@ -749,42 +749,29 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
       .service-photos { aspect-ratio:4/3; } /* less tall on mobile */
       .service-desc { font-size:16px; }
 
-      /* Mobile card animation: flip in from face-down */
-      .services-grid { perspective:1200px; }
+      /* Mobile card animation: slow sweep up + glow */
       .service-item {
         opacity:0;
-        transform:rotateX(90deg) scale(0.92);
-        transform-origin:top center;
+        transform:translateY(55px);
         transition:
-          opacity .85s cubic-bezier(.22,1,.36,1),
-          transform 1s cubic-bezier(.22,1,.36,1);
+          opacity 1.1s cubic-bezier(.25,.46,.45,.94),
+          transform 1.2s cubic-bezier(.25,.46,.45,.94);
         will-change:transform, opacity;
-        backface-visibility:hidden;
       }
       .service-item.card-visible {
         opacity:1;
-        transform:rotateX(0deg) scale(1);
+        transform:translateY(0);
       }
-      /* Scale-up finish pulse */
-      @keyframes cardLand {
-        0%   { transform:rotateX(0deg) scale(1); }
-        60%  { transform:rotateX(0deg) scale(1.025); }
-        100% { transform:rotateX(0deg) scale(1); }
-      }
-      .service-item.card-visible {
-        animation:cardLand .5s cubic-bezier(.22,1,.36,1) .9s both;
-      }
-      /* Glow sweep on top border as card lands */
       @keyframes cardGlow {
         0%   { opacity:0; transform:scaleX(0); }
-        25%  { opacity:1; transform:scaleX(1); }
-        75%  { opacity:1; transform:scaleX(1); }
+        20%  { opacity:1; }
+        60%  { opacity:1; transform:scaleX(1); }
         100% { opacity:0; transform:scaleX(1); }
       }
       .service-item.card-visible::after {
         background:linear-gradient(90deg, transparent, var(--coral), var(--blue-light), var(--coral), transparent);
         transform-origin:left;
-        animation:cardGlow 1s ease .75s both;
+        animation:cardGlow 1.4s cubic-bezier(.25,.46,.45,.94) .6s both;
       }
       /* Brands: smaller logos on mobile to prevent overlap */
       .brand-logo { padding:0 1rem; height:48px; }
