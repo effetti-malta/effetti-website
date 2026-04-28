@@ -177,7 +177,7 @@
       display:grid;
       grid-template-columns:1fr 420px;
       gap:4rem;
-      align-items:end;
+      align-items:stretch;
     }
     .about-label {
       font-size:clamp(14px,2vw,22px);
@@ -194,16 +194,24 @@
     .about-title .accent { color:var(--coral); }
     .about-title .blue { color:var(--blue-light); }
     .about-sub {
-      font-size:17px; font-weight:300; color:var(--soft);
-      max-width:480px; line-height:1.9; margin-top:1.2rem;
+      font-size:15px; font-weight:300; color:var(--soft);
+      max-width:480px; line-height:1.85; margin-top:1.2rem;
       opacity:0; animation:slideUp .7s ease .35s both;
     }
 
     /* Founded badge */
     .hero-right {
-      display:flex; flex-direction:column; align-items:flex-end; gap:1.5rem;
+      display:flex; flex-direction:column; align-items:stretch;
       opacity:0; animation:slideUp .8s ease .5s both;
-      padding-bottom:.5rem;
+    }
+    .hero-right .wf-widget {
+      flex:1;
+      display:flex; flex-direction:column;
+    }
+    .hero-right .wf-stage {
+      flex:1;
+      height:auto !important;
+      min-height:200px;
     }
     .founded-badge {
       border:1px solid rgba(123,179,216,.2);
@@ -236,8 +244,8 @@
       margin-top:.5rem; display:block;
     }
     .badge-sub {
-      font-size:15px; font-weight:300; color:var(--soft);
-      margin-top:.75rem; line-height:1.7;
+      font-size:13px; font-weight:300; color:var(--soft);
+      margin-top:.75rem; line-height:1.6;
     }
 
     /* ── DIVIDER LINE ── */
@@ -285,7 +293,7 @@
     }
     .stat-number .stat-accent { color:var(--coral); }
     .stat-label {
-      font-size:13px; letter-spacing:.18em; text-transform:uppercase;
+      font-size:10px; letter-spacing:.28em; text-transform:uppercase;
       color:var(--muted); margin-top:.75rem; display:block;
       line-height:1.5;
     }
@@ -374,8 +382,8 @@
     }
     .values-heading .accent { color:var(--coral); }
     .values-sub {
-      font-size:16px; font-weight:300; color:var(--soft);
-      max-width:320px; line-height:1.8; text-align:right;
+      font-size:14px; font-weight:300; color:var(--soft);
+      max-width:320px; line-height:1.7; text-align:right;
     }
     .values-grid {
       display:grid;
@@ -414,8 +422,8 @@
     }
     .value-card:hover .value-bar { width:56px; }
     .value-body {
-      font-size:15px; font-weight:300; color:var(--soft);
-      line-height:1.9;
+      font-size:13px; font-weight:300; color:var(--soft);
+      line-height:1.85;
     }
 
     /* ── VISION SECTION ── */
@@ -457,7 +465,7 @@
     }
     .vision-title .blue { color:var(--blue-light); }
     .vision-statement {
-      font-size:clamp(19px,2.2vw,26px);
+      font-size:clamp(18px,2vw,24px);
       font-weight:300; line-height:1.65; color:var(--white);
       position:relative; padding-left:1.5rem;
       margin-bottom:2rem;
@@ -468,7 +476,7 @@
       background:linear-gradient(to bottom, var(--coral), var(--blue-light));
     }
     .vision-body {
-      font-size:16px; font-weight:300; color:var(--soft); line-height:1.9;
+      font-size:14px; font-weight:300; color:var(--soft); line-height:1.85;
     }
     .vision-pillar {
       display:flex; gap:1.5rem; align-items:flex-start;
@@ -482,11 +490,11 @@
     .vision-pillar-icon svg { width:18px; height:18px; }
     .vision-pillar-content {}
     .vision-pillar-title {
-      font-size:16px; font-weight:700; letter-spacing:.06em;
+      font-size:14px; font-weight:700; letter-spacing:.06em;
       text-transform:uppercase; margin-bottom:.5rem;
     }
     .vision-pillar-body {
-      font-size:15px; font-weight:300; color:var(--soft); line-height:1.85;
+      font-size:13px; font-weight:300; color:var(--soft); line-height:1.8;
     }
 
     /* ── CTA SECTION ── */
@@ -529,14 +537,14 @@
       color:var(--muted); margin-bottom:1rem; display:block;
     }
     .cta-heading {
-      font-size:clamp(20px,2.4vw,30px);
+      font-size:clamp(18px,2.2vw,28px);
       font-weight:900; line-height:1.15; margin-bottom:1.2rem;
     }
     .cta-heading .accent { color:var(--coral); }
     .cta-heading .blue   { color:var(--blue-light); }
     .cta-body {
-      font-size:15px; font-weight:300; color:var(--soft);
-      line-height:1.85; max-width:300px; margin-bottom:2rem;
+      font-size:13px; font-weight:300; color:var(--soft);
+      line-height:1.8; max-width:300px; margin-bottom:2rem;
     }
     .cta-link {
       display:inline-flex; align-items:center; gap:10px;
@@ -741,7 +749,7 @@
         the craft.
       </h1>
       <p class="about-sub">
-        Effetti Malta was born in 2024 with a clear purpose: to bring engineered, fully customised AV solutions to events across Malta - no matter the scale. From intimate private gatherings to large-scale celebrations, we treat every setup as its own project. But beyond the technical side, our real purpose is to be the reliable long-term partner our clients can depend on - so that when event day comes, they can focus entirely on their event, with complete peace of mind.
+        Effetti Malta was born in 2024 with a clear purpose: to bring engineered, fully customised AV solutions to events across Malta - at every scale. Beyond the technical side, our real purpose is to be the reliable long-term partner clients can depend on, so they can focus on their event with complete peace of mind.
       </p>
     </div>
     <div class="hero-right">
@@ -938,9 +946,13 @@
     function resize() {
       canvas.width  = canvas.offsetWidth  * window.devicePixelRatio;
       canvas.height = canvas.offsetHeight * window.devicePixelRatio;
+      if (!playing) draw();
     }
     resize();
     window.addEventListener('resize', resize);
+    // Re-run after layout settles (flex column height may not be final at first paint)
+    window.addEventListener('load', resize);
+    requestAnimationFrame(resize);
 
     function draw() {
       const W = canvas.width, H = canvas.height;
@@ -1042,7 +1054,7 @@
         <div class="sb-num">01</div>
         <div class="sb-content">
           <div class="sb-tag">The Foundation</div>
-          <p class="sb-text">Effetti was founded with a simple idea: audio visual should be done <em class="sb-em">properly</em>. We carry an engineering mindset that brings <em class="sb-em">structure, reliability,</em> and attention to detail to every setup. From day one, the focus was on delivering clean, well-executed results that clients could trust, every time.</p>
+          <p class="sb-text">Effetti was founded with a simple idea: audio visual should be done <em class="sb-em">properly</em>. An engineering mindset brings <em class="sb-em">structure, reliability,</em> and attention to detail to every setup - delivering clean, well-executed results clients can trust.</p>
           <div class="sb-keywords">
             <span>Engineering Mindset</span><span>Reliability</span><span>Attention to Detail</span>
           </div>
@@ -1057,7 +1069,7 @@
         <div class="sb-num sb-num--blue">02</div>
         <div class="sb-content">
           <div class="sb-tag sb-tag--blue">Accessibility</div>
-          <p class="sb-text">Effetti set out to make <em class="sb-em">high-quality, visually engaging setups</em> more accessible - not just providing equipment, but helping organisations and events achieve a more polished and professional result <em class="sb-em">without unnecessary complexity.</em></p>
+          <p class="sb-text">Effetti makes <em class="sb-em">high-quality, visually engaging setups</em> more accessible - helping organisations achieve a polished, professional result <em class="sb-em">without unnecessary complexity.</em></p>
           <div class="sb-keywords sb-keywords--blue">
             <span>High-Quality Setups</span><span>Accessible</span><span>No Complexity</span>
           </div>
@@ -1071,7 +1083,7 @@
         <div class="sb-num">03</div>
         <div class="sb-content">
           <div class="sb-tag">In-House Skills </div>
-          <p class="sb-text">Effetti has grown into a specialised service combining <em class="sb-em">technical knowledge with practical event experience.</em> All work is carried out in-house - from sound engineering to <em class="sb-em">lighting programming</em> - ensuring full control and consistency over every project.</p>
+          <p class="sb-text">A specialised service combining <em class="sb-em">technical knowledge with practical event experience.</em> All work is carried out in-house - from sound engineering to <em class="sb-em">lighting programming</em> - ensuring full control and consistency.</p>
           <div class="sb-keywords">
             <span>In-House</span><span>Event Experiences</span><span>Full Control</span>
           </div>
@@ -1136,7 +1148,7 @@
       .sb-tag--blue { color: var(--blue-light); }
 
       .sb-text {
-        font-size: 15px; font-weight: 300;
+        font-size: 13.5px; font-weight: 300;
         color: var(--soft); line-height: 1.9;
         margin-bottom: 1.2rem;
       }
@@ -1209,7 +1221,7 @@
         <div class="value-bar"></div>
         <div class="value-tagline">Peace of mind, guaranteed</div>
         <div class="value-body">
-          Your event is one of the most important moments for your audience. We take that seriously. From the first call to the final pack-down, we ensure you're never left worrying about the technical side - because we've got it handled.
+          Your event is one of the most important moments for your audience. From the first call to the final pack-down, you're never left worrying - we've got it handled.
         </div>
       </div>
       <div class="value-card reveal reveal-delay-2 tilt-card" data-num="02" style="--card-accent:var(--blue-light);">
@@ -1222,7 +1234,7 @@
         <div class="value-bar" style="background:var(--blue-light);"></div>
         <div class="value-tagline">Built around you, not a template</div>
         <div class="value-body">
-          We don’t do one-size-fits-all setups. Every event starts with a conversation about your vision, your space, your audience. We then engineer a solution built exactly around that - not a standard package forced to fit.
+          No one-size-fits-all setups. Every event starts with a conversation about your vision, space, and audience - then we engineer a solution built exactly around that.
         </div>
       </div>
       <div class="value-card reveal reveal-delay-3 tilt-card" data-num="03" style="--card-accent:var(--coral);">
@@ -1235,7 +1247,7 @@
         <div class="value-bar"></div>
         <div class="value-tagline">The show always goes on</div>
         <div class="value-body">
-          In live events, failure is not an option. We maintain our equipment to high standards, plan redundancy into our setups, and show up with qualified engineers - so the show always goes on.
+          In live events, failure is not an option. We maintain equipment to high standards, build in redundancy, and show up with qualified engineers - so the show always goes on.
         </div>
       </div>
       <div class="value-card reveal reveal-delay-1 tilt-card" data-num="04" style="--card-accent:var(--blue-light);">
@@ -1248,7 +1260,7 @@
         <div class="value-bar" style="background:var(--blue-light);"></div>
         <div class="value-tagline">Science meets craft</div>
         <div class="value-body">
-          Our team includes warranted engineers and experienced designers who understand the science behind great sound and light. We invest in the best equipment and the knowledge to use it at its full potential.
+          Our team includes warranted engineers and experienced designers who understand the science behind great sound and light - and we invest in the equipment and knowledge to use it fully.
         </div>
       </div>
       <div class="value-card reveal reveal-delay-2 tilt-card" data-num="05" style="--card-accent:var(--coral);">
@@ -1274,7 +1286,7 @@ Our work doesn’t end when the event does. We follow up, refine our approach, a
         <div class="value-bar" style="background:var(--blue-light);"></div>
         <div class="value-tagline">One call covers everything</div>
         <div class="value-body">
-From AV equipment to event planning support and access to our network of trusted specialists, we bring everything together to ensure your event is fully covered.
+From AV equipment to event planning support and a network of trusted specialists - we bring everything together so your event is fully covered.
         </div>
       </div>
     </div>
@@ -1295,18 +1307,14 @@ From AV equipment to event planning support and access to our network of trusted
     .value-card::before {
       content: attr(data-num);
       position: absolute;
-      bottom: -0.1em; right: .3rem;
-      font-size: 8rem; font-weight: 900;
+      bottom: 1.2rem; right: 1.2rem;
+      font-size: 7rem; font-weight: 900;
       line-height: 1;
       color: transparent;
       -webkit-text-stroke: 1px rgba(255,255,255,.04);
       pointer-events: none;
       transition: -webkit-text-stroke .4s;
       letter-spacing: -.04em;
-      /* Fix: clip number within card bounds without cutting digits mid-stroke */
-      overflow: hidden;
-      display: block;
-      max-height: 1.05em;
     }
     .value-card:hover::before {
       -webkit-text-stroke: 1px rgba(255,255,255,.09);
@@ -1329,7 +1337,7 @@ From AV equipment to event planning support and access to our network of trusted
 
     /* Short punchy tagline under the title */
     .value-tagline {
-      font-size: 12px; letter-spacing: .18em;
+      font-size: 10px; letter-spacing: .2em;
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 1rem;
