@@ -194,8 +194,8 @@
     .about-title .accent { color:var(--coral); }
     .about-title .blue { color:var(--blue-light); }
     .about-sub {
-      font-size:15px; font-weight:300; color:var(--soft);
-      max-width:480px; line-height:1.85; margin-top:1.2rem;
+      font-size:17px; font-weight:300; color:var(--soft);
+      max-width:480px; line-height:1.9; margin-top:1.2rem;
       opacity:0; animation:slideUp .7s ease .35s both;
     }
 
@@ -236,8 +236,8 @@
       margin-top:.5rem; display:block;
     }
     .badge-sub {
-      font-size:13px; font-weight:300; color:var(--soft);
-      margin-top:.75rem; line-height:1.6;
+      font-size:15px; font-weight:300; color:var(--soft);
+      margin-top:.75rem; line-height:1.7;
     }
 
     /* ── DIVIDER LINE ── */
@@ -285,7 +285,7 @@
     }
     .stat-number .stat-accent { color:var(--coral); }
     .stat-label {
-      font-size:10px; letter-spacing:.28em; text-transform:uppercase;
+      font-size:13px; letter-spacing:.18em; text-transform:uppercase;
       color:var(--muted); margin-top:.75rem; display:block;
       line-height:1.5;
     }
@@ -374,8 +374,8 @@
     }
     .values-heading .accent { color:var(--coral); }
     .values-sub {
-      font-size:14px; font-weight:300; color:var(--soft);
-      max-width:320px; line-height:1.7; text-align:right;
+      font-size:16px; font-weight:300; color:var(--soft);
+      max-width:320px; line-height:1.8; text-align:right;
     }
     .values-grid {
       display:grid;
@@ -414,8 +414,8 @@
     }
     .value-card:hover .value-bar { width:56px; }
     .value-body {
-      font-size:13px; font-weight:300; color:var(--soft);
-      line-height:1.85;
+      font-size:15px; font-weight:300; color:var(--soft);
+      line-height:1.9;
     }
 
     /* ── VISION SECTION ── */
@@ -457,7 +457,7 @@
     }
     .vision-title .blue { color:var(--blue-light); }
     .vision-statement {
-      font-size:clamp(18px,2vw,24px);
+      font-size:clamp(19px,2.2vw,26px);
       font-weight:300; line-height:1.65; color:var(--white);
       position:relative; padding-left:1.5rem;
       margin-bottom:2rem;
@@ -468,7 +468,7 @@
       background:linear-gradient(to bottom, var(--coral), var(--blue-light));
     }
     .vision-body {
-      font-size:14px; font-weight:300; color:var(--soft); line-height:1.85;
+      font-size:16px; font-weight:300; color:var(--soft); line-height:1.9;
     }
     .vision-pillar {
       display:flex; gap:1.5rem; align-items:flex-start;
@@ -482,11 +482,11 @@
     .vision-pillar-icon svg { width:18px; height:18px; }
     .vision-pillar-content {}
     .vision-pillar-title {
-      font-size:14px; font-weight:700; letter-spacing:.06em;
+      font-size:16px; font-weight:700; letter-spacing:.06em;
       text-transform:uppercase; margin-bottom:.5rem;
     }
     .vision-pillar-body {
-      font-size:13px; font-weight:300; color:var(--soft); line-height:1.8;
+      font-size:15px; font-weight:300; color:var(--soft); line-height:1.85;
     }
 
     /* ── CTA SECTION ── */
@@ -529,14 +529,14 @@
       color:var(--muted); margin-bottom:1rem; display:block;
     }
     .cta-heading {
-      font-size:clamp(18px,2.2vw,28px);
+      font-size:clamp(20px,2.4vw,30px);
       font-weight:900; line-height:1.15; margin-bottom:1.2rem;
     }
     .cta-heading .accent { color:var(--coral); }
     .cta-heading .blue   { color:var(--blue-light); }
     .cta-body {
-      font-size:13px; font-weight:300; color:var(--soft);
-      line-height:1.8; max-width:300px; margin-bottom:2rem;
+      font-size:15px; font-weight:300; color:var(--soft);
+      line-height:1.85; max-width:300px; margin-bottom:2rem;
     }
     .cta-link {
       display:inline-flex; align-items:center; gap:10px;
@@ -1136,7 +1136,7 @@
       .sb-tag--blue { color: var(--blue-light); }
 
       .sb-text {
-        font-size: 13.5px; font-weight: 300;
+        font-size: 15px; font-weight: 300;
         color: var(--soft); line-height: 1.9;
         margin-bottom: 1.2rem;
       }
@@ -1303,6 +1303,10 @@ From AV equipment to event planning support and access to our network of trusted
       pointer-events: none;
       transition: -webkit-text-stroke .4s;
       letter-spacing: -.04em;
+      /* Fix: clip number within card bounds without cutting digits mid-stroke */
+      overflow: hidden;
+      display: block;
+      max-height: 1.05em;
     }
     .value-card:hover::before {
       -webkit-text-stroke: 1px rgba(255,255,255,.09);
@@ -1325,7 +1329,7 @@ From AV equipment to event planning support and access to our network of trusted
 
     /* Short punchy tagline under the title */
     .value-tagline {
-      font-size: 10px; letter-spacing: .2em;
+      font-size: 12px; letter-spacing: .18em;
       text-transform: uppercase;
       color: var(--muted);
       margin-bottom: 1rem;
