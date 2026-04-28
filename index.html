@@ -748,6 +748,28 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
       .services-row--three-spotlight-r .service-item:last-child { flex:1; }
       .service-photos { aspect-ratio:4/3; } /* less tall on mobile */
       .service-desc { font-size:16px; }
+
+      /* Mobile card animation: slide up + glow pulse on top border */
+      .service-item {
+        opacity:0;
+        transform:translateY(40px);
+        transition:opacity .6s ease, transform .6s ease;
+      }
+      .service-item.card-visible {
+        opacity:1;
+        transform:translateY(0);
+      }
+      @keyframes cardGlow {
+        0%   { opacity:0; transform:scaleX(0); }
+        30%  { opacity:1; transform:scaleX(1); }
+        70%  { opacity:1; transform:scaleX(1); }
+        100% { opacity:0; transform:scaleX(1); }
+      }
+      .service-item.card-visible::after {
+        background:linear-gradient(90deg, transparent, var(--coral), var(--blue-light), var(--coral), transparent);
+        transform-origin:left;
+        animation:cardGlow .9s ease .35s both;
+      }
       /* Brands: smaller logos on mobile to prevent overlap */
       .brand-logo { padding:0 1rem; height:48px; }
       .brand-logo img { height:26px; max-width:80px; }
@@ -1407,19 +1429,46 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
 
   // SERVICE ROWS SCROLL-REVEAL
   (function() {
-    const rows = document.querySelectorAll('.services-row');
-    const rowObs = new IntersectionObserver(entries => {
-      entries.forEach((e, i) => {
-        if (e.isIntersecting) {
-          // slight stagger between rows
-          setTimeout(() => {
-            e.target.classList.add('row-visible');
-          }, 80);
-          rowObs.unobserve(e.target);
-        }
+    const isMobile = window.matchMedia('(max-width:768px)').matches;
+
+    if (isMobile) {
+      // Mobile: observe each card individually, stagger within each card's entry
+      const cards = document.querySelectorAll('.service-item');
+      // Also make rows visible immediately so layout isn't broken
+      document.querySelectorAll('.services-row').forEach(r => {
+        r.style.opacity = '1';
+        r.style.transform = 'none';
+        r.style.transition = 'none';
       });
-    }, { threshold: 0.12 });
-    rows.forEach(r => rowObs.observe(r));
+      const cardObs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add('card-visible');
+            cardObs.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.15 });
+      cards.forEach(c => cardObs.observe(c));
+
+    } else {
+      // Desktop: original row swoosh behaviour
+      const rows = document.querySelectorAll('.services-row');
+      // Make sure desktop cards are always visible (not affected by mobile CSS)
+      document.querySelectorAll('.service-item').forEach(c => {
+        c.style.opacity = '1';
+        c.style.transform = 'none';
+        c.style.transition = 'none';
+      });
+      const rowObs = new IntersectionObserver(entries => {
+        entries.forEach(e => {
+          if (e.isIntersecting) {
+            setTimeout(() => e.target.classList.add('row-visible'), 80);
+            rowObs.unobserve(e.target);
+          }
+        });
+      }, { threshold: 0.12 });
+      rows.forEach(r => rowObs.observe(r));
+    }
   })();
 
 
