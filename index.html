@@ -26,7 +26,7 @@
   <!-- Twitter Card -->
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Audio, Lighting & AV Equipment Hire Malta | Effetti Malta">
-  <meta name="twitter:description" content="Professional AV equipment hire in Malta — speaker rental, lighting hire, DJ equipment, staging and effects for weddings, parties, corporate events and any celebrations.">
+  <meta name="twitter:description" content="Professional AV equipment hire in Malta - speaker rental, lighting hire, DJ equipment, staging and effects for weddings, parties, corporate events and any celebrations.">
   <meta name="twitter:image" content="https://effetti.mt/images/logos/og-image.jpg">
 
   <!-- JSON-LD: Local Business Schema -->
@@ -35,7 +35,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "Effetti Malta",
-    "description": "Professional AV equipment rentals in Malta — speaker rental, lighting hire, DJ equipment, staging and special effects for events of any scale.",
+    "description": "Professional AV equipment rentals in Malta - speaker rental, lighting hire, DJ equipment, staging and special effects for events of any scale.",
     "url": "https://effetti.mt",
     "logo": "https://effetti.mt/images/logos/Effetti Logo.png",
     "image": "https://effetti.mt/images/logos/og-image.jpg",
@@ -649,21 +649,21 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
     .lightbox-arrow-prev { left:1.5rem; }
     .lightbox-arrow-next { right:1.5rem; }
     .lightbox-arrow.hidden { display:none; }
-    @media (max-width:768px) {
-      .lightbox-arrow {
-        width:44px; height:44px;
-        top:auto; bottom:5rem; transform:none;
-      }
-      .lightbox-arrow-prev { left:calc(50% - 54px); }
-      .lightbox-arrow-next { right:calc(50% - 54px); }
-      /* Always show both arrows on mobile */
-      .lightbox-arrow.hidden { display:flex !important; }
-    }
-    .lightbox-counter {
-      position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%);
-      font-size:12px; letter-spacing:.2em; color:rgba(255,255,255,.45);
-      text-transform:uppercase;
-    }
+@media (max-width:768px) {
+  .lightbox-arrow {
+    width:44px; height:44px;
+    top:auto; bottom:5rem; transform:none;
+  }
+  .lightbox-arrow-prev { left:calc(50% - 54px); }
+  .lightbox-arrow-next { right:calc(50% - 54px); }
+  .lightbox-arrow.hidden { display:flex !important; }
+  .brands-label { font-size:17px; }
+}
+.lightbox-counter {
+  position:fixed; bottom:1.5rem; left:50%; transform:translateX(-50%);
+  font-size:12px; letter-spacing:.2em; color:rgba(255,255,255,.45);
+  text-transform:uppercase;
+}
     /* Make service photos clickable */
     .service-photos { cursor:zoom-in !important; }
     /* Ensure cursor elements show above lightbox */
@@ -725,7 +725,7 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
       .hero-content { padding:6rem 1.5rem 3rem; max-width:100%; }
       /* Bigger title, keep line order intact */
       .hero-tagline { font-size:clamp(28px,7.5vw,34px); margin-top:0; margin-bottom:1.5em; }
-      .hero-sub { font-size:16px; }// increasing font size of sub title in hero seciton for mobile
+      .hero-sub { font-size:16px; }/* increasing font size of hero sub on mobile */
       /* Show scroll prompts on mobile, repositioned to fit narrower viewport */
       .scroll-side { display:flex; }
       .scroll-side-left  { left:1rem; }
