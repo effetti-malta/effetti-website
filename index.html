@@ -1198,12 +1198,13 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
   document.querySelectorAll('.reveal').forEach(r=>observer.observe(r));
 
   // ─── BRANDS CAROUSEL ───────────────────────────────────────────────────────
-  // 3 logos visible at a time. Shifts 1 logo left every 10s. Loops infinitely.
+  // 3 logos visible at a time. Shifts 1 logo left every 6s. Loops infinitely.
   // To add a brand: add a line to the array below.
   // Filenames must match exactly (case-sensitive) what's in images/brands/
   // ────────────────────────────────────────────────────────────────────────────
   (function() {
     const BRANDS = [
+      { name:'Lynx Pro Audio', src:'images/brands/Lynx Logo.png'        },
       { name:'Pioneer DJ',    src:'images/brands/Pioneer Logo.png'      },
       { name:'Yamaha',        src:'images/brands/Yamaha Logo.png'       },
       { name:'Shure',         src:'images/brands/Shure Logo.png'        },
@@ -1213,7 +1214,7 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
     ];
 
     const VISIBLE  = 3;   // how many logos show at once
-    const INTERVAL = 10000; // ms between shifts
+    const INTERVAL = 6000;  // ms between shifts
     const SPEED    = 800;   // transition ms
 
     const wrap  = document.querySelector('.brands-track-wrap');
@@ -1544,7 +1545,18 @@ html { scroll-behavior:smooth; overflow-x:hidden; }
     }
   })();
 
-  setInterval(slide, INTERVAL);
+  // Start rotating only once the brands section is on screen, so visitors
+  // always see the first three logos when they scroll down to it.
+  let started = false;
+  const startCarousel = () => { if (!started) { started = true; setInterval(slide, INTERVAL); } };
+  if ('IntersectionObserver' in window) {
+    const brandsObs = new IntersectionObserver(entries => {
+      if (entries.some(e => e.isIntersecting)) { startCarousel(); brandsObs.disconnect(); }
+    }, { threshold: 0.5 });
+    brandsObs.observe(wrap);
+  } else {
+    startCarousel();
+  }
   })();
 
   // ── MOBILE WORK CARD: tap-to-reveal, tap-again-to-navigate ─────────────────
