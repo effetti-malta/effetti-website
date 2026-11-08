@@ -39,6 +39,8 @@
   <meta name="twitter:description" content="Get in touch with Effetti Malta to book speaker rental, lighting hire, DJ equipment or full AV production for your event.">
   <meta name="twitter:image" content="https://effetti.mt/images/logos/og-image.jpg">
 
+  <!-- Phone number input with country picker: https://intl-tel-input.com -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/intl-tel-input@29.5.11/dist/css/intlTelInput.min.css">
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500&display=swap" rel="stylesheet">
   <style>
     @font-face { font-family:'Korbin'; src:url('/fonts/fonnts.com-Korbin_Light.otf') format('opentype'); font-weight:300; }
@@ -535,6 +537,29 @@
     .form-group:focus-within .form-line { width:100%; }
 
     .form-row { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+    /* Phone input (intl-tel-input) themed to match the form */
+    :root {
+      --iti-border-color: rgba(255,255,255,.1);
+      --iti-country-selector-bg: #13234B;
+      --iti-hover-color: rgba(232,116,122,.14);
+      --iti-icon-color: rgba(255,255,255,.55);
+      --iti-strict-reject-flash-color: rgba(232,116,122,.18);
+    }
+    .form-group .iti { display:block; width:100%; }
+    .iti__selected-country { cursor:pointer; color:var(--white); }
+    .iti__selected-dial-code { color:var(--white); font-size:14px; font-weight:300; }
+    .iti__dropdown-content { border:1px solid rgba(123,179,216,.25); box-shadow:0 18px 40px rgba(0,0,0,.45); color:var(--white); }
+    .iti__country { font-size:13px; }
+    .iti__dial-code { color:var(--blue-light); }
+    .iti input.iti__search-input, .iti--fullscreen-popup input.iti__search-input {
+      color:var(--white); font-family:'Korbin','Cormorant Garamond',serif; outline:none;
+    }
+    .iti input.iti__search-input::placeholder, .iti--fullscreen-popup input.iti__search-input::placeholder { color:var(--muted); }
+    .iti input.iti__search-input, .iti--fullscreen-popup input.iti__search-input {
+      padding:.75rem 1rem .75rem 2.25rem; background-color:rgba(255,255,255,.04);
+      border:none; border-bottom:1px solid rgba(255,255,255,.1); font-size:13px; cursor:text;
+    }
+    .iti--fullscreen-popup .iti__dropdown-content { background:var(--navy); }
     .field-error { display:none; margin-top:.45rem; font-size:12px; color:var(--coral); }
     .field-error.show { display:block; }
 
@@ -962,7 +987,9 @@
           </div>
           <div class="form-group">
             <label for="phone">Mobile Number</label>
-            <input type="tel" id="phone" name="phone" placeholder="+356 7912 3456" autocomplete="tel" inputmode="tel" required>
+            <input type="tel" id="phone" autocomplete="tel-national" required>
+            <input type="hidden" name="phone" id="phoneFull">
+            <input type="hidden" name="phone_country" id="phoneCountry">
             <div class="form-line"></div>
             <p class="field-error" id="phoneError" role="alert"></p>
           </div>
@@ -1034,6 +1061,7 @@
   </div>
 </footer>
 
+<script src="https://cdn.jsdelivr.net/npm/intl-tel-input@29.5.11/dist/js/intlTelInputWithUtils.min.js"></script>
 <script>
   /* ── EMAIL — assembled via JS so bots can't scrape it ── */
   (function() {
@@ -1084,26 +1112,75 @@
   hamburger.addEventListener('click',()=>mobileMenu.classList.toggle('open'));
   function closeMobile(){mobileMenu.classList.remove('open');}
 
+  /* ── PHONE INPUT: country picker, Malta first, mobile numbers only ── */
+  const phoneInput = document.getElementById('phone');
+  const iti = window.intlTelInput ? window.intlTelInput(phoneInput, {
+    initialCountry: 'mt',
+    countryOrder: ['mt', 'gb', 'it', 'de', 'fr', 'ie', 'nl'],
+    strictMode: true,          // only digits, capped at the country's max length
+    separateDialCode: true,    // shows +356 beside the flag
+    formatAsYouType: true,
+    countrySearch: true,
+  }) : null;
+
+  // Valid for the chosen country AND a mobile number (some countries, e.g. the US, can't tell mobile from landline)
+  function isValidMobile() {
+    if (!iti || !iti.isValidNumberPrecise()) return false;
+    return ['MOBILE', 'FIXED_LINE_OR_MOBILE'].includes(iti.getNumberType());
+  }
+
+  function phoneMessage() {
+    const val = phoneInput.value.trim();
+    if (!val) return 'Please add your mobile number so we can reach you.';
+    const c = iti && iti.getSelectedCountry();
+    const where = c && c.name ? ' for ' + c.name : '';
+    const err = iti ? iti.getValidationError() : null;
+    if (err === 'TOO_SHORT') return 'That number is too short' + where + '.';
+    if (err === 'TOO_LONG')  return 'That number is too long' + where + '.';
+    if (iti && iti.isValidNumberPrecise()) return 'That looks like a landline. Please enter a mobile number.';
+    return 'Please enter a valid mobile number' + where + '.';
+  }
+
+  // Clear the message as soon as the number becomes valid; re-check when leaving the field
+  const phoneErrorEl = document.getElementById('phoneError');
+  phoneInput.addEventListener('input', () => {
+    if (isValidMobile()) phoneErrorEl.classList.remove('show');
+  });
+  phoneInput.addEventListener('blur', () => {
+    if (iti && phoneInput.value.trim() && !isValidMobile()) {
+      phoneErrorEl.textContent = phoneMessage();
+      phoneErrorEl.classList.add('show');
+    }
+  });
+  phoneInput.addEventListener('countrychange', () => phoneErrorEl.classList.remove('show'));
+
   /* ── FORM SUBMIT ── */
   document.getElementById('contactForm').addEventListener('submit', function(e) {
     e.preventDefault();
     const fname   = document.getElementById('fname').value.trim();
     const email   = document.getElementById('email').value.trim();
     const message = document.getElementById('message').value.trim();
-    const phoneEl = document.getElementById('phone');
-    const phone   = phoneEl.value.trim();
     const phoneError = document.getElementById('phoneError');
-    // Accept local or international numbers: digits, spaces, +, -, (), at least 8 digits
-    const phoneDigits = phone.replace(/\D/g, '');
-    const phoneValid = /^[+\d\s\-()]+$/.test(phone) && phoneDigits.length >= 8 && phoneDigits.length <= 15;
+    let phoneValid = false;
+    if (!iti) {
+      // Library failed to load (e.g. blocked CDN): fall back to a basic check
+      const raw = document.getElementById('phone').value.trim();
+      phoneValid = raw.replace(/\D/g, '').length >= 8;
+      document.getElementById('phoneFull').value = raw;
+    } else if (isValidMobile()) {
+      phoneValid = true;
+      document.getElementById('phoneFull').value = iti.getNumber();             // e.g. +35679123456
+      const c = iti.getSelectedCountry();
+      document.getElementById('phoneCountry').value = c && c.name ? c.name : '';
+    }
     if (!phoneValid) {
-      phoneError.textContent = phone ? 'Please enter a valid mobile number.' : 'Please add your mobile number so we can reach you.';
+      phoneError.textContent = phoneMessage();
       phoneError.classList.add('show');
     } else {
       phoneError.classList.remove('show');
     }
     if (!fname || !email || !message || !phoneValid) {
-      if (!phoneValid && fname && email) phoneEl.focus();
+      if (!phoneValid && fname && email) document.getElementById('phone').focus();
       return;
     }
     const submitBtn = document.getElementById('submitBtn');
